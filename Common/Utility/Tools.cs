@@ -34,6 +34,11 @@ namespace Common.Utility
         private static string emailFromAddress= ConfigurationManager.AppSettings["emailFromAddress"];
 
         /// <summary>
+        /// 显示的发件人名称
+        /// </summary>
+        private static string emailFromName = ConfigurationManager.AppSettings["emailFromName"];
+
+        /// <summary>
         /// 获取字符串的长度,汉字占两个字符
         /// </summary>
         /// <param name="str"></param>
@@ -81,7 +86,15 @@ namespace Common.Utility
                 //这里假定你已经拥有了一个163邮箱的账户，用户名为abc，授权码为******* 
 
                 System.Net.Mail.MailMessage Message = new System.Net.Mail.MailMessage();
-                Message.From = new System.Net.Mail.MailAddress(emailFromAddress, fromUserName, Encoding.UTF8);
+
+                if (emailFromName != null && "魏清八字风水算命论坛".Equals(fromUserName))
+                {
+                    Message.From = new System.Net.Mail.MailAddress(emailFromAddress, emailFromName, Encoding.UTF8); // 如果参数为默认值,则读取配置文件
+                }
+                else
+                {
+                    Message.From = new System.Net.Mail.MailAddress(emailFromAddress, fromUserName, Encoding.UTF8);  // 提供了参数,优先使用参数值
+                }
                 //这里需要注意，163似乎有规定发信人的邮箱地址必须是163的，而且发信人的邮箱用户名必须和上面SMTP服务器认证时的用户名相同                                                               
                 //因为上面用的用户名abc作SMTP服务器认证，所以这里发信人的邮箱地址也应该写为abc@163.com
 
