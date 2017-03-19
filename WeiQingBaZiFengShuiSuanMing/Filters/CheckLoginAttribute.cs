@@ -14,6 +14,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Filters
     {
         private bool isAjax = true;
         private bool isPost = true;
+        private bool isLogin = true;
         
         /// <summary>
         /// 默认为post请求
@@ -24,6 +25,11 @@ namespace WeiQingBaZiFengShuiSuanMing.Filters
         /// 默认为Ajax请求
         /// </summary>
         public bool IsAjax { get { return isAjax; } set { isAjax = value; } }
+
+        /// <summary>
+        /// 默认为检查用户登录为true
+        /// </summary>
+        public bool IsLogin { get { return isLogin; } set { isLogin = value; } }
 
         /// <summary>
         /// 执行action请求之前判断用户是否登录
@@ -51,8 +57,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Filters
                 }
             }
 
-            var user = cntx.HttpContext.Session["user"];
-            if (user == null)
+            if (isLogin && cntx.HttpContext.Session["user"] == null)
             {
                 if (cntx.HttpContext.Request.IsAjaxRequest())
                 {

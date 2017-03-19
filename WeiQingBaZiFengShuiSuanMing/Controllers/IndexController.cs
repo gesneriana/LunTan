@@ -35,7 +35,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// </summary>
         /// <param name="u"></param>
         /// <returns></returns>
-        [Filters.CheckLogin]
+        [Filters.CheckLogin(IsLogin = false)]
         public ActionResult regUser(user u)
         {
             if (u != null)
@@ -86,7 +86,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// </summary>
         /// <param name="u"></param>
         /// <returns></returns>
-        [Filters.CheckLogin]
+        [Filters.CheckLogin(IsLogin = false)]
         public ActionResult login(user u)
         {
             if (u != null)
@@ -146,7 +146,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// </summary>
         /// <param name="u"></param>
         /// <returns></returns>
-        [Filters.CheckLogin]
+        [Filters.CheckLogin(IsLogin = false)]
         public ActionResult getPwd(user u)
         {
             if (u != null)
