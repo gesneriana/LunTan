@@ -6,7 +6,7 @@
     <title>魏清风水算命论坛</title>
     <style type="text/css">
         *{margin:0px;padding:0px;list-style-type:none;}
-        body{background-color:#fff;}
+        body{background-color:#FDFDF8;}
         a{text-decoration:none;font-size:16px;}
         #top_login_ul li{float:left;margin-left:10px;}
         #top_login_ul input[type=text]{display:inline-block;width:120px;}
@@ -113,7 +113,7 @@
     </script>
 </head>
 <body>
-    <div style="width:100%;background-color:#eee;">
+    <div style="width:100%;background-color:#eee;margin-bottom:10px;">
         <div style="width:80%;margin:0px auto 0px;height:32px;line-height:32px;">
             <a href="/index/index" style="display:inline-block;float:left;">首页</a>
             @{ if (Session["user"] == null)
@@ -145,7 +145,7 @@
         </div>
     </div>
 
-    <div style="width:80%;margin:10px auto 0px;">
+    <div style="width:80%;margin:0px auto 0px;">
         @RenderBody()
     </div>
 
