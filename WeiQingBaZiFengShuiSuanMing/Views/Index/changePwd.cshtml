@@ -1,0 +1,119 @@
+﻿@{
+    Layout = null;
+}
+
+<style type="text/css">
+    input::-webkit-input-placeholder {
+        color: #bbb;
+    }
+
+    input::-moz-placeholder {
+        color: #bbb;
+    }
+
+    input:-moz-placeholder {
+        color: #bbb;
+    }
+
+    input:-ms-input-placeholder {
+        color: #bbb;
+    }
+
+    #reg_table {
+        width: 100%;
+    }
+
+        #reg_table tr {
+            height: 32px;
+            line-height: 32px;
+        }
+
+    .left_td {
+        width: 30%;
+        text-align: right;
+    }
+</style>
+
+<script type="text/javascript">
+
+    $(function () {
+        $("#renewpwd").keydown(function (event) {
+            if (event.keyCode == 13) {
+                updatePwd();
+            }
+        });
+    });
+
+    // 修改密码
+    function updatePwd() {
+        if ($("#reg_table #pwd").val().length < 6) {
+            alert("旧密码的长度不少于3个字符");
+            $("#reg_table #pwd").focus();
+            return;
+        }
+        if ($("#reg_table #newpwd").val().length < 6) {
+            alert("新密码的长度不少于3个字符");
+            $("#reg_table #newpwd").focus();
+            return;
+        }
+
+        if ($("#renewpwd").val() != $("#reg_table #newpwd").val()) {
+            alert("两次输入的新密码不一致");
+            $("#reg_table #renewpwd").focus();
+            return;
+        }
+
+        if ($("#renewpwd").val() == $("#reg_table #pwd").val()) {
+            alert("旧密码和新密码不能一致");
+            $("#reg_table #newpwd").focus();
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/index/updatePwd",
+            data: $("#updatePwdForm").serialize(),
+            error: function (request) {
+                alert('请求错误');
+            },
+            success: function (msg) {
+                if (msg > 0) {
+                    alert("密码修改成功");
+                    location.href = "/index/index";
+                    // cls();
+                } else {
+                    alert('修改密码失败,' + msg);   // 返回错误信息
+                }
+            }
+        });
+    }
+</script>
+
+<div style="width:100%;border:0px solid #aaa;font-size:12px;height:100%;background-color:#fff;">
+
+    <div style="width:100%;height:32px;line-height:32px;text-indent:1em;background-color:#eee;">
+        修改密码
+        <a href="javascript:;" onclick="cls()" style="display:inline-block;float:right;position:relative;top:6px;right:6px;"><img src="~/imgs/guanbi.png" height="20" width="20" /></a>
+    </div>
+    <form id="updatePwdForm">
+        <input type="hidden" name="nick_name" value="@(((EFDao.Entity.user)Session["user"]).nick_name)" />
+        <table border="0" cellpadding="0" cellspacing="0" id="reg_table">
+            <tr>
+                <td class="left_td">旧密码:</td>
+                <td>&emsp;<input type="password" name="pwd" id="pwd" placeholder="请输入旧密码" /> 必填</td>
+            </tr>
+            <tr>
+                <td class="left_td">新密码:</td>
+                <td>&emsp;<input type="password" name="newpwd" id="newpwd" placeholder="新密码" /> 必填</td>
+            </tr>
+            <tr>
+                <td class="left_td">确认新密码:</td>
+                <td>&emsp;<input type="password" name="renewpwd" id="renewpwd" placeholder="确认新密码" /> 必填</td>
+            </tr>
+            <tr>
+                <td class="left_td"><input type="button" value="确定" onclick="updatePwd()" /></td>
+                <td><input style="display:inline-block;margin-left:80px;" type="button" value="取消" onclick="cls()" /></td>
+            </tr>
+        </table>
+    </form>
+</div>

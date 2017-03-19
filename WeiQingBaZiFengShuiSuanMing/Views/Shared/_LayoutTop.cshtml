@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+@*电脑版的头部布局*@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>魏清风水算命论坛</title>
+    <style type="text/css">
+        *{margin:0px;padding:0px;list-style-type:none;}
+        body{background-color:#fff;}
+        a{text-decoration:none;font-size:16px;}
+        #top_login_ul li{float:left;margin-left:10px;}
+        #top_login_ul input[type=text]{display:inline-block;width:120px;}
+        #top_login_ul input[type=password]{display:inline-block;width:120px;}
+        input::-webkit-input-placeholder{color:#bbb;}
+        input::-moz-placeholder{color:#bbb;}
+        input:-moz-placeholder{color:#bbb;}
+        input:-ms-input-placeholder{color:#bbb;}
+    </style>
+    <script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#pwd").keydown(function (event) {
+                if (event.keyCode == 13) {
+                    login();
+                }
+            });
+        });
+
+        // 登录
+        function login() {
+            if ($("#nick_name").val().length < 3) {
+                alert("用户名的长度必须不少于3个字符");
+                $("#nick_name").focus();
+                return;
+            }
+            if ($("#pwd").val().length < 6) {
+                alert("密码的长度必须不少于6个字符");
+                $("#pwd").focus();
+                return;
+            }
+            $.ajax({
+                type: "post",
+                url: "/index/login",
+                data: $("#loginForm").serialize(),
+                error: function (request) {
+                    alert("请求错误");
+                },
+                success: function (data) {
+                    if (data > 0) {
+                        location.href = '/index/index';
+                    } else {
+                        alert(data);
+                    }
+                }
+            });
+        }
+
+        // 关闭
+        function cls() {
+            $("#hide_div").html("");
+            $("#hide_div").hide();
+            $("#canvas_div").hide();
+        }
+
+        // 注册窗口
+        function register() {
+            $.ajax({
+                type: "get",
+                url: "/index/regview",
+                error: function (request) {
+                    alert("请求错误");
+                },
+                success: function (data) {
+                    $("#hide_div").html(data);
+                    $("#canvas_div").show();
+                    $("#hide_div").show();
+                }
+            });
+        }
+
+        // 找回密码
+        function forgetPwd() {
+            $.ajax({
+                type: "get",
+                url: "/index/forgetPwd",
+                error: function (request) {
+                    alert("请求错误");
+                },
+                success: function (data) {
+                    $("#hide_div").html(data);
+                    $("#canvas_div").show();
+                    $("#hide_div").show();
+                }
+            });
+        }
+
+        // 修改密码
+        function changePwd() {
+            $.ajax({
+                type: "get",
+                url: "/index/changePwd",
+                error: function (request) {
+                    alert("请求错误");
+                },
+                success: function (data) {
+                    $("#hide_div").html(data);
+                    $("#canvas_div").show();
+                    $("#hide_div").show();
+                }
+            });
+        }
+
+    </script>
+</head>
+<body>
+    <div style="width:100%;background-color:#eee;">
+        <div style="width:80%;margin:0px auto 0px;height:32px;line-height:32px;">
+            <a href="/index/index" style="display:inline-block;float:left;">首页</a>
+            @{ if (Session["user"] == null)
+                {
+                    <text>
+                        <form id="loginForm">
+                            <ul id="top_login_ul" style="display:inline-block;float:right;">
+                                <li>用户名: <input type="text" name="nick_name" id="nick_name" placeholder="用户名或者邮箱" autocomplete="on" /></li>
+                                <li>密码: <input type="password" name="pwd" id="pwd" autocomplete="off" /></li>
+                                <li><input type="button" value="登录" onclick="login()" /></li>
+                                <li><a href="javascript:;" onclick="forgetPwd()">忘记密码?</a> </li>
+                                <li><input type="button" value="注册" onclick="register()" /></li>
+                            </ul>
+                        </form>
+                    </text>
+                }
+                else
+                {
+                    EFDao.Entity.user u = (EFDao.Entity.user)Session["user"];
+                    <text>
+                        <span style="display:inline-block;float:right;">您好,@(u.nick_name) 
+                        &emsp;&emsp;<a href="javascript:;" onclick="changePwd()">修改密码</a>
+                        &emsp;&emsp; <a href="/index/logout">注销登录</a></span>
+                    </text>
+    }
+}
+
+
+        </div>
+    </div>
+
+    <div style="width:80%;margin:0px auto 0px;background-color:#efadcb">
+        @RenderBody()
+    </div>
+
+    <div id="hide_div" style="display:none;border:1px solid #aaa;width:500px;height:320px;position:absolute;z-index:2;left:50%;margin-left:-250px;top:50%;margin-top:-160px;">
+        @*弹出框*@
+    </div>
+    <div id="canvas_div" style="display:none;opacity:0.2;background-color:#ccc;z-index:1;width:100%;height:100%;position:fixed;top:0px;">
+        @*画布*@
+    </div>
+</body>
+</html>

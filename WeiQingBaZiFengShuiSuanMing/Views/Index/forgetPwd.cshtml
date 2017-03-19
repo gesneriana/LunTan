@@ -1,0 +1,104 @@
+﻿@{
+    Layout = null;
+}
+
+<style type="text/css">
+    input::-webkit-input-placeholder {
+        color: #bbb;
+    }
+
+    input::-moz-placeholder {
+        color: #bbb;
+    }
+
+    input:-moz-placeholder {
+        color: #bbb;
+    }
+
+    input:-ms-input-placeholder {
+        color: #bbb;
+    }
+
+    #reg_table {
+        width: 100%;
+    }
+
+        #reg_table tr {
+            height: 32px;
+            line-height: 32px;
+        }
+
+    .left_td {
+        width: 30%;
+        text-align: right;
+    }
+</style>
+
+<script type="text/javascript">
+
+    $(function () {
+        $("#email").keydown(function (event) {
+            if (event.keyCode == 13) {
+                getPwd();
+            }
+        });
+    });
+
+    // 找回密码
+    function getPwd() {
+        if ($("#reg_table #nick_name").val().length < 3) {
+            alert("用户名的长度必须不少于3个字符");
+            $("#reg_table #nick_name").focus();
+            return;
+        }
+
+        if (!$("#email").val().match(/^([a-zA-Z0-9_-])+@@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/)) {
+            alert("邮箱格式不正确");
+            $("#email").focus();
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/index/getPwd",
+            data: $("#getPwdForm").serialize(),
+            error: function (request) {
+                alert('请求错误');
+            },
+            success: function (msg) {
+                if (msg =="发送成功") {
+                    alert("邮件发送成功,如果没有收到,请检查您的邮件垃圾箱");
+                    cls();
+                } else {
+                    alert('找回密码失败,' + msg);   // 返回错误信息
+                }
+            }
+        });
+    }
+</script>
+
+<div style="width:100%;border:0px solid #aaa;font-size:12px;height:100%;background-color:#fff;">
+
+    <div style="width:100%;height:32px;line-height:32px;text-indent:1em;background-color:#eee;">
+        找回密码
+        <a href="javascript:;" onclick="cls()" style="display:inline-block;float:right;position:relative;top:6px;right:6px;"><img src="~/imgs/guanbi.png" height="20" width="20" /></a>
+    </div>
+    <form id="getPwdForm">
+        <table border="0" cellpadding="0" cellspacing="0" id="reg_table">
+            <tr>
+                <td class="left_td">用户名:</td>
+                <td>&emsp;<input type="text" name="nick_name" id="nick_name" placeholder="找回密码的用户名" /> 必填</td>
+            </tr>
+            <tr>
+                <td class="left_td">电子邮箱:</td>
+                <td>&emsp;<input type="email" name="email" id="email" placeholder="注册账号的邮箱" /> 必填</td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">没有收到邮件请检查垃圾箱或联系管理员</td>
+            </tr>
+            <tr>
+                <td class="left_td"><input type="button" value="确定" onclick="getPwd()" /></td>
+                <td><input style="display:inline-block;margin-left:80px;" type="button" value="取消" onclick="cls()" /></td>
+            </tr>
+        </table>
+    </form>
+</div>

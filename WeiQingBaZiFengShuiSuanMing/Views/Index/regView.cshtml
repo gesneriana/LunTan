@@ -1,0 +1,99 @@
+﻿@{
+    Layout = null;
+}
+
+<style type="text/css">
+    input::-webkit-input-placeholder{color:#bbb;}
+    input::-moz-placeholder{color:#bbb;}
+    input:-moz-placeholder{color:#bbb;}
+    input:-ms-input-placeholder{color:#bbb;}
+    #reg_table{width:100%;}
+    #reg_table tr{height:32px;line-height:32px;}
+    .left_td{width:30%;text-align:right;}
+</style>
+
+<script type="text/javascript">
+    // 用户注册
+    function regUser() {
+        if ($("#reg_table #nick_name").val().length < 3) {
+            alert("用户名的长度必须不少于3个字符");
+            $("#reg_table #nick_name").focus();
+            return;
+        }
+        if ($("#reg_table #pwd").val().length < 6) {
+            alert("密码的长度必须不少于6个字符");
+            $("#reg_table #pwd").focus();
+            return;
+        }
+        if ($("#reg_table #pwd").val() != $("#repwd").val()) {
+            alert("两次输入的密码不一致");
+            $("#repwd").focus();
+            return;
+        }
+        if (!$("#email").val().match(/^([a-zA-Z0-9_-])+@@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/)) {
+            alert("邮箱格式不正确");
+            $("#email").focus();
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/index/regUser",
+            data: $("#regForm").serialize(),
+            error: function (request) {
+                alert('请求错误');
+            },
+            success: function (msg) {
+                if (msg > 0) {
+                    alert("注册成功");
+                    location.href = '/index/index';
+                } else {
+                    alert('注册失败,' + msg);   // 返回错误信息
+                }
+            }
+        });
+    }
+</script>
+
+<div style="width:100%;border:0px solid #aaa;font-size:12px;height:100%;background-color:#fff;">
+
+    <div style="width:100%;height:32px;line-height:32px;text-indent:1em;background-color:#eee;">
+        注册
+        <a href="javascript:;" onclick="cls()" style="display:inline-block;float:right;position:relative;top:6px;right:6px;"><img src="~/imgs/guanbi.png" height="20" width="20" /></a>
+    </div>
+    <form id="regForm">
+        <table border="0" cellpadding="0" cellspacing="0" id="reg_table">
+            <tr>
+                <td class="left_td">用户名:</td>
+                <td>&emsp;<input type="text" name="nick_name" id="nick_name" placeholder="用户名不得少于3个字符" /> 必填</td>
+            </tr>
+            <tr>
+                <td class="left_td">密码:</td>
+                <td>&emsp;<input type="password" name="pwd" id="pwd" placeholder="长度大于6位" /> 必填</td>
+            </tr>
+            <tr>
+                <td class="left_td">确认密码:</td>
+                <td>&emsp;<input type="password" name="repwd" id="repwd" placeholder="长度大于6位" /> 必填</td>
+            </tr>
+            <tr>
+                <td class="left_td">电子邮箱:</td>
+                <td>&emsp;<input type="email" name="email" id="email" placeholder="邮箱可用于找回密码" /> 必填</td>
+            </tr>
+            <tr>
+                <td class="left_td">手机号:</td>
+                <td>&emsp;<input type="text" name="mobile" placeholder="长度不能超过11位数字" /></td>
+            </tr>
+            <tr>
+                <td class="left_td">QQ号:</td>
+                <td>&emsp;<input type="text" name="qq" placeholder="长度不能超过11位数字" /></td>
+            </tr>
+            <tr>
+                <td class="left_td">微信号:</td>
+                <td>&emsp;<input type="text" name="wei_xin" placeholder="" /></td>
+            </tr>
+            <tr>
+                <td class="left_td"><input type="button" value="注册" onclick="regUser()" /></td>
+                <td><input style="display:inline-block;margin-left:80px;" type="button" value="取消" onclick="cls()" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
