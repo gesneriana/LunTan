@@ -60,7 +60,7 @@ namespace Common.Utility
         }
 
         /// <summary>
-        /// 发送邮件
+        /// 发送邮件,两个必须参数,收件人邮箱和邮件内容
         /// </summary>
         /// <param name="email">收件人邮箱</param>
         /// <param name="str">邮件内容</param>
