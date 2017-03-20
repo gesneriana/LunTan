@@ -15,6 +15,8 @@
         input::-moz-placeholder{color:#bbb;}
         input:-moz-placeholder{color:#bbb;}
         input:-ms-input-placeholder{color:#bbb;}
+        #loginForm input[type=text]{width:100px;}
+        #loginForm input[type=password]{width:100px;}
     </style>
     <script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
     <script type="text/javascript">
@@ -113,16 +115,17 @@
     </script>
 </head>
 <body>
-    <div style="width:100%;background-color:#eee;margin-bottom:10px;">
-        <div style="width:80%;margin:0px auto 0px;height:32px;line-height:32px;">
-            <a href="/index/index" style="display:inline-block;float:left;">首页</a>
+    <div style="width:100%;background-color:#F3E9DE;margin-bottom:10px;">
+        <div style="width:1000px;margin:0px auto 0px;height:32px;line-height:32px;">
+            <a href="/index/index" style="display:inline-block;float:left;">首页</a> &emsp;
+            <span style="color:#BCAC98;font-size:12px;display:inline-block;">生辰八字算命-周易命理预测 | 阴阳五行八卦研究 | 八字合婚配对查询</span>
             @{ if (Session["user"] == null)
                 {
                     <text>
-                        <form id="loginForm">
-                            <ul id="top_login_ul" style="display:inline-block;float:right;">
-                                <li>用户名: <input type="text" name="nick_name" id="nick_name" placeholder="用户名或者邮箱" autocomplete="on" /></li>
-                                <li>密码: <input type="password" name="pwd" id="pwd" autocomplete="off" /></li>
+                        <form id="loginForm" style="display:inline-block;float:right;color:#666;font-size:12px;">
+                            <ul id="top_login_ul">
+                                <li>用户名: <input type="text" name="nick_name" width="120" id="nick_name" placeholder="用户名或者邮箱" autocomplete="on" /></li>
+                                <li>密码: <input type="password" name="pwd" id="pwd" width="120" autocomplete="off" /></li>
                                 <li><input type="button" value="登录" onclick="login()" /></li>
                                 <li><a href="javascript:;" onclick="forgetPwd()">忘记密码?</a> </li>
                                 <li><input type="button" value="注册" onclick="register()" /></li>
@@ -134,18 +137,17 @@
                 {
                     EFDao.Entity.user u = (EFDao.Entity.user)Session["user"];
                     <text>
-                        <span style="display:inline-block;float:right;">您好,@(u.nick_name) 
+                        <span style="display:inline-block;float:right;color:#666;font-size:12px;">您好,@(u.nick_name) 
                         &emsp;&emsp;<a href="javascript:;" onclick="changePwd()">修改密码</a>
                         &emsp;&emsp; <a href="/index/logout">注销登录</a></span>
                     </text>
-    }
-}
-
+                }
+            }
 
         </div>
     </div>
 
-    <div style="width:80%;margin:0px auto 0px;">
+    <div id="main" style="width:1000px;margin:0px auto 0px;">
         @RenderBody()
     </div>
 

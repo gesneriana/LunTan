@@ -343,6 +343,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="imgs\mfycgq.png" />
+    <Content Include="imgs\weixin.jpg" />
     <Content Include="imgs\guanbi.png" />
     <Content Include="imgs\title.png" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />

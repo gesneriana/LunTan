@@ -2,11 +2,82 @@
     Layout = "~/Views/Shared/_LayoutTop.cshtml";
 }
 
-<div style="width:100%;">
-    <div style="height:60px;width:439px;float:left;">
+<style type="text/css">
+    #top_rt {
+        background-color: #EAE2D5;
+        font-size: 12px;
+        color: #AE6252;
+        height: 57px;
+        width: auto;
+        overflow: hidden;
+        text-indent: 1em;
+        padding-top: 3px;
+        padding-left: 10px;
+    }
+    #yuce {
+        margin-top: 10px;
+        background-color: #F3ECE2;
+        height: 80px;
+        padding-left: 10px;
+    }
+        #yuce .yuce_rt {
+            height: 80px;
+            width: auto;
+            overflow: hidden;
+        }
+            #yuce .yuce_rt .zzqc {
+                color: #AC685B;
+                font-size: 24px;
+                display: inline-block;
+                margin-top: 10px;
+                text-indent: 14px;
+                height: 70px;
+                width: 140px;
+            }
+            #yuce .yuce_rt .bzxp {
+                color: #AC685B;
+                font-size: 24px;
+                display: inline-block;
+                line-height: 80px;
+                height: 80px;
+                width: 200px;
+                text-align: center;
+                vertical-align: top;
+            }
+            #yuce .mfycgq{
+                display:inline-block;
+                height:80px;
+                vertical-align:top;
+            }
+</style>
+
+<div style="width:100%;height:60px;">
+    <div style="height:60px;width:440px;float:left;background-color:#EAE2D5;">
         <img src="~/imgs/title.png" title="魏清八字风水算命论坛" height="60" />
     </div>
-    <div style="background-color:#EAE2D5;font-size:16px;color:#AE6252;height:60px;width:auto;margin-left:-445px;overflow:hidden;text-indent:2em;padding-top:10px;">
+    <div id="top_rt">
         欢迎加入算命风水相术中医交流群: 372417319
+        <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=91d9e0f11f19ee1bd61dd49ec63bf8699dc118530fb84b063ca944f3db685f98">
+            <img border="0" src="//pub.idqqimg.com/wpa/images/group.png" height="16" alt="QQ飞车交流群" title="QQ飞车交流群">
+        </a>,八字、算命、风水堪舆、手面相、择日取名、六爻八卦、壬遁太乙、相法星象专业预测群，
+        由群主清清流水——魏清每天坐堂免费预测，欢迎问测者加入！
     </div>
+
+    @*预测*@
+    <div id="yuce">
+        <div style="height:80px;width:80px;float:left;">
+            <img src="~/imgs/weixin.jpg" height="80" />
+        </div>
+        <div class="yuce_rt">
+            <div class="zzqc" style="">
+                站长亲测<br />
+                <span style="font-size:14px;">&emsp;微信号:383129257</span>
+            </div>
+            <div class="bzxp">
+                八字详批:198元
+            </div>
+            <div class="mfycgq"><img src="~/imgs/mfycgq.png" height="80"/></div>
+        </div>
+    </div>
+
 </div>
