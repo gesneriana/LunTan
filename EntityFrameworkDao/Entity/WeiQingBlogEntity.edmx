@@ -5,6 +5,16 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="WeiQingModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="getpwdlog">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="uid" Type="int" Nullable="false" />
+          <Property Name="nick_name" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="ip_address" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="log_time" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
         <EntityType Name="user">
           <Key>
             <PropertyRef Name="id" />
@@ -21,6 +31,7 @@
           <Property Name="is_admin" Type="bit" Nullable="false" />
         </EntityType>
         <EntityContainer Name="WeiQingModelStoreContainer">
+          <EntitySet Name="getpwdlog" EntityType="Self.getpwdlog" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="user" EntityType="Self.user" Schema="bazifengshuisuanming" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -44,7 +55,18 @@
         </EntityType>
         <EntityContainer Name="WeiQingEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="user" EntityType="Self.user" />
+          <EntitySet Name="getpwdlog" EntityType="WeiQingModel.getpwdlog" />
         </EntityContainer>
+        <EntityType Name="getpwdlog">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uid" Type="Int32" Nullable="false" />
+          <Property Name="nick_name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ip_address" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="log_time" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -64,6 +86,17 @@
                 <ScalarProperty Name="wei_xin" ColumnName="wei_xin" />
                 <ScalarProperty Name="reg_date" ColumnName="reg_date" />
                 <ScalarProperty Name="last_login_date" ColumnName="last_login_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="getpwdlog">
+            <EntityTypeMapping TypeName="WeiQingModel.getpwdlog">
+              <MappingFragment StoreEntitySet="getpwdlog">
+                <ScalarProperty Name="log_time" ColumnName="log_time" />
+                <ScalarProperty Name="ip_address" ColumnName="ip_address" />
+                <ScalarProperty Name="nick_name" ColumnName="nick_name" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
