@@ -139,7 +139,7 @@ namespace Common.Utility
         /// 获取客户端的真正ip  
         /// </summary>  
         /// <returns></returns>  
-        public string GetRealIP()
+        public static string GetRealIP()
         {
             string result = String.Empty;
             result = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
@@ -203,7 +203,7 @@ namespace Common.Utility
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        private bool IsIPAddress(string str)
+        private static bool IsIPAddress(string str)
         {
             if (string.IsNullOrWhiteSpace(str) || str.Length < 7 || str.Length > 15)
                 return false;

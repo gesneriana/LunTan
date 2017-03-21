@@ -5,18 +5,60 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>魏清风水算命论坛</title>
     <style type="text/css">
-        *{margin:0px;padding:0px;list-style-type:none;}
-        body{background-color:#FDFDF8;}
-        a{text-decoration:none;font-size:16px;}
-        #top_login_ul li{float:left;margin-left:10px;}
-        #top_login_ul input[type=text]{display:inline-block;width:120px;}
-        #top_login_ul input[type=password]{display:inline-block;width:120px;}
-        input::-webkit-input-placeholder{color:#bbb;}
-        input::-moz-placeholder{color:#bbb;}
-        input:-moz-placeholder{color:#bbb;}
-        input:-ms-input-placeholder{color:#bbb;}
-        #loginForm input[type=text]{width:100px;}
-        #loginForm input[type=password]{width:100px;}
+        * {
+            margin: 0px;
+            padding: 0px;
+            list-style-type: none;
+        }
+
+        body {
+            background-color: #FDFDF8;
+        }
+
+        a {
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        #top_login_ul li {
+            float: left;
+            margin-left: 10px;
+        }
+
+        #top_login_ul input[type=text] {
+            display: inline-block;
+            width: 120px;
+        }
+
+        #top_login_ul input[type=password] {
+            display: inline-block;
+            width: 120px;
+        }
+
+        input::-webkit-input-placeholder {
+            color: #bbb;
+        }
+
+        input::-moz-placeholder {
+            color: #bbb;
+        }
+
+        input:-moz-placeholder {
+            color: #bbb;
+        }
+
+        input:-ms-input-placeholder {
+            color: #bbb;
+        }
+
+        #loginForm input[type=text] {
+            width: 100px;
+        }
+
+        #loginForm input[type=password] {
+            width: 100px;
+        }
+
         #top_rt {
             background-color: #EAE2D5;
             font-size: 12px;
@@ -28,6 +70,78 @@
             padding-top: 3px;
             padding-left: 10px;
         }
+
+        #yuce {
+            margin-top: 5px;
+            height: 80px;
+            width: 100%;
+        }
+
+            #yuce .yuce_lt:hover {
+                cursor: pointer;
+            }
+
+            #yuce .yuce_rt:hover {
+                cursor: pointer;
+            }
+
+            #yuce .yuce_rt .bgyc {
+                height: 70px;
+                width: auto;
+                overflow: hidden;
+                font-size: 24px;
+                color: #AC685B;
+                text-align: center;
+                padding-top: 7px;
+            }
+
+            #yuce .yuce_weixinhao {
+                height: 80px;
+                width: 580px;
+            }
+
+            #yuce .yuce_lt {
+                display: inline-block;
+                width: 660px;
+                height: 100%;
+                background-color: #F3ECE2;
+            }
+
+            #yuce .yuce_rt {
+                display: inline-block;
+                height: 100%;
+                vertical-align: top;
+                background-color: #F3ECE2;
+                width: 330px;
+                float: right;
+            }
+
+            #yuce .yuce_weixinhao .zzqc {
+                color: #AC685B;
+                font-size: 24px;
+                display: inline-block;
+                margin-top: 10px;
+                text-indent: 14px;
+                height: 70px;
+                width: 140px;
+            }
+
+            #yuce .yuce_weixinhao .bzxp {
+                color: #AC685B;
+                font-size: 24px;
+                display: inline-block;
+                line-height: 80px;
+                height: 80px;
+                width: 200px;
+                text-align: center;
+                vertical-align: top;
+            }
+
+            #yuce .mfycgq {
+                display: inline-block;
+                height: 80px;
+                vertical-align: top;
+            }
     </style>
     <script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
     <script type="text/javascript">
@@ -37,6 +151,18 @@
                     login();
                 }
             });
+
+            @{
+                if (!ViewContext.RouteData.Values["action"].ToString().ToLower().Equals("baziyuceexplain"))
+                {
+                    <text>
+                        $("#yuce .yuce_lt").click(function () {
+                            window.open("/index/BaziyuceExplain", "_blank");
+                        });
+                    </text>
+                }
+            }
+
         });
 
         // 登录
@@ -126,6 +252,8 @@
     </script>
 </head>
 <body>
+
+    @*登录部分*@
     <div style="width:100%;background-color:#F3E9DE;margin-bottom:10px;">
         <div style="width:1000px;margin:0px auto 0px;height:32px;line-height:32px;">
             <a href="/index/index" style="display:inline-block;float:left;">首页</a> &emsp;
@@ -158,7 +286,9 @@
         </div>
     </div>
 
-    <div id="main" style="width:1000px;margin:0px auto 0px;">
+
+    @*主体*@
+    <div id="main" style="width:1000px;margin:0px auto 0px;height:auto;">
 
         @*简介*@
         <div style="width:100%;height:60px;">
@@ -172,10 +302,56 @@
                 </a>,八字、算命、风水堪舆、手面相、择日取名、六爻八卦、壬遁太乙、相法星象专业预测群，
                 由群主清清流水——魏清每天坐堂免费预测，欢迎问测者加入！
             </div>
-
         </div>
 
-        @RenderBody()
+
+        @*预测*@
+        <div id="yuce">
+
+            @*左边的八字预测*@
+            <div class="yuce_lt">
+                <div style="height:80px;width:80px;float:left;">
+                    <img src="~/imgs/weixin.jpg" height="80" />
+                </div>
+                <div class="yuce_weixinhao">
+                    <div class="zzqc">
+                        站长亲测<br />
+                        <span style="font-size:14px;">&emsp;微信号:383129257</span>
+                    </div>
+                    <div class="bzxp">
+                        八字详批:198元
+                    </div>
+                    <div class="mfycgq"><img src="~/imgs/mfycgq.png" height="80" /></div>
+                </div>
+            </div>
+
+            @*右边的八卦六爻预测*@
+            <div class="yuce_rt">
+                <div style="height:80px;width:80px;float:left;">
+                    <img src="~/imgs/weixin.jpg" height="80" />
+                </div>
+                <div class="bgyc">
+                    八卦预测<br />每卦66元
+                </div>
+            </div>
+        </div>
+
+
+
+        @*中间主要内容部分*@
+        <div id="rb" style="width:1000px;min-height:600px;">
+
+
+            @*内容视图页部分*@
+            <div class="rb_lt" style="width:660px;min-height:600px;margin-top:5px;background-color:#FDFDF8;display:inline-block;">
+                @RenderBody()
+            </div>
+
+            @*右侧公用部分*@
+            <div class="rb_rt" style="width:330px;min-height:600px;margin-top:5px;background-color:#FDFDF8;display:inline-block;vertical-align:top;">
+
+            </div>
+        </div>
     </div>
 
     <div id="foot" style="height:32px;background-color:#643420;width:100%;text-align:center;line-height:32px;color:#ccc;font-size:10px;">

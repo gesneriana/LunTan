@@ -113,7 +113,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                     }
                     catch (Exception ex)
                     {
-                        return Content("后台出现错误");
+                        return Content("后台出现错误:" + ex.Message);
                     }
 
                 }
@@ -159,12 +159,32 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                         using (WeiQingEntities db = new WeiQingEntities())
                         {
                             var user = db.user.Where(p => p.nick_name.Equals(u.nick_name) && p.email.Equals(u.email)).FirstOrDefault();
+                            // 检查用户名和邮箱是否匹配
                             if (user != null && u.nick_name.Equals(user.nick_name))
                             {
+                                DateTime dt = DateTime.Now;
+                                string ip = Tools.GetRealIP();  // 获取客户端ip
+
+                                // 检查当前 uid 一周之内是否已经找回过密码, 同一个ip一天之内之内找回3次密码
+                                var t1 = dt.AddDays(-7);
+                                var gpl_uid = db.getpwdlog.Where(p => p.uid == user.id && p.log_time > t1).Count();
+                                if (gpl_uid > 0)
+                                {
+                                    return Content("一个星期之内只能找回一次密码");
+                                }
+                                var t2 = dt.AddHours(-24);
+                                var gpl_ip = db.getpwdlog.Where(p => p.ip_address.Equals(ip) && p.log_time > t2).Count();
+                                if (gpl_ip >= 3)
+                                {
+                                    return Content("同一个ip地址一天之内只能找回3次密码");
+                                }
+
                                 string newpwd = Tools.getRandomStr();
                                 string res = Tools.SendEmail(u.email, "您的密码是:" + newpwd);   // 失败返回错误信息
                                 if ("发送成功".Equals(res))
                                 {
+                                    var chPwdLog = new getpwdlog() { uid = (Int32)user.id, ip_address = ip, nick_name = user.nick_name, log_time = dt };
+                                    db.getpwdlog.Add(chPwdLog); // 修改密码的日志
                                     user.pwd = HashTools.SHA1_Hash(newpwd);
                                     db.SaveChanges();   // 修改密码
                                 }
@@ -175,7 +195,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                     }
                     catch (Exception ex)
                     {
-                        return Content("后台出现错误");
+                        return Content("后台出现错误:" + ex.Message);
                     }
                 }
             }

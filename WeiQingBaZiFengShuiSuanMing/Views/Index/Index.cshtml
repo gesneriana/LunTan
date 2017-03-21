@@ -3,68 +3,7 @@
 }
 
 <style type="text/css">
-    #yuce {
-        margin-top: 5px;
-        height: 80px;
-        padding-left: 10px;
-    }
-        #yuce .yuce_weixinhao {
-            height: 80px;
-            width: 580px;
-        }
-        #yuce .yuce_lt {
-            display: inline-block;
-            width: 650px;
-            height: 100%;
-            background-color: #F3ECE2;
-        }
-            #yuce .yuce_lt:hover {
-                cursor: pointer;
-            }
-        #yuce .yuce_rt {
-            display: inline-block;
-            height: 100%;
-            vertical-align: top;
-            background-color: #F3ECE2;
-            width: 330px;
-            float: right;
-        }
-            #yuce .yuce_rt:hover {
-                cursor: pointer;
-            }
-            #yuce .yuce_rt .bgyc {
-                height: 70px;
-                width: auto;
-                overflow: hidden;
-                font-size: 24px;
-                color: #AC685B;
-                text-align: center;
-                padding-top: 7px;
-            }
-        #yuce .yuce_weixinhao .zzqc {
-            color: #AC685B;
-            font-size: 24px;
-            display: inline-block;
-            margin-top: 10px;
-            text-indent: 14px;
-            height: 70px;
-            width: 140px;
-        }
-        #yuce .yuce_weixinhao .bzxp {
-            color: #AC685B;
-            font-size: 24px;
-            display: inline-block;
-            line-height: 80px;
-            height: 80px;
-            width: 200px;
-            text-align: center;
-            vertical-align: top;
-        }
-        #yuce .mfycgq {
-            display: inline-block;
-            height: 80px;
-            vertical-align: top;
-        }
+
     .yuce_history_article {
         width: 660px;
         margin-top: 5px;
@@ -72,7 +11,7 @@
         background-repeat: repeat-x;
         padding-top: 2px;
     }
-    .news_box_lt{float:left;width:660px;}
+    .news_box{float:left;width:660px;}
     .news_box_rt{float:right;width:330px;}
 
     .yuce_history_article_title {
@@ -111,63 +50,23 @@
 
 <script type="text/javascript">
     $(function () {
-        $("#yuce .yuce_lt").click(function () {
-            window.open("/index/BaziyuceExplain", "_blank");
-        });
+
     });
 </script>
 
-@*预测*@
-<div id="yuce">
 
-    @*左边的八字预测*@
-    <div class="yuce_lt">
-        <div style="height:80px;width:80px;float:left;">
-            <img src="~/imgs/weixin.jpg" height="80" />
-        </div>
-        <div class="yuce_weixinhao">
-            <div class="zzqc">
-                站长亲测<br />
-                <span style="font-size:14px;">&emsp;微信号:383129257</span>
+@*左侧的整个的文章列表*@
+<div class="news_box">
+
+    @*预测历史和帖子内容标题列表*@
+    <div class="yuce_history_article">
+        <div class="yuce_history_article_title">
+            <div class="yhat_lt">
+                预测历史
             </div>
-            <div class="bzxp">
-                八字详批:198元
-            </div>
-            <div class="mfycgq"><img src="~/imgs/mfycgq.png" height="80" /></div>
-        </div>
-    </div>
-
-    @*右边的八卦六爻预测*@
-    <div class="yuce_rt">
-        <div style="height:80px;width:80px;float:left;">
-            <img src="~/imgs/weixin.jpg" height="80" />
-        </div>
-        <div class="bgyc">
-            八卦预测<br />每卦66元
-        </div>
-    </div>
-</div>
-
-<div id="news_box_main" style="width:100%;">
-
-    @*左侧的整个的文章列表*@
-    <div class="news_box_lt">
-
-        @*预测历史和帖子内容标题列表*@
-        <div class="yuce_history_article">
-            <div class="yuce_history_article_title">
-                <div class="yhat_lt">
-                    预测历史
-                </div>
-                <div class="yhat_rt">
-                    坛友帖子
-                </div>
+            <div class="yhat_rt">
+                坛友帖子
             </div>
         </div>
-    </div>
-
-    @*右侧的整个的文章列表*@
-    <div class="news_box_rt">
-        <div style="height:400px;background-color:#adef9d;margin-top:5px;"></div>
     </div>
 </div>
