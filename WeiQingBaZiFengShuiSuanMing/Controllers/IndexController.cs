@@ -230,5 +230,14 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             return Content("参数错误");
         }
 
+        /// <summary>
+        /// 电脑版的八字预测说明页
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult BaZiYuCeExplain()
+        {
+            return View();
+        }
+
     }
 }

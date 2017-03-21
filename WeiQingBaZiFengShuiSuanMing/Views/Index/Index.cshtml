@@ -3,17 +3,6 @@
 }
 
 <style type="text/css">
-    #top_rt {
-        background-color: #EAE2D5;
-        font-size: 12px;
-        color: #AE6252;
-        height: 57px;
-        width: auto;
-        overflow: hidden;
-        text-indent: 1em;
-        padding-top: 3px;
-        padding-left: 10px;
-    }
     #yuce {
         margin-top: 5px;
         height: 80px;
@@ -21,100 +10,164 @@
     }
         #yuce .yuce_weixinhao {
             height: 80px;
-            width: auto;
-            overflow: hidden;
+            width: 580px;
         }
         #yuce .yuce_lt {
             display: inline-block;
-            width: 660px;
+            width: 650px;
             height: 100%;
             background-color: #F3ECE2;
         }
+            #yuce .yuce_lt:hover {
+                cursor: pointer;
+            }
         #yuce .yuce_rt {
             display: inline-block;
-            margin-left: 10px;
             height: 100%;
             vertical-align: top;
             background-color: #F3ECE2;
-            width: 320px;
+            width: 330px;
             float: right;
         }
+            #yuce .yuce_rt:hover {
+                cursor: pointer;
+            }
             #yuce .yuce_rt .bgyc {
                 height: 70px;
                 width: auto;
                 overflow: hidden;
-                font-size:24px;
-                color: #AC685B;
-                text-align:center;
-                padding-top:7px;
-            }
-            #yuce .yuce_weixinhao .zzqc {
-                color: #AC685B;
                 font-size: 24px;
-                display: inline-block;
-                margin-top: 10px;
-                text-indent: 14px;
-                height: 70px;
-                width: 140px;
-            }
-            #yuce .yuce_weixinhao .bzxp {
                 color: #AC685B;
-                font-size: 24px;
-                display: inline-block;
-                line-height: 80px;
-                height: 80px;
-                width: 200px;
                 text-align: center;
-                vertical-align: top;
+                padding-top: 7px;
             }
-            #yuce .mfycgq{
-                display:inline-block;
-                height:80px;
-                vertical-align:top;
-            }
+        #yuce .yuce_weixinhao .zzqc {
+            color: #AC685B;
+            font-size: 24px;
+            display: inline-block;
+            margin-top: 10px;
+            text-indent: 14px;
+            height: 70px;
+            width: 140px;
+        }
+        #yuce .yuce_weixinhao .bzxp {
+            color: #AC685B;
+            font-size: 24px;
+            display: inline-block;
+            line-height: 80px;
+            height: 80px;
+            width: 200px;
+            text-align: center;
+            vertical-align: top;
+        }
+        #yuce .mfycgq {
+            display: inline-block;
+            height: 80px;
+            vertical-align: top;
+        }
+    .yuce_history_article {
+        width: 660px;
+        margin-top: 5px;
+        background-image: url(/imgs/split-line-x.png);
+        background-repeat: repeat-x;
+        padding-top: 2px;
+    }
+    .news_box_lt{float:left;width:660px;}
+    .news_box_rt{float:right;width:330px;}
+
+    .yuce_history_article_title {
+        height: 38px;
+        width: 100%;
+        background-color: #F5F5F1;
+    }
+        .yuce_history_article_title .yhat_lt {
+            float:left;
+            background-image: url(/imgs/news-bg.png);
+            background-repeat: no-repeat;
+            width: 50%;
+            height: 38px;
+            background-position-x: 12px;
+            background-position-y: 12px;
+            text-indent: 38px;
+            color: #CC0000;
+            font-size: 16px;
+            line-height: 38px;
+        }
+        .yuce_history_article_title .yhat_rt {
+            float:right;
+            background-image: url(/imgs/news-bg.png);
+            background-repeat: no-repeat;
+            width: 50%;
+            height: 38px;
+            background-position-x: 12px;
+            background-position-y: 12px;
+            text-indent: 38px;
+            color: #CC0000;
+            font-size: 16px;
+            line-height: 38px;
+        }
+
 </style>
 
-<div style="width:100%;height:60px;">
-    <div style="height:60px;width:440px;float:left;background-color:#EAE2D5;">
-        <img src="~/imgs/title.png" title="魏清八字风水算命论坛" height="60" />
-    </div>
-    <div id="top_rt">
-        欢迎加入算命风水相术中医交流群: 372417319
-        <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=91d9e0f11f19ee1bd61dd49ec63bf8699dc118530fb84b063ca944f3db685f98">
-            <img border="0" src="//pub.idqqimg.com/wpa/images/group.png" height="16" alt="QQ飞车交流群" title="QQ飞车交流群">
-        </a>,八字、算命、风水堪舆、手面相、择日取名、六爻八卦、壬遁太乙、相法星象专业预测群，
-        由群主清清流水——魏清每天坐堂免费预测，欢迎问测者加入！
-    </div>
+<script type="text/javascript">
+    $(function () {
+        $("#yuce .yuce_lt").click(function () {
+            window.open("/index/BaziyuceExplain", "_blank");
+        });
+    });
+</script>
 
-    @*预测*@
-    <div id="yuce">
+@*预测*@
+<div id="yuce">
 
-        @*左边的八字预测*@
-        <div class="yuce_lt">
-            <div style="height:80px;width:80px;float:left;">
-                <img src="~/imgs/weixin.jpg" height="80" />
-            </div>
-            <div class="yuce_weixinhao">
-                <div class="zzqc">
-                    站长亲测<br />
-                    <span style="font-size:14px;">&emsp;微信号:383129257</span>
-                </div>
-                <div class="bzxp">
-                    八字详批:198元
-                </div>
-                <div class="mfycgq"><img src="~/imgs/mfycgq.png" height="80" /></div>
-            </div>
+    @*左边的八字预测*@
+    <div class="yuce_lt">
+        <div style="height:80px;width:80px;float:left;">
+            <img src="~/imgs/weixin.jpg" height="80" />
         </div>
-
-        @*右边的八卦六爻预测*@
-        <div class="yuce_rt">
-            <div style="height:80px;width:80px;float:left;">
-                <img src="~/imgs/weixin.jpg" height="80" />
+        <div class="yuce_weixinhao">
+            <div class="zzqc">
+                站长亲测<br />
+                <span style="font-size:14px;">&emsp;微信号:383129257</span>
             </div>
-            <div class="bgyc">
-                八卦预测<br/>每卦66元
+            <div class="bzxp">
+                八字详批:198元
             </div>
+            <div class="mfycgq"><img src="~/imgs/mfycgq.png" height="80" /></div>
         </div>
     </div>
 
+    @*右边的八卦六爻预测*@
+    <div class="yuce_rt">
+        <div style="height:80px;width:80px;float:left;">
+            <img src="~/imgs/weixin.jpg" height="80" />
+        </div>
+        <div class="bgyc">
+            八卦预测<br />每卦66元
+        </div>
+    </div>
+</div>
+
+<div id="news_box_main" style="width:100%;">
+
+    @*左侧的整个的文章列表*@
+    <div class="news_box_lt">
+
+        @*预测历史和帖子内容标题列表*@
+        <div class="yuce_history_article">
+            <div class="yuce_history_article_title">
+                <div class="yhat_lt">
+                    预测历史
+                </div>
+                <div class="yhat_rt">
+                    坛友帖子
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*右侧的整个的文章列表*@
+    <div class="news_box_rt">
+        <div style="height:400px;background-color:#adef9d;margin-top:5px;"></div>
+    </div>
 </div>

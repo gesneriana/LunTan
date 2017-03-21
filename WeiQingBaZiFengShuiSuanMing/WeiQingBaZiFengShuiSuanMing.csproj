@@ -343,10 +343,12 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="imgs\split-line-x.png" />
     <Content Include="imgs\mfycgq.png" />
     <Content Include="imgs\weixin.jpg" />
     <Content Include="imgs\guanbi.png" />
     <Content Include="imgs\title.png" />
+    <Content Include="imgs\news-bg.png" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -391,6 +393,7 @@
     <Content Include="Views\Index\regView.cshtml" />
     <Content Include="Views\Index\forgetPwd.cshtml" />
     <Content Include="Views\Index\changePwd.cshtml" />
+    <Content Include="Views\Index\BaZiYuCeExplain.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
