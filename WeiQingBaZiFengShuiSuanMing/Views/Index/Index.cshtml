@@ -15,17 +15,40 @@
         padding-left: 10px;
     }
     #yuce {
-        margin-top: 10px;
-        background-color: #F3ECE2;
+        margin-top: 5px;
         height: 80px;
         padding-left: 10px;
     }
-        #yuce .yuce_rt {
+        #yuce .yuce_weixinhao {
             height: 80px;
             width: auto;
             overflow: hidden;
         }
-            #yuce .yuce_rt .zzqc {
+        #yuce .yuce_lt {
+            display: inline-block;
+            width: 660px;
+            height: 100%;
+            background-color: #F3ECE2;
+        }
+        #yuce .yuce_rt {
+            display: inline-block;
+            margin-left: 10px;
+            height: 100%;
+            vertical-align: top;
+            background-color: #F3ECE2;
+            width: 320px;
+            float: right;
+        }
+            #yuce .yuce_rt .bgyc {
+                height: 70px;
+                width: auto;
+                overflow: hidden;
+                font-size:24px;
+                color: #AC685B;
+                text-align:center;
+                padding-top:7px;
+            }
+            #yuce .yuce_weixinhao .zzqc {
                 color: #AC685B;
                 font-size: 24px;
                 display: inline-block;
@@ -34,7 +57,7 @@
                 height: 70px;
                 width: 140px;
             }
-            #yuce .yuce_rt .bzxp {
+            #yuce .yuce_weixinhao .bzxp {
                 color: #AC685B;
                 font-size: 24px;
                 display: inline-block;
@@ -65,18 +88,32 @@
 
     @*预测*@
     <div id="yuce">
-        <div style="height:80px;width:80px;float:left;">
-            <img src="~/imgs/weixin.jpg" height="80" />
+
+        @*左边的八字预测*@
+        <div class="yuce_lt">
+            <div style="height:80px;width:80px;float:left;">
+                <img src="~/imgs/weixin.jpg" height="80" />
+            </div>
+            <div class="yuce_weixinhao">
+                <div class="zzqc">
+                    站长亲测<br />
+                    <span style="font-size:14px;">&emsp;微信号:383129257</span>
+                </div>
+                <div class="bzxp">
+                    八字详批:198元
+                </div>
+                <div class="mfycgq"><img src="~/imgs/mfycgq.png" height="80" /></div>
+            </div>
         </div>
+
+        @*右边的八卦六爻预测*@
         <div class="yuce_rt">
-            <div class="zzqc" style="">
-                站长亲测<br />
-                <span style="font-size:14px;">&emsp;微信号:383129257</span>
+            <div style="height:80px;width:80px;float:left;">
+                <img src="~/imgs/weixin.jpg" height="80" />
             </div>
-            <div class="bzxp">
-                八字详批:198元
+            <div class="bgyc">
+                八卦预测<br/>每卦66元
             </div>
-            <div class="mfycgq"><img src="~/imgs/mfycgq.png" height="80"/></div>
         </div>
     </div>
 
