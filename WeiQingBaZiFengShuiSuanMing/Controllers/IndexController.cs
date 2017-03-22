@@ -76,7 +76,11 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                             }
                             u.is_admin = false;
                             db.user.Add(u);
-                            db.SaveChanges();   // 创建用户
+                            res = db.SaveChanges();   // 创建用户
+                            if (res == 0)
+                            {
+                                return Content("注册失败");
+                            }
                             var user = db.user.Where(p => p.nick_name.Equals(u.nick_name)).FirstOrDefault();
                             string ip = Tools.GetRealIP();
                             login_log log = new login_log() { uid = (int)user.id, login_ip = ip, login_time = dt };
@@ -278,6 +282,19 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         public ActionResult BaZiYuCeExplain()
         {
             return View();
+        }
+
+        /// <summary>
+        /// 八字简批上传的八字
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult BaZiJianPi(bazijianpi model)
+        {
+            if (model != null)
+            {
+                return Content("收到参数");
+            }
+            return Content("参数错误");
         }
 
     }

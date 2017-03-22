@@ -252,6 +252,22 @@
             });
         }
 
+        // 八字简批提交表单 bzjpForm
+        function bzjpSub() {
+            $.ajax({
+                type: "post",
+                url: "/index/BaZiJianPi",
+                data: $("#bzjpForm").serialize(),
+                error: function (request) {
+                    alert("请求错误");
+                },
+                success: function (data) {
+                    // 提交成功之后,等待预测的状态
+                    alert(data);
+                }
+            });
+        }
+
     </script>
 </head>
 <body>
@@ -373,12 +389,12 @@
                             <tr>
                                 <td class="bzjp_lt">公历出生日期:</td>
                                 <td style="font-size:12px;color:#76644F;">
-                                    <input class="Wdate" type="text" onClick="WdatePicker()" name="born_date">(北京时间)
+                                    <input class="Wdate" type="text" onClick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm' })" name="born_date">(北京时间)
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2" style="text-align:center;color:#76644F;font-size:16px;">
-                                    <input type="button" value="确定" style="color:#76644F;" />
+                                    <input type="button" value="确定" onclick="bzjpSub()" style="color:#76644F;" />
                                 </td>
                             </tr>
                             @*<tr><td colspan="2" style="text-align:center;color:#76644F;font-size:16px;">今天已有0人预测</td></tr>*@
