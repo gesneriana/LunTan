@@ -267,6 +267,7 @@
                 },
                 success: function (data) {
                     // 提交成功之后,等待预测的状态
+                    $("#born_date").val('')
                     alert(data);
                 }
             });
