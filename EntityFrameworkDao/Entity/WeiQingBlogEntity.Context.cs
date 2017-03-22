@@ -27,5 +27,6 @@ namespace EFDao.Entity
     
         public virtual DbSet<user> user { get; set; }
         public virtual DbSet<getpwdlog> getpwdlog { get; set; }
+        public virtual DbSet<bazijianpi> bazijianpi { get; set; }
     }
 }

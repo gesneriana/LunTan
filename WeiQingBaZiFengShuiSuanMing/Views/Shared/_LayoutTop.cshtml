@@ -142,8 +142,11 @@
                 height: 80px;
                 vertical-align: top;
             }
+            #bzjpForm input[type=text]{width:120px;}
+            #bzjpForm .bzjp_lt{font-size:12px;color:#76644F;text-align:right;width:50%;}
     </style>
     <script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script language="javascript" type="text/javascript" src="~/plugins/My97DatePicker/WdatePicker.js"></script>
     <script type="text/javascript">
         $(function () {
             $("#pwd").keydown(function (event) {
@@ -350,7 +353,28 @@
             @*右侧公用部分*@
             <div class="rb_rt" style="width:330px;min-height:600px;margin-top:5px;background-color:#FDFDF8;display:inline-block;vertical-align:top;">
 
+                @*八字简批*@
+                <div>
+                    <h3 style="text-align:center;color:#666;">八字简批</h3>
+                    <form id="bzjpForm">
+                        <table>
+                            <tr>
+                                <td class="bzjp_lt"> 姓名:</td>
+                                <td><input type="text" name="name"  value="求测者"/></td>
+                            </tr>
+                            <tr>
+                                <td class="bzjp_lt">性别:</td>
+                                <td><input type="radio" name="sex" value="1" checked="checked" />男 <input type="radio" name="sex" value="0" />女</td>
+                            </tr>
+                            <tr>
+                                <td class="bzjp_lt">出生日期(公历):</td>
+                                <td><input class="Wdate" type="text" onClick="WdatePicker()" name="born_date"></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
             </div>
+
         </div>
     </div>
 
