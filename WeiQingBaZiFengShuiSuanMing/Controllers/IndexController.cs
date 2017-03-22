@@ -292,7 +292,32 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (model != null)
             {
-                return Content("收到参数");
+                if (model.born_date == DateTime.MinValue)
+                {
+                    return Content("出生时间参数错误");
+                }
+
+                try
+                {
+                    SetNullString.setValues(model, false);
+                    using (WeiQingEntities db = new WeiQingEntities())
+                    {
+                        model.addtime = DateTime.Now;
+                        db.bazijianpi.Add(model);
+                        int res = db.SaveChanges();
+                        if (res > 0)
+                        {
+                            var t1 = model.addtime.Date;
+                            var count = db.bazijianpi.Where(p => p.addtime > t1).Count();
+                            return Content(string.Format("提交成功,您前面还有{0}位求测者,请耐心等待", count - 1));
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Content("后台出现错误:" + ex.Message);
+                }
+
             }
             return Content("参数错误");
         }
