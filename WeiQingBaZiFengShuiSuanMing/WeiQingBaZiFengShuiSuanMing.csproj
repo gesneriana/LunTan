@@ -219,7 +219,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
+    <Compile Include="Filters\AdminFilter.cs" />
     <Compile Include="Filters\CheckLoginAttribute.cs" />
     <Compile Include="Filters\IsMobileAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -420,10 +422,12 @@
     <Content Include="Views\Index\forgetPwd.cshtml" />
     <Content Include="Views\Index\changePwd.cshtml" />
     <Content Include="Views\Index\BaZiYuCeExplain.cshtml" />
+    <Content Include="Views\Index\AdminLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -322,5 +322,14 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             return Content("参数错误");
         }
 
+        /// <summary>
+        /// 管理员登录页
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult adminLogin()
+        {
+            return View();
+        }
+
     }
 }
