@@ -22,5 +22,6 @@ namespace EFDao.Entity
         public string bazi { get; set; }
         public int state { get; set; }
         public string yuce_content { get; set; }
+        public string born_place { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using EFDao.Entity;
 using Common.Utility;
 using Entity;
+using System.Transactions;
 
 namespace WeiQingBaZiFengShuiSuanMing.Controllers
 {
@@ -51,25 +52,43 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 u.pwd = HashTools.SHA1_Hash(u.pwd);
                 DateTime dt = DateTime.Now;
                 u.reg_date = dt;
-                u.last_login_date = dt;
+                int res = 0;
+
 
                 try
                 {
-                    using (WeiQingEntities db = new WeiQingEntities())
+                    TransactionOptions transactionOption = new TransactionOptions();
+
+                    //设置事务隔离级别
+                    transactionOption.IsolationLevel = IsolationLevel.ReadCommitted;
+
+                    // 设置事务超时时间为60秒
+                    transactionOption.Timeout = new TimeSpan(0, 0, 60);
+
+                    using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, transactionOption))
                     {
-                        var count = db.user.Where(p => p.nick_name.Equals(u.nick_name) || p.email.Equals(u.email)).Count();
-                        if (count > 0)
+                        using (WeiQingEntities db = new WeiQingEntities())
                         {
-                            return Content("此用户名或者邮箱已被注册");
+                            var count = db.user.Where(p => p.nick_name.Equals(u.nick_name) || p.email.Equals(u.email)).Count();
+                            if (count > 0)
+                            {
+                                return Content("此用户名或者邮箱已被注册");
+                            }
+                            u.is_admin = false;
+                            db.user.Add(u);
+                            db.SaveChanges();   // 创建用户
+                            var user = db.user.Where(p => p.nick_name.Equals(u.nick_name)).FirstOrDefault();
+                            string ip = Tools.GetRealIP();
+                            login_log log = new login_log() { uid = (int)user.id, login_ip = ip, login_time = dt };
+                            db.login_log.Add(log);
+                            res = db.SaveChanges();
+                            if (res > 0) { Session["user"] = user; scope.Complete(); }
+                            else
+                            {
+                                return Content("保存登录记录时出现异常");
+                            }
+                            return Content(res.ToString());
                         }
-                        u.is_admin = false;
-                        db.user.Add(u);
-                        int res = db.SaveChanges();
-                        if (res > 0)
-                        {
-                            Session["user"] = u;
-                        }
-                        return Content(res.ToString());
                     }
                 }
                 catch (Exception ex)

@@ -363,12 +363,18 @@
                                 <td><input type="text" name="name"  value="求测者"/></td>
                             </tr>
                             <tr>
+                                <td class="bzjp_lt">出生地:</td>
+                                <td><input type="text" name="born_place" value="未知"/></td>
+                            </tr>
+                            <tr>
                                 <td class="bzjp_lt">性别:</td>
                                 <td><input type="radio" name="sex" value="1" checked="checked" />男 <input type="radio" name="sex" value="0" />女</td>
                             </tr>
                             <tr>
-                                <td class="bzjp_lt">出生日期(公历):</td>
-                                <td><input class="Wdate" type="text" onClick="WdatePicker()" name="born_date"></td>
+                                <td class="bzjp_lt">公历出生日期:</td>
+                                <td style="font-size:12px;color:#76644F;">
+                                    <input class="Wdate" type="text" onClick="WdatePicker()" name="born_date">(北京时间)
+                                </td>
                             </tr>
                             <tr>
                                 <td colspan="2" style="text-align:center;color:#76644F;font-size:16px;">
