@@ -28,6 +28,15 @@
           <Property Name="ip_address" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="log_time" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
+        <EntityType Name="login_log">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="uid" Type="int" Nullable="false" />
+          <Property Name="login_time" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="login_ip" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
         <EntityType Name="user">
           <Key>
             <PropertyRef Name="id" />
@@ -40,12 +49,12 @@
           <Property Name="qq" Type="varchar" MaxLength="11" Nullable="false" />
           <Property Name="wei_xin" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="reg_date" Type="datetime" Precision="0" Nullable="false" />
-          <Property Name="last_login_date" Type="datetime" Precision="0" Nullable="false" />
           <Property Name="is_admin" Type="bit" Nullable="false" />
         </EntityType>
         <EntityContainer Name="WeiQingModelStoreContainer">
           <EntitySet Name="bazijianpi" EntityType="Self.bazijianpi" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="getpwdlog" EntityType="Self.getpwdlog" Schema="bazifengshuisuanming" store:Type="Tables" />
+          <EntitySet Name="login_log" EntityType="Self.login_log" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="user" EntityType="Self.user" Schema="bazifengshuisuanming" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -64,13 +73,13 @@
           <Property Name="qq" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="wei_xin" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="reg_date" Type="DateTime" Nullable="false" />
-          <Property Name="last_login_date" Type="DateTime" Nullable="false" />
           <Property Name="is_admin" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityContainer Name="WeiQingEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="user" EntityType="Self.user" />
           <EntitySet Name="getpwdlog" EntityType="WeiQingModel.getpwdlog" />
           <EntitySet Name="bazijianpi" EntityType="WeiQingModel.bazijianpi" />
+          <EntitySet Name="login_log" EntityType="WeiQingModel.login_log" />
         </EntityContainer>
         <EntityType Name="getpwdlog">
           <Key>
@@ -95,6 +104,15 @@
           <Property Name="state" Type="Int32" Nullable="false" />
           <Property Name="yuce_content" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="login_log">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uid" Type="Int32" Nullable="false" />
+          <Property Name="login_time" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="login_ip" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -113,7 +131,6 @@
                 <ScalarProperty Name="qq" ColumnName="qq" />
                 <ScalarProperty Name="wei_xin" ColumnName="wei_xin" />
                 <ScalarProperty Name="reg_date" ColumnName="reg_date" />
-                <ScalarProperty Name="last_login_date" ColumnName="last_login_date" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -138,6 +155,16 @@
                 <ScalarProperty Name="born_date" ColumnName="born_date" />
                 <ScalarProperty Name="sex" ColumnName="sex" />
                 <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="login_log">
+            <EntityTypeMapping TypeName="WeiQingModel.login_log">
+              <MappingFragment StoreEntitySet="login_log">
+                <ScalarProperty Name="login_ip" ColumnName="login_ip" />
+                <ScalarProperty Name="login_time" ColumnName="login_time" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

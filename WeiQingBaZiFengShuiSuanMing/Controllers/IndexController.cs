@@ -104,7 +104,9 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                             && p.pwd.Equals(u.pwd)).FirstOrDefault();
                             if (user != null && (user.nick_name.Equals(u.nick_name) || user.email.Equals(u.nick_name)))
                             {
-                                user.last_login_date = DateTime.Now;
+                                string ip = Tools.GetRealIP();
+                                login_log log = new login_log() { uid = (int)user.id, login_ip = ip, login_time = DateTime.Now };
+                                db.login_log.Add(log);
                                 db.SaveChanges();
                                 Session["user"] = user;
                                 return Content("1");

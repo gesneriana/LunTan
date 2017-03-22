@@ -8,6 +8,7 @@
         <EntityTypeShape EntityType="WeiQingModel.user" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="WeiQingModel.getpwdlog" Width="1.5" PointX="3.125" PointY="1.125" />
         <EntityTypeShape EntityType="WeiQingModel.bazijianpi" Width="1.5" PointX="5.375" PointY="1" />
+        <EntityTypeShape EntityType="WeiQingModel.login_log" Width="1.5" PointX="7.375" PointY="1.375" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

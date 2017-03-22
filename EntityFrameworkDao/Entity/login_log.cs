@@ -12,16 +12,11 @@ namespace EFDao.Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class user
+    public partial class login_log
     {
         public long id { get; set; }
-        public string nick_name { get; set; }
-        public string pwd { get; set; }
-        public string email { get; set; }
-        public string mobile { get; set; }
-        public string qq { get; set; }
-        public string wei_xin { get; set; }
-        public System.DateTime reg_date { get; set; }
-        public bool is_admin { get; set; }
+        public int uid { get; set; }
+        public System.DateTime login_time { get; set; }
+        public string login_ip { get; set; }
     }
 }
