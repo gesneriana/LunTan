@@ -326,9 +326,42 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// 管理员登录页
         /// </summary>
         /// <returns></returns>
-        public ActionResult adminLogin()
+        public ActionResult admin()
         {
             return View();
+        }
+
+        /// <summary>
+        /// 验证用户是否具有管理员权限
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult adminLogin(user u)
+        {
+            if (u != null)
+            {
+                // 查询用户的数据,判断权限
+                SetNullString.setValues(u);
+                if (u.nick_name.Length > 0 && u.pwd.Length > 0)
+                {
+                    u.pwd = HashTools.SHA1_Hash(u.pwd);
+                    using (WeiQingEntities db = new WeiQingEntities())
+                    {
+                        var user = db.user.Where(x => (x.nick_name.Equals(u.nick_name) || x.email.Equals(u.nick_name)) && x.pwd.Equals(u.pwd)).FirstOrDefault();
+                        if (user != null && user.is_admin && user.id > 0)
+                        {
+                            Session["user"] = user;
+                            string ip = Tools.GetRealIP();
+                            login_log log = new login_log() { uid = (int)user.id, login_ip = ip, login_time = DateTime.Now };
+                            db.login_log.Add(log);
+                            db.SaveChanges();
+                            return Content("1");
+                        }
+                    }
+                }
+                return Content("-2");
+            }
+            return Content("-1");
         }
 
     }

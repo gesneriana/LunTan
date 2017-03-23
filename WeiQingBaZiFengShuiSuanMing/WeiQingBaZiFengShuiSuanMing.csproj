@@ -422,12 +422,12 @@
     <Content Include="Views\Index\forgetPwd.cshtml" />
     <Content Include="Views\Index\changePwd.cshtml" />
     <Content Include="Views\Index\BaZiYuCeExplain.cshtml" />
-    <Content Include="Views\Index\AdminLogin.cshtml" />
+    <Content Include="Views\Index\Admin.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
