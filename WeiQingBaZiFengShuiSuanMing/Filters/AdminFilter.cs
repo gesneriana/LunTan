@@ -28,7 +28,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Filters
                     cntx.Result = new ContentResult() { Content = "你没有登录" };
                     return;
                 }
-                cntx.Result = new RedirectResult("/index/adminlogin");
+                cntx.Result = new RedirectResult("/index/admin");
                 return;
             }
             if (!user.is_admin)
@@ -38,7 +38,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Filters
                     cntx.Result = new ContentResult() { Content = "你没有管理员权限" };
                     return;
                 }
-                cntx.Result = new RedirectResult("/index/adminlogin");
+                cntx.Result = new RedirectResult("/index/admin");
                 return;
             }
         }

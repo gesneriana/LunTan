@@ -10,8 +10,29 @@
     <title>后台管理页面</title>
 </head>
 <body>
-    <div>
-    您好,欢迎管理员登录成功
+    <div style="text-align:center;">您好,欢迎管理员登录成功</div>
+    <div style="width:300px;min-height:300px;margin:0px auto 0px;">
+    <table>
+        <tr>
+            <td>求测者编号</td>
+            <td>姓名</td>
+            <td>性别</td>
+            <td>预测</td>
+        </tr>
+        @{ 
+            if (ViewData["baziList"] != null)
+            {
+                var baziList = (List<EFDao.Entity.bazijianpi>)ViewData["baziList"];
+                if (baziList != null && baziList.Count > 0)
+                {
+                    foreach (var item in baziList)
+                    {
+                        <text><tr><td>@item.id</td><td>@item.name </td><td>@item.sex </td><td><a href="#">@item.id</a> </td> </tr> </text>
+                    }
+                }
+            }
+        }
+    </table>
     </div>
 </body>
 </html>
