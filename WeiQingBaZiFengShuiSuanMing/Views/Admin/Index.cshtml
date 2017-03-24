@@ -8,15 +8,24 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>后台管理页面</title>
+    <script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/clipboard.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+
+        });
+    </script>
 </head>
 <body>
     <div style="text-align:center;">您好,欢迎管理员登录成功</div>
-    <div style="width:300px;min-height:300px;margin:0px auto 0px;">
-    <table>
+    <div style="width:600px;min-height:300px;margin:0px auto 0px;">
+    <table width="600">
         <tr>
             <td>求测者编号</td>
             <td>姓名</td>
             <td>性别</td>
+            <td>出生地</td>
+            <td>出生时间</td>
             <td>预测</td>
         </tr>
         @{ 
@@ -27,7 +36,16 @@
                 {
                     foreach (var item in baziList)
                     {
-                        <text><tr><td>@item.id</td><td>@item.name </td><td>@item.sex </td><td><a href="#">@item.id</a> </td> </tr> </text>
+                        <text>
+                            <tr class="cp">
+                                <td>@item.id</td>
+                                <td>@item.name </td>
+                                <td>@(item.sex==true?"男":"女") </td>
+                                <td>@item.born_place </td>
+                                <td>@item.born_date.ToString("yyyy-MM-dd HH:mm") </td>
+                                <td><a target="_blank" href="/admin/jianpi/@item.id">简批</a></td>
+                            </tr>
+                        </text>
                     }
                 }
             }

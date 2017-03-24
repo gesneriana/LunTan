@@ -391,6 +391,7 @@
     <Content Include="bin\WeiQingBaZiFengShuiSuanMing.dll.config" />
     <None Include="Properties\PublishProfiles\wq.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\clipboard.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -424,6 +425,7 @@
     <Content Include="Views\Index\BaZiYuCeExplain.cshtml" />
     <Content Include="Views\Index\Admin.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\JianPi.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
