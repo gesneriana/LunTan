@@ -577,18 +577,6 @@
     <Content Include="ueditor\net\Bin\Newtonsoft.Json.pdb" />
     <Content Include="ueditor\net\Bin\Newtonsoft.Json.xml" />
     <Content Include="ueditor\net\net.sln" />
-    <Content Include="ueditor\net\upload\image\20161228\6361854031368887096995278.png" />
-    <Content Include="ueditor\net\upload\image\20161228\6361854093455338248435008.jpg" />
-    <Content Include="ueditor\net\upload\image\20161228\6361854266098112846455244.png" />
-    <Content Include="ueditor\net\upload\image\20161228\6361854318881931904237540.png" />
-    <Content Include="ueditor\net\upload\image\20161228\6361854323362188166229704.png" />
-    <Content Include="ueditor\net\upload\image\20161228\6361854532599155834038004.png" />
-    <Content Include="ueditor\net\upload\image\20161228\6361854536405573549412438.png" />
-    <Content Include="ueditor\net\upload\image\20161228\6361854582828628794541236.png" />
-    <Content Include="ueditor\net\upload\image\20161228\6361854586744652775311658.png" />
-    <Content Include="ueditor\net\upload\image\20161228\6361854589717722823460287.png" />
-    <Content Include="ueditor\net\upload\image\20161228\6361854598180006843621928.png" />
-    <Content Include="ueditor\net\upload\image\20161229\6361862210052082643489943.png" />
     <Content Include="ueditor\themes\default\css\ueditor.css" />
     <Content Include="ueditor\themes\default\css\ueditor.min.css" />
     <Content Include="ueditor\themes\default\dialogbase.css" />
@@ -729,6 +717,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="ueditor\net\upload\image\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
