@@ -16,7 +16,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// <returns></returns>
         public ActionResult index()
         {
-            using(WeiQingEntities db=new WeiQingEntities())
+            using (WeiQingEntities db = new WeiQingEntities())
             {
                 var baziList = db.bazijianpi.Where(p => p.state == 0).OrderBy(p => p.addtime).ToList();
                 ViewData["baziList"] = baziList;
@@ -44,6 +44,32 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 }
             }
             return Redirect("/admin/index");
+        }
+
+        /// <summary>
+        /// 保存八字简批预测的结果
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [ValidateInput(false)]
+        public ActionResult SaveYuCe(bazijianpi model)
+        {
+            if (model != null && model.id > 0)
+            {
+                using(WeiQingEntities db=new WeiQingEntities())
+                {
+                    var jp = db.bazijianpi.Where(x => x.id == model.id).FirstOrDefault();
+                    if (jp != null && jp.id > 0)
+                    {
+                        jp.bazi = model.bazi;
+                        jp.yuce_content = model.yuce_content;
+                        jp.state = model.state;
+                        int res= db.SaveChanges();
+                        return Content(res.ToString());
+                    }
+                }
+            }
+            return Content("-1");
         }
     }
 }

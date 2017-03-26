@@ -3,7 +3,7 @@
 }
 
 <!DOCTYPE html>
-
+@{ var m = (EFDao.Entity.bazijianpi)ViewData["m"];}
 <html>
 <head>
     <title>简批八字</title>
@@ -15,40 +15,47 @@
     <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
     <script type="text/javascript" charset="utf-8" src="~/ueditor/lang/zh-cn/zh-cn.js"></script>
     <script type="text/javascript">
-        $(function () {
-
-        })
         var ue = UE.getEditor('editor');
-        function saveNews() {
-            var title = $("#title").val();
-            var keywords = $("#keywords").val();
-            var cate_id = $("#cate_id").val();
-            var content = ue.getContent();
-            // alert(content);
+        ue.ready(function () {
+            ue.setContent('@Html.Raw(m.yuce_content)');
+        });
+
+        function saveYuCe() {
+            var id = $("#id").val();
+            var bazi = $("#bazi").val();
+            var yuce_content = ue.getContent();
+            var state = $("input[name=state]:checked").val();
+            if (bazi == "" || yuce_content == '') {
+                alert("请输入八字和预测内容");
+                return;
+            }
             $.ajax({
                 type: "POST",
-                url: "/admin/saveNews",
-                data: "title=" + title + "&keywords=" + keywords + "&cate_id=" + cate_id + "&content=" + content,
+                url: "/admin/SaveYuCe",
+                data: "id=" + id + "&bazi=" + bazi + "&yuce_content=" + yuce_content + "&state=" + state,
                 error: function (request) {
                     alert('请求错误');
                 },
                 success: function (data) {
                     if (data > 0) {
-                        alert("添加成功");
-                        var url = '/admin/index';
-                        location.href = url;
+                        alert("保存成功");
                     } else {
-                        alert("添加失败");
+                        alert("保存失败");
                     }
                 }
             });
         }
+
+
+        $(function () {
+
+        });
     </script>
 </head>
 <body>
-    @{ var m = (EFDao.Entity.bazijianpi)ViewData["m"];}
-    <div>
-    <table>
+    <div style="width:1000px;margin:0px auto 0px;">
+    <input type="hidden" name="id" id="id" value="@m.id" />
+    <table style="width:100%;">
         <tr>
             <td>求测者编号</td>
             <td>求测者姓名</td>
@@ -61,20 +68,22 @@
         <tr>
             <td>@m.id</td>
             <td>@m.name</td>
-            <td>@(m.sex==true?"男":"女")</td>
+            <td>@(m.sex == true ? "男" : "女")</td>
             <td>@m.born_date.ToString("yyyy-MM-dd HH:mm")</td>
             <td>@m.born_place</td>
             <td>@m.addtime.ToString("yyyy-MM-dd HH:mm")</td>
-            <td><input type="text" name="bazi" /> </td>
+            <td><input type="text" name="bazi" id="bazi" value="@m.bazi" /> </td>
         </tr>
     </table>
+
         <div>
-            <script id="editor" name="content" type="text/plain" style="width:800px;height:400px;">
+            <script id="editor" name="content" type="text/plain" style="width:1000px;height:400px;">
             </script>
         </div>
-        <div>
-            <input type="button" value="保存" />
-            <input type="button" value="前台显示" />
+        <div style="width:1000px;height:50px;line-height:50px;padding-left:20px;">
+            <input type="button" value="保存" onclick="saveYuCe()" />&emsp;&emsp;
+            <label for="rs1" title="用户可以在预测历史中看到">可查看</label><input type="radio" id="rs1" name="state" value="1" @{if (m.state == 1) {<text>checked="checked"</text> }} title="用户可以在预测历史中看到" />&emsp;&emsp;
+            <label for="rs2" title="用户不能看到,管理员在后台可见">不可见</label><input type="radio" id="rs2" name="state" value="0" @{if (m.state == 0) {<text>checked="checked"</text> }} title="用户不能看到,管理员在后台可见"/>
         </div>
     </div>
 </body>
