@@ -1,0 +1,78 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutTop.cshtml";
+}
+
+<script type="text/javascript" charset="utf-8" src="~/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="~/ueditor/ueditor.all.min.js"> </script>
+
+<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+<script type="text/javascript" charset="utf-8" src="~/ueditor/lang/zh-cn/zh-cn.js"></script>
+
+<script type="text/javascript">
+    var ue = UE.getEditor('editor');
+    ue.ready(function () {
+
+    });
+
+    // 创建帖子
+    function createTitle() {
+        var art_title = $("#art_title").val();
+        var keywords = $("#keywords").val();
+        var content = ue.getContent();
+        if (art_title == '' || keywords == '' || content == '') {
+            alert("请先输入标题,关键字,内容");
+            return;
+        }
+
+        $.ajax({
+            type: "post",
+            url: "/index/createTitle",
+            data: "art_title=" + art_title + "&keywords=" + keywords + "&content=" + content,
+            error: function (request) {
+                alert("请求错误");
+            },
+            success: function (data) {
+                // 登录成功之后跳转
+                if (data > 0) {
+                    alert('添加成功');
+                    location.href = '/index/index';
+                } else {
+                    alert("添加失败," + data);
+                }
+            }
+        });
+    }
+</script>
+
+
+<style type="text/css">
+    .tz_tit {
+        height: 30px;
+        width: 100%;
+        text-align: center;
+        height: 50px;
+        font-size: 20px;
+        color: #666;
+        line-height: 50px;
+    }
+</style>
+
+<div style="width:100%;">
+    <div class="tz_tit">创建新帖</div>
+    <div>
+        <form id="tzForm">
+            <div style="height:30px;text-align:center;">
+                标题: <input type="text" id="art_title" name="art_title" />
+                关键字:<input type="text" id="keywords" name="keywords" />
+            </div>
+            <div>
+                <script id="editor" name="content" type="text/plain" style="width:100%;height:200px;">
+                </script>
+            </div>
+            <div style="text-align:center;height:50px;line-height:50px;">
+                <input type="button" value="保存" onclick="createTitle()" />
+            </div>
+        </form>
+    </div>
+</div>

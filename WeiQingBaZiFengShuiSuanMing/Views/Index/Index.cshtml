@@ -16,8 +16,20 @@
 
     .yuce_history_article_title {
         height: 38px;
+        font-size:12px;
         width: 100%;
         background-color: #F5F5F1;
+    }
+    .yuce_history_article_content{
+        width:100%;
+    }
+    .yuce_history_article_content .lt{
+        width:50%;
+        float:left;
+    }
+    .yuce_history_article_content .rt{
+        width:50%;
+        float:right;
     }
         .yuce_history_article_title .yhat_lt {
             float:left;
@@ -50,8 +62,28 @@
 
 <script type="text/javascript">
     $(function () {
-
+        $('#ycls').bind('keypress', function (event) {
+            if (event.keyCode == "13") {
+                searchBzjp();
+            }
+        });
     });
+
+    // 搜索预测历史
+    function searchBzjp() {
+        var key = $("#ycls").val();
+        location.href = "/index/index?key=" + key;
+    }
+
+    // 创建帖子
+    function createSub() {
+        if ('@(Session["user"]==null?"0":"1")' == 0) {
+            alert("请先登录");
+            return;
+        }
+        // window.open('/index/createSub', "_blank");
+        location.href = '/index/createSub';
+    }
 </script>
 
 
@@ -62,10 +94,35 @@
     <div class="yuce_history_article">
         <div class="yuce_history_article_title">
             <div class="yhat_lt">
-                预测历史
+                预测历史&emsp;<input style="width:120px;" type="text" id="ycls" placeholder="请输入八字,名字" /> <a href="javascript:;" onclick="searchBzjp()">查找</a>
             </div>
             <div class="yhat_rt">
-                坛友帖子
+                坛友帖子&emsp;<input style="width:120px;" type="text" id="tytz" placeholder="主题" /> <a href="javascript:;" onclick="searchTitle()">查找</a>&emsp;<a href="javascript:;" onclick="createSub()">创建</a>
+            </div>
+        </div>
+        
+        <div class="yuce_history_article_content">
+            <div class="lt">
+                <ul>
+                    @{ 
+                        if (ViewData["baziList"] != null)
+                        {
+                            var bzList = (List<EFDao.Entity.bazijianpi>)ViewData["baziList"];
+                            if (bzList != null && bzList.Count > 0)
+                            {
+                                foreach (var item in bzList)
+                                {
+                                    <text><li><a href="/index/bzjp/@item.id" target="_blank">@item.name &emsp;@item.bazi &emsp; @item.addtime.ToString("yyyy-MM-dd") </a> </li> </text>
+                                }
+                                <text>@Html.Raw(ViewData["baziUrl"]) </text>
+                            }
+                            else
+                            {
+                                <text><li>无数据</li> </text>
+                            }
+                        }
+                    }
+                </ul>
             </div>
         </div>
     </div>

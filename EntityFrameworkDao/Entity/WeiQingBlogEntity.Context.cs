@@ -29,5 +29,7 @@ namespace EFDao.Entity
         public virtual DbSet<getpwdlog> getpwdlog { get; set; }
         public virtual DbSet<bazijianpi> bazijianpi { get; set; }
         public virtual DbSet<login_log> login_log { get; set; }
+        public virtual DbSet<title> title { get; set; }
+        public virtual DbSet<tiezi> tiezi { get; set; }
     }
 }

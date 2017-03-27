@@ -1,0 +1,18 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutTop.cshtml";
+}
+@{ var m = (EFDao.Entity.bazijianpi)ViewData["m"];}
+
+<div style="width:100%;text-align:center;height:50px;font-size:20px;color:#666;line-height:50px;">八字分析</div>
+
+<div style="width:100%;">
+    <div style="width:100%;text-align:center;height:30px;line-height:30px;color:#666;"> 求测时间: @m.addtime.ToString("yyyy-MM-dd HH:mm")</div>
+    <p style="line-height:200%;color:#AE685B;">
+        姓名: @m.name  &emsp;&emsp; 性别: @(m.sex ? "男" : "女") &emsp;&emsp;
+        八字: @m.bazi
+    </p>
+</div>
+
+<div style="width:100%;color:#AE685B;padding-top:20px;">
+    @Html.Raw(m.yuce_content)
+</div>

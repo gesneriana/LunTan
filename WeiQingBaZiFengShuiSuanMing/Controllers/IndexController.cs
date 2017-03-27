@@ -17,8 +17,25 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// </summary>
         /// <returns></returns>
         [Filters.IsMobile]
-        public ActionResult index()
+        public ActionResult index(string key = "", int page = 1)
         {
+            // 查询八字简批的关键字段
+            using (WeiQingEntities db = new WeiQingEntities())
+            {
+                var efq = new EFPaging<bazijianpi>();
+                if (key != null && key.Length > 0)
+                {
+                    var q1 = db.bazijianpi.Where(x => x.state == 1 && (x.bazi.Contains(key) || x.born_place.Contains(key) || x.name.Contains(key))).OrderByDescending(x => x.addtime);
+                    ViewData["baziList"] = efq.getPageList(q1, "index/index", page);
+                    ViewData["baziUrl"] = efq.pageUrl;
+                    return View(ViewData["act"].ToString());
+                }
+
+                var query = db.bazijianpi.Where(x => x.state == 1).OrderByDescending(x => x.addtime);
+                ViewData["baziList"] = efq.getPageList(query, "index/index", page);
+                ViewData["baziUrl"] = efq.pageUrl;
+
+            }
             return View(ViewData["act"].ToString());
         }
 
@@ -362,6 +379,87 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 return Content("-2");
             }
             return Content("-1");
+        }
+
+        public ActionResult bzjp(int id = 0)
+        {
+            if (id > 0)
+            {
+                using (WeiQingEntities db = new WeiQingEntities())
+                {
+                    var m = db.bazijianpi.Where(x => x.id == id).FirstOrDefault();
+                    if (m != null && m.id > 0)
+                    {
+                        ViewData["m"] = m;
+                        return View();
+                    }
+                }
+            }
+            return Redirect("/index/index");
+        }
+
+        [Filters.CheckLogin(IsAjax = false, IsPost = false)]
+        public ActionResult createSub()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 创建帖子标题
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [ValidateInput(false)]
+        [Filters.CheckLogin]
+        public ActionResult createTitle(TitleExt model)
+        {
+            if (model != null)
+            {
+                SetNullString.setValues(model);
+                int res = 0;
+                DateTime dt = DateTime.Now;
+
+                try
+                {
+                    var u = (user)Session["user"];
+                    title t = new title() { uid = u.id, addtime = dt, art_title = model.art_title, keywords = model.keywords, state = 1 };
+
+                    TransactionOptions transOpt = new TransactionOptions();
+
+                    //设置事务隔离级别
+                    transOpt.IsolationLevel = IsolationLevel.ReadCommitted;
+
+                    // 设置事务超时时间为60秒
+                    transOpt.Timeout = new TimeSpan(0, 0, 60);
+
+                    using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, transOpt))
+                    {
+                        using (WeiQingEntities db = new WeiQingEntities())
+                        {
+                            db.title.Add(t);
+                            res = db.SaveChanges();
+                            if (res > 0)
+                            {
+                                var tid = db.title.Where(x => x.uid == u.id).Max(x => x.id);
+                                tiezi tz = new tiezi() { tid = tid, addtime = dt, uid = u.id, content = model.content };
+                                db.tiezi.Add(tz);
+                                res = db.SaveChanges();
+                                if (res > 0)
+                                {
+                                    scope.Complete();
+                                    return Content(res.ToString());
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Content(ex.Message);
+                }
+
+            }
+            return Content("0");
         }
 
     }

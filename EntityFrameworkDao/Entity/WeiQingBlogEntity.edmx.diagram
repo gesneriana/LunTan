@@ -6,9 +6,11 @@
     <edmx:Diagrams>
       <Diagram DiagramId="2970b56d4cae4fdbbe088228b22380da" Name="Diagram1">
         <EntityTypeShape EntityType="WeiQingModel.user" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WeiQingModel.getpwdlog" Width="1.5" PointX="3.125" PointY="1.125" />
-        <EntityTypeShape EntityType="WeiQingModel.bazijianpi" Width="1.5" PointX="5.375" PointY="1" />
-        <EntityTypeShape EntityType="WeiQingModel.login_log" Width="1.5" PointX="7.375" PointY="1.375" />
+        <EntityTypeShape EntityType="WeiQingModel.getpwdlog" Width="1.5" PointX="4.25" PointY="0.875" />
+        <EntityTypeShape EntityType="WeiQingModel.bazijianpi" Width="1.5" PointX="7.5" PointY="1" />
+        <EntityTypeShape EntityType="WeiQingModel.login_log" Width="1.5" PointX="10.125" PointY="1.375" />
+        <EntityTypeShape EntityType="WeiQingModel.title" Width="1.5" PointX="1" PointY="4.25" />
+        <EntityTypeShape EntityType="WeiQingModel.tiezi" Width="1.5" PointX="3.875" PointY="4.375" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

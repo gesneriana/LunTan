@@ -38,6 +38,27 @@
           <Property Name="login_time" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="login_ip" Type="varchar" MaxLength="30" Nullable="false" />
         </EntityType>
+        <EntityType Name="tiezi">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tid" Type="uint" Nullable="false" />
+          <Property Name="addtime" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="uid" Type="uint" Nullable="false" />
+          <Property Name="content" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="title">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="uid" Type="uint" Nullable="false" />
+          <Property Name="addtime" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="state" Type="uint" Nullable="false" />
+          <Property Name="art_title" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="keywords" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="user">
           <Key>
             <PropertyRef Name="id" />
@@ -56,6 +77,8 @@
           <EntitySet Name="bazijianpi" EntityType="Self.bazijianpi" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="getpwdlog" EntityType="Self.getpwdlog" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="login_log" EntityType="Self.login_log" Schema="bazifengshuisuanming" store:Type="Tables" />
+          <EntitySet Name="tiezi" EntityType="Self.tiezi" Schema="bazifengshuisuanming" store:Type="Tables" />
+          <EntitySet Name="title" EntityType="Self.title" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="user" EntityType="Self.user" Schema="bazifengshuisuanming" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -81,6 +104,8 @@
           <EntitySet Name="getpwdlog" EntityType="WeiQingModel.getpwdlog" />
           <EntitySet Name="bazijianpi" EntityType="WeiQingModel.bazijianpi" />
           <EntitySet Name="login_log" EntityType="WeiQingModel.login_log" />
+          <EntitySet Name="title" EntityType="WeiQingModel.title" />
+          <EntitySet Name="tiezi" EntityType="WeiQingModel.tiezi" />
         </EntityContainer>
         <EntityType Name="getpwdlog">
           <Key>
@@ -114,6 +139,27 @@
           <Property Name="uid" Type="Int32" Nullable="false" />
           <Property Name="login_time" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="login_ip" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="title">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uid" Type="Int64" Nullable="false" />
+          <Property Name="addtime" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="state" Type="Int64" Nullable="false" />
+          <Property Name="keywords" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="art_title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tiezi">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="tid" Type="Int64" Nullable="false" />
+          <Property Name="addtime" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uid" Type="Int64" Nullable="false" />
+          <Property Name="content" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -168,6 +214,29 @@
                 <ScalarProperty Name="login_ip" ColumnName="login_ip" />
                 <ScalarProperty Name="login_time" ColumnName="login_time" />
                 <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="title">
+            <EntityTypeMapping TypeName="WeiQingModel.title">
+              <MappingFragment StoreEntitySet="title">
+                <ScalarProperty Name="art_title" ColumnName="art_title" />
+                <ScalarProperty Name="keywords" ColumnName="keywords" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="addtime" ColumnName="addtime" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tiezi">
+            <EntityTypeMapping TypeName="WeiQingModel.tiezi">
+              <MappingFragment StoreEntitySet="tiezi">
+                <ScalarProperty Name="content" ColumnName="content" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="addtime" ColumnName="addtime" />
+                <ScalarProperty Name="tid" ColumnName="tid" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
