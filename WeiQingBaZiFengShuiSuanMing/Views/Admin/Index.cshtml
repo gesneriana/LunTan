@@ -9,23 +9,39 @@
     <meta name="viewport" content="width=device-width" />
     <title>后台管理页面</title>
     <script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="~/Scripts/clipboard.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="~/css/admin.css" />
     <script type="text/javascript">
         $(function () {
-
+            $('#key').bind('keypress', function (event) {
+                if (event.keyCode == "13") {
+                    search();
+                }
+            });
+            $("#key").focus();
         });
+
+        // 搜索
+        function search() {
+            var key = $("#key").val();
+            location.href = '/admin/index?key=' + key;
+        }
     </script>
 </head>
 <body>
     <div style="text-align:center;">您好,欢迎管理员登录成功</div>
-    <div style="width:600px;min-height:300px;margin:0px auto 0px;">
-    <table width="600">
+    <div style="width:1000px;min-height:50px;margin:0px auto 0px;">
+        <input type="text" name="key" id="key" placeholder="输入名称,出生地,八字搜索" />&emsp;<input type="button" value="搜索" onclick="search()" />
+    </div>
+    <div style="width:1000px;min-height:300px;margin:0px auto 0px;">
+    <table width="1000">
         <tr>
             <td>求测者编号</td>
             <td>姓名</td>
             <td>性别</td>
             <td>出生地</td>
             <td>出生时间</td>
+            <td>八字</td>
+            <td>是否可见</td>
             <td>预测</td>
         </tr>
         @{ 
@@ -40,9 +56,11 @@
                             <tr class="cp">
                                 <td>@item.id</td>
                                 <td>@item.name </td>
-                                <td>@(item.sex==true?"男":"女") </td>
+                                <td>@(item.sex == true ? "男" : "女") </td>
                                 <td>@item.born_place </td>
                                 <td>@item.born_date.ToString("yyyy-MM-dd HH:mm") </td>
+                                <td>@item.bazi</td>
+                                <td>@{if(item.state==0) {<text>用户不可见</text> }else {<text>用户可见</text>} } </td>
                                 <td><a target="_blank" href="/admin/jianpi/@item.id">简批</a></td>
                             </tr>
                         </text>
@@ -51,6 +69,7 @@
             }
         }
     </table>
+        <div>@Html.Raw(ViewData["url"])</div>
     </div>
 </body>
 </html>

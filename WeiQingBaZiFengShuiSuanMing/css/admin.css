@@ -1,0 +1,30 @@
+﻿body {
+}
+
+.badoo{
+    width:100%;
+    height:30px;
+}
+
+.badoo span{
+    display:inline-block;
+    height:30px;
+    min-width:15px;
+    margin-right:10px;
+}
+
+.badoo a{
+    display:inline-block;
+    height:30px;
+    min-width:15px;
+    margin-right:10px;
+    text-decoration:none;
+}
+
+.badoo .disabled{
+    color:#aaa;
+}
+
+.badoo .current{
+    color:#aaa;
+}

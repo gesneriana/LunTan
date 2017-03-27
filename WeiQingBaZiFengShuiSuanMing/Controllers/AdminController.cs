@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using EFDao.Entity;
+using Common.Utility;
 
 namespace WeiQingBaZiFengShuiSuanMing.Controllers
 {
@@ -14,12 +15,29 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// 显示管理员的后台页面
         /// </summary>
         /// <returns></returns>
-        public ActionResult index()
+        public ActionResult index(string key = "",int page=1)
         {
             using (WeiQingEntities db = new WeiQingEntities())
             {
-                var baziList = db.bazijianpi.Where(p => p.state == 0).OrderBy(p => p.addtime).ToList();
-                ViewData["baziList"] = baziList;
+                var efp = new EFPaging<bazijianpi>();
+                if (key != null && key.Length > 0)
+                {
+                    var bl = (from q in db.bazijianpi
+                              where (q.name.Contains(key) || q.born_place.Contains(key) || q.bazi.Contains(key))
+                              orderby q.state, q.addtime
+                              select q);  // 优先查看待简批的八字
+
+                    ViewData["baziList"] = efp.getPageList(bl, "/admin/index", page, 10);
+                    ViewData["url"] = efp.pageUrl;
+                }
+                else
+                {
+                    var bl = (from q in db.bazijianpi
+                              orderby q.state, q.addtime
+                              select q);  // 优先查看待简批的八字
+                    ViewData["baziList"] = efp.getPageList(bl, "/admin/index", page, 10);
+                    ViewData["url"] = efp.pageUrl;
+                }
             }
             return View();
         }
@@ -56,7 +74,8 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (model != null && model.id > 0)
             {
-                using(WeiQingEntities db=new WeiQingEntities())
+                SetNullString.setValues(model);
+                using (WeiQingEntities db = new WeiQingEntities())
                 {
                     var jp = db.bazijianpi.Where(x => x.id == model.id).FirstOrDefault();
                     if (jp != null && jp.id > 0)
@@ -64,7 +83,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                         jp.bazi = model.bazi;
                         jp.yuce_content = model.yuce_content;
                         jp.state = model.state;
-                        int res= db.SaveChanges();
+                        int res = db.SaveChanges();
                         return Content(res.ToString());
                     }
                 }
