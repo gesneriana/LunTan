@@ -46,6 +46,9 @@
           <Property Name="tid" Type="uint" Nullable="false" />
           <Property Name="addtime" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="uid" Type="uint" Nullable="false" />
+          <Property Name="floor" Type="int" Nullable="false" />
+          <Property Name="state" Type="int" Nullable="false" />
+          <Property Name="uname" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="content" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="title">
@@ -58,6 +61,18 @@
           <Property Name="state" Type="uint" Nullable="false" />
           <Property Name="art_title" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="keywords" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tzreply">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tzid" Type="int" Nullable="false" />
+          <Property Name="uid" Type="int" Nullable="false" />
+          <Property Name="addtime" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="state" Type="int" Nullable="false" />
+          <Property Name="uname" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="content" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="user">
           <Key>
@@ -79,6 +94,7 @@
           <EntitySet Name="login_log" EntityType="Self.login_log" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="tiezi" EntityType="Self.tiezi" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="title" EntityType="Self.title" Schema="bazifengshuisuanming" store:Type="Tables" />
+          <EntitySet Name="tzreply" EntityType="Self.tzreply" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="user" EntityType="Self.user" Schema="bazifengshuisuanming" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -106,6 +122,7 @@
           <EntitySet Name="login_log" EntityType="WeiQingModel.login_log" />
           <EntitySet Name="title" EntityType="WeiQingModel.title" />
           <EntitySet Name="tiezi" EntityType="WeiQingModel.tiezi" />
+          <EntitySet Name="tzreply" EntityType="WeiQingModel.tzreply" />
         </EntityContainer>
         <EntityType Name="getpwdlog">
           <Key>
@@ -159,6 +176,21 @@
           <Property Name="tid" Type="Int64" Nullable="false" />
           <Property Name="addtime" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="uid" Type="Int64" Nullable="false" />
+          <Property Name="content" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="floor" Type="Int32" Nullable="false" />
+          <Property Name="state" Type="Int32" Nullable="false" />
+          <Property Name="uname" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tzreply">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tzid" Type="Int32" Nullable="false" />
+          <Property Name="uid" Type="Int32" Nullable="false" />
+          <Property Name="addtime" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="state" Type="Int32" Nullable="false" />
+          <Property Name="uname" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="content" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
@@ -233,10 +265,26 @@
           <EntitySetMapping Name="tiezi">
             <EntityTypeMapping TypeName="WeiQingModel.tiezi">
               <MappingFragment StoreEntitySet="tiezi">
+                <ScalarProperty Name="uname" ColumnName="uname" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="floor" ColumnName="floor" />
                 <ScalarProperty Name="content" ColumnName="content" />
                 <ScalarProperty Name="uid" ColumnName="uid" />
                 <ScalarProperty Name="addtime" ColumnName="addtime" />
                 <ScalarProperty Name="tid" ColumnName="tid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tzreply">
+            <EntityTypeMapping TypeName="WeiQingModel.tzreply">
+              <MappingFragment StoreEntitySet="tzreply">
+                <ScalarProperty Name="content" ColumnName="content" />
+                <ScalarProperty Name="uname" ColumnName="uname" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="addtime" ColumnName="addtime" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="tzid" ColumnName="tzid" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

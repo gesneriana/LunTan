@@ -1,0 +1,33 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutTop.cshtml";
+}
+@*帖子详情页*@
+
+<div style="float:left;width:660px;">
+    @{ 
+        if (ViewData["tzList"] != null)
+        {
+            var tzList = (List<Entity.TieZiExt>)ViewData["tzList"];
+            if (tzList != null && tzList.Count > 0)
+            {
+                foreach (Entity.TieZiExt item in tzList)
+                {
+                    if (item != null && item.id > 0)
+                    {
+                        <text>
+                            <div style="min-height:200px;width:100%;border:1px solid #E1E4E6;">
+                                <div>
+                                    <div style="width:80px;font-size:12px;height:200px;float:left;text-indent:1em;padding-top:10px;color:#2d64b3;background-color:#FBFBFD;">@item.uname </div>
+                                    <div style="min-width:500px;font-size:16px;height:200px;margin-left:80px;padding-top:10px;">
+                                        @Html.Raw(item.content)
+                                    </div>
+                                </div>
+                                @*回复内容列表*@
+                            </div>
+                        </text>
+                    }
+                }
+            }
+        }
+    }
+</div>

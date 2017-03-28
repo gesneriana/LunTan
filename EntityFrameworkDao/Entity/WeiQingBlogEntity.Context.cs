@@ -31,5 +31,6 @@ namespace EFDao.Entity
         public virtual DbSet<login_log> login_log { get; set; }
         public virtual DbSet<title> title { get; set; }
         public virtual DbSet<tiezi> tiezi { get; set; }
+        public virtual DbSet<tzreply> tzreply { get; set; }
     }
 }

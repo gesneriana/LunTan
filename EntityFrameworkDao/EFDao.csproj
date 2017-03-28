@@ -90,6 +90,9 @@
     <Compile Include="Entity\title.cs">
       <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\tzreply.cs">
+      <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\user.cs">
       <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
     </Compile>

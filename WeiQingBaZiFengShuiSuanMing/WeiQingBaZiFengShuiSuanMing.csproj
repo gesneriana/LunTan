@@ -716,6 +716,9 @@
     <Content Include="ueditor\third-party\video-js\font\vjs.woff" />
     <Content Include="Views\Index\bzjp.cshtml" />
     <Content Include="Views\Index\createSub.cshtml" />
+    <Content Include="Views\Index\article.cshtml" />
+    <Content Include="Views\Index\ycList.cshtml" />
+    <Content Include="Views\Index\artList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

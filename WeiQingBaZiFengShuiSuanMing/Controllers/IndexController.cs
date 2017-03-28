@@ -446,6 +446,11 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             return Content("-1");
         }
 
+        /// <summary>
+        /// 八字简批
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult bzjp(int id = 0)
         {
             if (id > 0)
@@ -506,7 +511,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                             if (res > 0)
                             {
                                 var tid = db.title.Where(x => x.uid == u.id).Max(x => x.id);
-                                tiezi tz = new tiezi() { tid = tid, addtime = dt, uid = u.id, content = model.content };
+                                tiezi tz = new tiezi() { tid = tid, addtime = dt, uid = u.id, content = model.content, floor = 1, state = 1, uname = u.nick_name };
                                 db.tiezi.Add(tz);
                                 res = db.SaveChanges();
                                 if (res > 0)
@@ -525,6 +530,52 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
 
             }
             return Content("0");
+        }
+
+        /// <summary>
+        /// 查看帖子详情,一次显示12条
+        /// </summary>
+        /// <param name="id">帖子表的主键</param>
+        /// <returns></returns>
+        public ActionResult article(int id = 0)
+        {
+            if (id > 0)
+            {
+                using (WeiQingEntities db = new WeiQingEntities())
+                {
+                    var q = (from tit in db.title join tz in db.tiezi on tit.id equals tz.tid where tz.state == 1 && tit.state == 1 && tz.tid == id orderby tz.id select new TieZiExt() { id = tz.id, addtime = tz.addtime, content = tz.content, floor = tz.floor, state = tz.state, tid = tz.tid, uid = tz.uid, uname = tz.uname }).Take(12);
+                    // ViewData["sql"] = q.ToString();
+                    var tzList = q.ToList();    // 获取帖子内容列表, 再获取回复内容列表
+                    if (tzList != null && tzList.Count > 0)
+                    {
+                        foreach (var item in tzList)
+                        {
+                            var replyList = (from tz in db.tiezi join rep in db.tzreply on tz.id equals rep.tzid where tz.state == 1 && rep.state == 1 && rep.tzid == item.id orderby rep.id select rep).ToList();
+                            item.replyList = replyList; // 根据帖子内容的id获取回复的内容列表
+                        }
+                    }
+                    ViewData["tzList"] = tzList;
+                }
+            }
+            return View();
+        }
+
+        /// <summary>
+        /// 分页查看预测历史的列表
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ycList()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 分页查看帖子列表
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult artList()
+        {
+            return View();
         }
 
     }
