@@ -124,6 +124,29 @@
                     }
                 </ul>
             </div>
+
+            <div class="rt">
+                <ul>
+                    @{
+                        if (ViewData["tzList"] != null)
+                        {
+                            var tzList = (List<Entity.TitleUserExt>)ViewData["tzList"];
+                            if (tzList != null && tzList.Count > 0)
+                            {
+                                foreach (var item in tzList)
+                                {
+                                    <text>
+                                        <li><a href="/index/article/@item.id" target="_blank">@item.nick_name &emsp;@item.art_title &emsp; @item.addtime.ToString("yyyy-MM-dd") </a> </li> </text>
+                                }
+                            }
+                            else
+                            {
+                                <text><li>无数据</li> </text>
+                            }
+                        }
+                    }
+                </ul>
+            </div>
         </div>
     </div>
 </div>

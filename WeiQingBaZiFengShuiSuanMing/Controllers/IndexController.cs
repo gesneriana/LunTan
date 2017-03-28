@@ -26,13 +26,29 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 if (key != null && key.Length > 0)
                 {
                     var q1 = db.bazijianpi.Where(x => x.state == 1 && (x.bazi.Contains(key) || x.born_place.Contains(key) || x.name.Contains(key))).OrderByDescending(x => x.addtime);
-                    ViewData["baziList"] = efq.getPageList(q1, "index/index", page);
+                    ViewData["baziList"] = efq.getPageList(q1, "index/index", page, 12);
                     ViewData["baziUrl"] = efq.pageUrl;
                     return View(ViewData["act"].ToString());
                 }
 
+                var tz = (from t in db.title
+                          join u in db.user on t.uid equals u.id
+                          orderby t.addtime descending
+                          select new TitleUserExt()
+                          {
+                              id = t.id,
+                              nick_name = u.nick_name,
+                              addtime = t.addtime,
+                              art_title = t.art_title,
+                              keywords = t.keywords,
+                              state = t.state,
+                              uid = t.uid
+                          }).Take(12).ToList();
+
+                ViewData["tzList"] = tz;
+
                 var query = db.bazijianpi.Where(x => x.state == 1).OrderByDescending(x => x.addtime);
-                ViewData["baziList"] = efq.getPageList(query, "index/index", page);
+                ViewData["baziList"] = efq.getPageList(query, "index/index", page, 12);
                 ViewData["baziUrl"] = efq.pageUrl;
 
             }
