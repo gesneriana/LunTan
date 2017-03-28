@@ -17,40 +17,89 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// </summary>
         /// <returns></returns>
         [Filters.IsMobile]
-        public ActionResult index(string key = "", int page = 1)
+        public ActionResult index(string key = "", string type = "", int page = 1)
         {
             // 查询八字简批的关键字段
             using (WeiQingEntities db = new WeiQingEntities())
             {
-                var efq = new EFPaging<bazijianpi>();
-                if (key != null && key.Length > 0)
+                // 搜索入口
+                if (type != null && type.Length > 0 && key != null && key.Length > 0)
                 {
-                    var q1 = db.bazijianpi.Where(x => x.state == 1 && (x.bazi.Contains(key) || x.born_place.Contains(key) || x.name.Contains(key))).OrderByDescending(x => x.addtime);
-                    ViewData["baziList"] = efq.getPageList(q1, "index/index", page, 12);
-                    ViewData["baziUrl"] = efq.pageUrl;
-                    return View(ViewData["act"].ToString());
+                    switch (type)
+                    {
+                        case "ycls":
+                            var yc = db.bazijianpi.Where(x => x.state == 1 && (x.bazi.Contains(key) || x.born_place.Contains(key) || x.name.Contains(key))).OrderByDescending(x => x.addtime).Take(12).ToList();
+                            ViewData["baziList"] = yc;  // 搜索预测历史
+
+                            var tz = (from t in db.title
+                                      join u in db.user on t.uid equals u.id
+                                      where t.state == 1
+                                      orderby t.addtime descending
+                                      select new TitleUserExt()
+                                      {
+                                          id = t.id,
+                                          nick_name = u.nick_name,
+                                          addtime = t.addtime,
+                                          art_title = t.art_title,
+                                          keywords = t.keywords,
+                                          state = t.state,
+                                          uid = t.uid
+                                      }).Take(12).ToList();
+                            ViewData["tzList"] = tz;    // 默认显示的帖子
+                            break;
+                        case "tytz":
+                            var yc2 = db.bazijianpi.Where(x => x.state == 1).OrderByDescending(x => x.addtime).Take(12).ToList();
+                            ViewData["baziList"] = yc2;  // 默认显示的预测历史
+
+                            var tz2 = (from t in db.title
+                                       join u in db.user on t.uid equals u.id
+                                       where t.state == 1 && (t.art_title.Contains(key) || t.keywords.Contains(key))
+                                       orderby t.addtime descending
+                                       select new TitleUserExt()
+                                       {
+                                           id = t.id,
+                                           nick_name = u.nick_name,
+                                           addtime = t.addtime,
+                                           art_title = t.art_title,
+                                           keywords = t.keywords,
+                                           state = t.state,
+                                           uid = t.uid
+                                       }).Take(12).ToList();
+                            ViewData["tzList"] = tz2;    // 搜索帖子
+                            break;
+                        default:
+                            return Redirect("/index/index");
+                    }
+                }
+                else
+                {
+                    #region 搜索默认
+                    var yc = db.bazijianpi.Where(x => x.state == 1).OrderByDescending(x => x.addtime).Take(12).ToList();
+                    ViewData["baziList"] = yc;  // 默认显示的预测历史
+
+                    var tz = (from t in db.title
+                              join u in db.user on t.uid equals u.id
+                              where t.state == 1
+                              orderby t.addtime descending
+                              select new TitleUserExt()
+                              {
+                                  id = t.id,
+                                  nick_name = u.nick_name,
+                                  addtime = t.addtime,
+                                  art_title = t.art_title,
+                                  keywords = t.keywords,
+                                  state = t.state,
+                                  uid = t.uid
+                              }).Take(12).ToList();
+                    ViewData["tzList"] = tz;    // 默认显示的帖子
+                    #endregion
                 }
 
-                var tz = (from t in db.title
-                          join u in db.user on t.uid equals u.id
-                          orderby t.addtime descending
-                          select new TitleUserExt()
-                          {
-                              id = t.id,
-                              nick_name = u.nick_name,
-                              addtime = t.addtime,
-                              art_title = t.art_title,
-                              keywords = t.keywords,
-                              state = t.state,
-                              uid = t.uid
-                          }).Take(12).ToList();
-
-                ViewData["tzList"] = tz;
-
-                var query = db.bazijianpi.Where(x => x.state == 1).OrderByDescending(x => x.addtime);
-                ViewData["baziList"] = efq.getPageList(query, "index/index", page, 12);
-                ViewData["baziUrl"] = efq.pageUrl;
-
+                // 判断数量,是否显示更多按钮,打开列表页
+                var ycCount = db.bazijianpi.Where(x => x.state == 1).Count();
+                var tzCount = db.title.Where(x => x.state == 1).Count();
+                ViewData["ycCount"] = ycCount;
+                ViewData["tzCount"] = tzCount;
             }
             return View(ViewData["act"].ToString());
         }

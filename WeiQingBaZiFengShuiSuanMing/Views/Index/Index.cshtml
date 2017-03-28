@@ -22,15 +22,22 @@
     }
     .yuce_history_article_content{
         width:100%;
+        min-height:275px;
     }
     .yuce_history_article_content .lt{
         width:50%;
+        height:100%;
         float:left;
     }
     .yuce_history_article_content .rt{
         width:50%;
+        height:100%;
         float:right;
     }
+        .yuce_history_article_content ul {
+            min-height: 252px;
+            width:100%;
+        }
         .yuce_history_article_title .yhat_lt {
             float:left;
             background-image: url(/imgs/news-bg.png);
@@ -67,17 +74,35 @@
                 searchBzjp();
             }
         });
+
+        $('#tytz').bind('keypress', function (event) {
+            if (event.keyCode == "13") {
+                searchTitle();
+            }
+        });
     });
 
     // 搜索预测历史
     function searchBzjp() {
         var key = $("#ycls").val();
-        location.href = "/index/index?key=" + key;
+        if (key == '')
+            location.href = '/index/index';
+        else
+            location.href = "/index/index?key=" + key + "&type=ycls";
+    }
+
+    // 搜索帖子标题
+    function searchTitle() {
+        var key = $("#tytz").val();
+        if (key == '')
+            location.href = '/index/index';
+        else
+            location.href = "/index/index?key=" + key + "&type=tytz";
     }
 
     // 创建帖子
     function createSub() {
-        if ('@(Session["user"]==null?"0":"1")' == 0) {
+        if ('@(Session["user"] == null ? "0" : "1")' == 0) {
             alert("请先登录");
             return;
         }
@@ -94,10 +119,10 @@
     <div class="yuce_history_article">
         <div class="yuce_history_article_title">
             <div class="yhat_lt">
-                预测历史&emsp;<input style="width:120px;" type="text" id="ycls" placeholder="请输入八字,名字" /> <a href="javascript:;" onclick="searchBzjp()">查找</a>
+                预测历史&emsp;<input style="width:120px;" type="text" id="ycls" placeholder="请输入八字,名字" /> <a style="color:#551A8B;" href="javascript:;" onclick="searchBzjp()">查找</a>
             </div>
             <div class="yhat_rt">
-                坛友帖子&emsp;<input style="width:120px;" type="text" id="tytz" placeholder="主题" /> <a href="javascript:;" onclick="searchTitle()">查找</a>&emsp;<a href="javascript:;" onclick="createSub()">创建</a>
+                坛友帖子&emsp;<input style="width:120px;" type="text" id="tytz" placeholder="主题或关键字" /> <a style="color:#551A8B;" href="javascript:;" onclick="searchTitle()">查找</a>&emsp;<a style="color:#551A8B;" href="javascript:;" onclick="createSub()">创建</a>
             </div>
         </div>
         
@@ -112,17 +137,18 @@
                             {
                                 foreach (var item in bzList)
                                 {
-                                    <text><li><a href="/index/bzjp/@item.id" target="_blank">@item.name &emsp;@item.bazi &emsp; @item.addtime.ToString("yyyy-MM-dd") </a> </li> </text>
+                                    <text><li><a style="color:#551A8B;" href="/index/bzjp/@item.id" target="_blank">@item.name &emsp;@item.bazi &emsp; @item.addtime.ToString("yyyy-MM-dd") </a> </li> </text>
                                 }
                                 <text>@Html.Raw(ViewData["baziUrl"]) </text>
                             }
                             else
                             {
-                                <text><li>无数据</li> </text>
+                                <text><li style="color:#551A8B;">无数据</li> </text>
                             }
                         }
                     }
                 </ul>
+                <div style="width:100%;height:30px;line-height:30px;color:#551A8B;">@{if((int)ViewData["ycCount"] >12) {<text><a href="/index/ycList" target="_blank">全部预测</a> </text> }} </div>
             </div>
 
             <div class="rt">
@@ -136,16 +162,24 @@
                                 foreach (var item in tzList)
                                 {
                                     <text>
-                                        <li><a href="/index/article/@item.id" target="_blank">@item.nick_name &emsp;@item.art_title &emsp; @item.addtime.ToString("yyyy-MM-dd") </a> </li> </text>
+                                        <li style="height:20px;width:100%;font-size:12px;">
+                                            <a style="display:block;height:100%;width:100%;color:#551A8B;" href="/index/article/@item.id" target="_blank">
+                                                <span style="width:60px;height:100%;display:inline-block;"> @item.nick_name </span>
+                                                <span style="display:inline-block;margin-right:5px;margin-left:5px;height:100%;">@item.art_title</span>
+                                                <span style="display:block;float:right;margin-right:5px;margin-left:5px;height:100%;">@item.addtime.ToString("yyyy-MM-dd")</span>
+                                            </a>
+                                        </li>
+                                    </text>
                                 }
                             }
                             else
                             {
-                                <text><li>无数据</li> </text>
+                                <text><li style="color:#551A8B;">无数据</li> </text>
                             }
                         }
                     }
                 </ul>
+                <div style="width:100%;height:30px;line-height:30px;color:#551A8B;">@{if((int)ViewData["tzCount"]>12) {<text><a href="/index/artList" target="_blank">全部帖子</a> </text> }} </div>
             </div>
         </div>
     </div>
