@@ -3,6 +3,49 @@
 }
 @*帖子详情页*@
 
+<script type="text/javascript">
+    $(function () {
+        $(".hftz").click(function () {
+            var hftz = $(this).html();
+            if ("回复" == hftz) {
+                $(this).html('收起回复');
+                $(this).parent().next().slideDown(500);
+            } else {
+                $(this).html('回复');
+                $(this).parent().next().slideUp(500);
+            }
+        });
+    })
+
+    // 回复帖子内容,判断是否登录
+    function tzReply(id) {
+        if ('@(Session["user"]==null?0:1)' == 0) {
+            alert("请先登录");
+            return;
+        }
+        if ($("#rep_content_" + id).val() == '') {
+            alert("请输入回复内容");
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/index/tzReply",
+            data: $("#tzReplyForm" + id).serialize(),
+            error: function (request) {
+                alert('请求错误');
+            },
+            success: function (data) {
+                if (data > 0) {
+                    alert("保存成功");
+                } else {
+                    alert("保存失败:" + data);
+                }
+            }
+        });
+    }
+</script>
+
 <div style="float:left;width:660px;">
     @{ 
         if (ViewData["tzList"] != null)
@@ -16,13 +59,29 @@
                     {
                         <text>
                             <div style="min-height:200px;width:100%;border:1px solid #E1E4E6;">
-                                <div>
-                                    <div style="width:80px;font-size:12px;height:200px;float:left;text-indent:1em;padding-top:10px;color:#2d64b3;background-color:#FBFBFD;">@item.uname </div>
-                                    <div style="min-width:500px;font-size:16px;height:200px;margin-left:80px;padding-top:10px;">
+                                <div style="width:80px;font-size:14px;min-height:200px;float:left;text-indent:1em;padding-top:10px;color:#2d64b3;background-color:#FBFBFD;">@item.uname </div>
+
+                                <div style="min-width:500px;font-size:16px;min-height:200px;margin-left:80px;padding-top:10px;">
+                                    @*楼层内容*@
+                                    <div style="min-width:500px;height:200px;">
                                         @Html.Raw(item.content)
                                     </div>
+                                    @*功能按钮*@
+                                    <div style="text-align:right;">
+                                        <a href="javascript:;" class="hftz" >回复</a>
+                                    </div>
+                                    @*回复内容列表*@
+
+                                    @*添加回复内容*@
+                                    <div style="display:none;height:60px;line-height:60px;min-width:500px;background-color:antiquewhite;text-align:center;">
+                                        <form id="tzReplyForm@(item.id)">
+                                            <input type="hidden" name="tzid" value="@item.id" />@*帖子当前楼层的id*@
+                                            <textarea name="content" id="rep_content_@(item.id)" class="httz_txt" rows="2" style="min-width:500px;min-height:30px;display:inline-block;margin-top:14px;"></textarea>
+                                            <span style="display:inline-block;height:60px;line-height:60px;vertical-align:top;cursor:pointer;" onclick="tzReply('@item.id')">发表</span>
+                                        </form>
+                                    </div>
+                                    
                                 </div>
-                                @*回复内容列表*@
                             </div>
                         </text>
                     }

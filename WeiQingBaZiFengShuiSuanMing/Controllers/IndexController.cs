@@ -561,6 +561,20 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         }
 
         /// <summary>
+        /// 回复帖子,需要判断当前帖子是否被屏蔽,以及当前楼层是否屏蔽
+        /// </summary>
+        /// <returns></returns>
+        [Filters.CheckLogin]
+        public ActionResult tzReply(tzreply model)
+        {
+            if (model != null && model.tzid > 0)
+            {
+                return Content("1");
+            }
+            return Content("-1");
+        }
+
+        /// <summary>
         /// 分页查看预测历史的列表
         /// </summary>
         /// <returns></returns>
