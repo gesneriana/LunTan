@@ -13,7 +13,7 @@ namespace Common.Utility
     public class SetNullString
     {
         /// <summary>
-        /// 将可空类型设置为 默认值 ""
+        /// 将可空类型设置为 默认值 "", 日期时间则设置为DateTime.Now
         /// </summary>
         /// <param name="model">需要格式化默认值的对象</param>
         /// <param name="setDateTime">如果时间为 0001-01-01 00:00:00 则修改为当前时间</param>

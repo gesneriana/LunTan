@@ -5,17 +5,25 @@
 
 <script type="text/javascript">
     $(function () {
-        $(".hftz").click(function () {
-            var hftz = $(this).html();
-            if ("回复" == hftz) {
-                $(this).html('收起回复');
-                $(this).parent().next().slideDown(500);
-            } else {
-                $(this).html('回复');
-                $(this).parent().next().slideUp(500);
-            }
-        });
+
     })
+
+    // 点击回复帖子按钮
+    function hftz(id) {
+        var hftz = $("#hftz" + id).html();
+        if ("回复" == hftz) {
+            $("#hftz" + id).html('收起回复');
+            $("#httz_div_" + id).slideDown(500);
+        } else {
+            $("#hftz" + id).html('回复');
+            $("#httz_div_" + id).slideUp(500);
+        }
+    }
+
+    // 举报涉嫌违规的帖子, id 是帖子主键
+    function jubao(id) {
+
+    }
 
     // 回复帖子内容,判断是否登录
     function tzReply(id) {
@@ -38,6 +46,7 @@
             success: function (data) {
                 if (data > 0) {
                     alert("保存成功");
+                    location.href = "/index/article";
                 } else {
                     alert("保存失败:" + data);
                 }
@@ -68,12 +77,31 @@
                                     </div>
                                     @*功能按钮*@
                                     <div style="text-align:right;">
-                                        <a href="javascript:;" class="hftz" >回复</a>
+                                        <a href="javascript:;" onclick="jubao('@item.id')">举报</a>
+                                        <span>@item.floor 楼</span>
+                                        <span>@item.addtime.ToString("yyyy-MM-dd HH:mm") </span>
+                                        <a href="javascript:;" class="hftz" id="hftz@(item.id)" onclick="hftz('@item.id')">回复</a>
                                     </div>
                                     @*回复内容列表*@
+                                    <div>
+                                        <ul>
+                                            @{ 
+                                                if (item.replyList != null && item.replyList.Count > 0)
+                                                {
+                                                    foreach (var reply in item.replyList)
+                                                    {
+                                                        if (reply != null && reply.id > 0)
+                                                        {
+
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
 
                                     @*添加回复内容*@
-                                    <div style="display:none;height:60px;line-height:60px;min-width:500px;background-color:antiquewhite;text-align:center;">
+                                    <div id="httz_div_@item.id" style="display:none;height:60px;line-height:60px;min-width:500px;background-color:antiquewhite;text-align:center;">
                                         <form id="tzReplyForm@(item.id)">
                                             <input type="hidden" name="tzid" value="@item.id" />@*帖子当前楼层的id*@
                                             <textarea name="content" id="rep_content_@(item.id)" class="httz_txt" rows="2" style="min-width:500px;min-height:30px;display:inline-block;margin-top:14px;"></textarea>

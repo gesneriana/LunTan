@@ -87,6 +87,9 @@
     <Compile Include="Entity\tiezi.cs">
       <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\tiezi_jubao.cs">
+      <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\title.cs">
       <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
     </Compile>

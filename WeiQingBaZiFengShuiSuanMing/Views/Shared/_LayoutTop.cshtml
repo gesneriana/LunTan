@@ -189,12 +189,19 @@
                 },
                 success: function (data) {
                     if (data > 0) {
-                        location.href = '/index/index';
+                        location.href = '@Request.RawUrl';
                     } else {
                         alert(data);
                     }
                 }
             });
+        }
+
+        // 打开弹窗
+        function open(data) {
+            $("#hide_div").html(data);
+            $("#canvas_div").show();
+            $("#hide_div").show();
         }
 
         // 关闭

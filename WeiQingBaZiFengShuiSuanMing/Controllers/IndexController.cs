@@ -569,9 +569,32 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (model != null && model.tzid > 0)
             {
-                return Content("1");
+                SetNullString.setValues(model);
+                if (model.content.Length == 0)
+                    return Content("-2");   // 用户没有正确输入内容
+                
+                var u = (user)Session["user"];
+                model.uid = (int)u.id;
+                model.addtime = DateTime.Now;
+                model.state = 1;    // 显示,被举报之后可能会屏蔽
+                model.uname = u.nick_name;
+                using(WeiQingEntities db=new WeiQingEntities())
+                {
+                    db.tzreply.Add(model);
+                    return Content(db.SaveChanges().ToString());
+                }
             }
             return Content("-1");
+        }
+
+        /// <summary>
+        /// 根据指定楼层的帖子id进行举报
+        /// </summary>
+        /// <param name="id">指定楼层的帖子id</param>
+        /// <returns></returns>
+        public ActionResult jubao_tiezi(int id=0)
+        {
+            return View();
         }
 
         /// <summary>

@@ -12,17 +12,13 @@ namespace EFDao.Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class user
+    public partial class tiezi_jubao
     {
         public long id { get; set; }
-        public string nick_name { get; set; }
-        public string pwd { get; set; }
-        public string email { get; set; }
-        public string mobile { get; set; }
-        public string qq { get; set; }
-        public string wei_xin { get; set; }
-        public System.DateTime reg_date { get; set; }
-        public bool is_admin { get; set; }
-        public int state { get; set; }
+        public long tzid { get; set; }
+        public string content { get; set; }
+        public string reason { get; set; }
+        public System.DateTime addtime { get; set; }
+        public string ip { get; set; }
     }
 }

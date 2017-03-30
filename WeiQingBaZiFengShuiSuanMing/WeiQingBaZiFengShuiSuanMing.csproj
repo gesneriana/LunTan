@@ -719,6 +719,7 @@
     <Content Include="Views\Index\article.cshtml" />
     <Content Include="Views\Index\ycList.cshtml" />
     <Content Include="Views\Index\artList.cshtml" />
+    <Content Include="Views\Index\jubao_tiezi.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

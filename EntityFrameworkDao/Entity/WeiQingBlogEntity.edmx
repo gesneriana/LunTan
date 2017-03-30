@@ -51,6 +51,17 @@
           <Property Name="uname" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="content" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
+        <EntityType Name="tiezi_jubao">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tzid" Type="uint" Nullable="false" />
+          <Property Name="content" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="reason" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="addtime" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ip" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="title">
           <Key>
             <PropertyRef Name="id" />
@@ -87,12 +98,14 @@
           <Property Name="wei_xin" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="reg_date" Type="datetime" Precision="0" Nullable="false" />
           <Property Name="is_admin" Type="bit" Nullable="false" />
+          <Property Name="state" Type="int" Nullable="false" />
         </EntityType>
         <EntityContainer Name="WeiQingModelStoreContainer">
           <EntitySet Name="bazijianpi" EntityType="Self.bazijianpi" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="getpwdlog" EntityType="Self.getpwdlog" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="login_log" EntityType="Self.login_log" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="tiezi" EntityType="Self.tiezi" Schema="bazifengshuisuanming" store:Type="Tables" />
+          <EntitySet Name="tiezi_jubao" EntityType="Self.tiezi_jubao" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="title" EntityType="Self.title" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="tzreply" EntityType="Self.tzreply" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="user" EntityType="Self.user" Schema="bazifengshuisuanming" store:Type="Tables" />
@@ -114,6 +127,7 @@
           <Property Name="wei_xin" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="reg_date" Type="DateTime" Nullable="false" />
           <Property Name="is_admin" Type="Boolean" Nullable="false" />
+          <Property Name="state" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityContainer Name="WeiQingEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="user" EntityType="Self.user" />
@@ -123,6 +137,7 @@
           <EntitySet Name="title" EntityType="WeiQingModel.title" />
           <EntitySet Name="tiezi" EntityType="WeiQingModel.tiezi" />
           <EntitySet Name="tzreply" EntityType="WeiQingModel.tzreply" />
+          <EntitySet Name="tiezi_jubao" EntityType="WeiQingModel.tiezi_jubao" />
         </EntityContainer>
         <EntityType Name="getpwdlog">
           <Key>
@@ -193,6 +208,17 @@
           <Property Name="uname" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="content" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="tiezi_jubao">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tzid" Type="Int64" Nullable="false" />
+          <Property Name="content" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="reason" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="addtime" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ip" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -202,6 +228,7 @@
           <EntitySetMapping Name="user">
             <EntityTypeMapping TypeName="WeiQingModel.user">
               <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="state" ColumnName="state" />
                 <ScalarProperty Name="is_admin" ColumnName="is_admin" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="nick_name" ColumnName="nick_name" />
@@ -284,6 +311,18 @@
                 <ScalarProperty Name="state" ColumnName="state" />
                 <ScalarProperty Name="addtime" ColumnName="addtime" />
                 <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="tzid" ColumnName="tzid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tiezi_jubao">
+            <EntityTypeMapping TypeName="WeiQingModel.tiezi_jubao">
+              <MappingFragment StoreEntitySet="tiezi_jubao">
+                <ScalarProperty Name="ip" ColumnName="ip" />
+                <ScalarProperty Name="addtime" ColumnName="addtime" />
+                <ScalarProperty Name="reason" ColumnName="reason" />
+                <ScalarProperty Name="content" ColumnName="content" />
                 <ScalarProperty Name="tzid" ColumnName="tzid" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
