@@ -10,8 +10,8 @@ namespace Common.Utility
     /// <summary>
     /// 分页
     /// </summary>
-    /// <typeparam name="TSource">实体类的类型名称</typeparam>
-    public class EFPaging<TSource>
+    /// <typeparam name="T">实体类的类型名称</typeparam>
+    public class EFPaging<T>
     {
         /// <summary>
         /// 分页的html页面内容
@@ -34,7 +34,7 @@ namespace Common.Utility
         /// <param name="count">每页显示的数量,5-20之间</param>
         /// /// <param name="btnCount">显示的可以点击的按钮的个数 3-10之间</param>
         /// <returns>List泛型集合</returns>
-        public List<TSource> getPageList(IQueryable<TSource> q, string url, int page = 1, int count = 10, int btnCount = 5)
+        public List<T> getPageList(IQueryable<T> q, string url, int page = 1, int count = 10, int btnCount = 5)
         {
             #region 计算总记录数以及页码等逻辑
             if (count < 5) { count = 5; } else if (count > 20) { count = 20; }
@@ -56,7 +56,7 @@ namespace Common.Utility
             if (totalCount == 0)
             {
                 pageUrl = string.Empty;
-                return new List<TSource>(); // 无数据
+                return new List<T>(); // 无数据
             }
             if (totalCount <= count)
             {

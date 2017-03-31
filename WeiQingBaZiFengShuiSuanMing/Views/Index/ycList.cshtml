@@ -4,4 +4,62 @@
 
 @*分页查看预测历史的列表*@
 
-分页查看预测历史的列表
+<script type="text/javascript">
+    $(function () {
+        $('#key').bind('keypress', function (event) {
+            if (event.keyCode == "13") {
+                searchBzjp();
+            }
+        });
+    })
+
+    // 搜索预测历史
+    function searchBzjp() {
+        var key = $("#key").val();
+        if (key == '')
+            location.href = '/index/yclist';
+        else
+            location.href = "/index/yclist?key=" + key;
+    }
+</script>
+
+<style type="text/css">
+    .bztr{
+        cursor:pointer;
+        height:30px;
+        line-height:30px;
+    }
+</style>
+
+<div style="text-align:center;height:50px;line-height:50px;font-size:16px;color:#666;">查看往期的预测内容</div>
+
+<div style="text-align:center;">
+    <input type="text" id="key" placeholder="请输入名字,出生地,或者八字搜索" /> <div class="blueBtn_s" onclick="searchBzjp()">查找</div>
+</div>
+
+<div>
+    <table style="width:100%;">
+        @{
+            if (ViewData["ycList"] != null)
+            {
+                var ycList = (List<EFDao.Entity.bazijianpi>)ViewData["ycList"];
+                if (ycList != null && ycList.Count > 0)
+                {
+                    foreach (var item in ycList)
+                    {
+                        <text>
+                            <tr class="bztr" onclick="location.href='/index/bzjp/@item.id'">
+                                <td>@item.name</td>
+                                <td>@item.born_place</td>
+                                <td>@item.bazi</td>
+                                <td>@item.addtime.ToString("yyyy-MM-dd HH:mm")</td>
+                            </tr>
+                        </text>
+                    }
+                }
+            }
+        }
+    </table>
+</div>
+
+<div>@Html.Raw(ViewData["url"]) </div>

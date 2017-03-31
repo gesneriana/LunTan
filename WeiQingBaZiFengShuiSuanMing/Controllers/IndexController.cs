@@ -540,6 +540,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// 查看帖子详情,一次显示12条
         /// </summary>
         /// <param name="id">帖子表的外键tid (title表的主键)</param>
+        /// <param name="page">页码</param>
         /// <returns></returns>
         public ActionResult article(int id = 0, int page = 1)
         {
@@ -682,10 +683,30 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// <summary>
         /// 分页查看预测历史的列表
         /// </summary>
+        /// <param name="key"></param>
+        /// <param name="page"></param>
         /// <returns></returns>
-        public ActionResult ycList()
+        public ActionResult ycList(string key = "", int page = 1)
         {
-
+            using (WeiQingEntities db = new WeiQingEntities())
+            {
+                if (key != null && key.Length > 0)
+                {
+                    var q = db.bazijianpi.Where(x => x.state == 1 && (x.bazi.Contains(key) || x.born_place.Contains(key) || x.name.Contains(key))).OrderByDescending(x => x.addtime);
+                    var p = new EFPaging<bazijianpi>();
+                    var ycList = p.getPageList(q, "/index/yclist", page, 12);
+                    ViewData["ycList"] = ycList;
+                    ViewData["url"] = p.pageUrl;
+                }
+                else
+                {
+                    var q = db.bazijianpi.Where(x => x.state == 1).OrderByDescending(x => x.addtime);
+                    var p = new EFPaging<bazijianpi>();
+                    var ycList = p.getPageList(q, "/index/yclist", page, 12);
+                    ViewData["ycList"] = ycList;
+                    ViewData["url"] = p.pageUrl;
+                }
+            }
             return View();
         }
 
