@@ -535,17 +535,21 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// <summary>
         /// 查看帖子详情,一次显示12条
         /// </summary>
-        /// <param name="id">帖子表的主键</param>
+        /// <param name="id">帖子表的外键tid (title表的主键)</param>
         /// <returns></returns>
-        public ActionResult article(int id = 0)
+        public ActionResult article(int id = 0, int page = 1)
         {
             if (id > 0)
             {
                 using (WeiQingEntities db = new WeiQingEntities())
                 {
-                    var q = (from tit in db.title join tz in db.tiezi on tit.id equals tz.tid where tz.state == 1 && tit.state == 1 && tz.tid == id orderby tz.id select new TieZiExt() { id = tz.id, addtime = tz.addtime, content = tz.content, floor = tz.floor, state = tz.state, tid = tz.tid, uid = tz.uid, uname = tz.uname }).Take(12);
+                    var title = db.title.Where(x => x.id == id && x.state == 1).FirstOrDefault();
+                    ViewData["title"] = title;
+                    var q = (from tit in db.title join tz in db.tiezi on tit.id equals tz.tid where tz.state == 1 && tit.state == 1 && tz.tid == id orderby tz.id select new TieZiExt() { id = tz.id, addtime = tz.addtime, content = tz.content, floor = tz.floor, state = tz.state, tid = tz.tid, uid = tz.uid, uname = tz.uname });
                     // ViewData["sql"] = q.ToString();
-                    var tzList = q.ToList();    // 获取帖子内容列表, 再获取回复内容列表
+                    var p = new EFPaging<TieZiExt>();
+
+                    var tzList = p.getPageList(q, "/index/article", page, 12);    // 获取帖子内容列表, 再获取回复内容列表
                     if (tzList != null && tzList.Count > 0)
                     {
                         foreach (var item in tzList)
@@ -555,6 +559,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                         }
                     }
                     ViewData["tzList"] = tzList;
+                    ViewData["url"] = p.pageUrl;
                 }
             }
             return View();
@@ -580,6 +585,11 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 model.uname = u.nick_name;
                 using(WeiQingEntities db=new WeiQingEntities())
                 {
+                    var tzuid = db.tiezi.Where(x => x.id == model.tzid).Select(x => x.uid).FirstOrDefault();    // 回复的帖子的uid
+                    if (tzuid == u.id)
+                    {
+                        return Content("不能回复自己的内容哦,请在底部发布内容");
+                    }
                     db.tzreply.Add(model);
                     return Content(db.SaveChanges().ToString());
                 }
@@ -588,13 +598,51 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         }
 
         /// <summary>
-        /// 根据指定楼层的帖子id进行举报
+        /// 根据指定楼层的帖子id进行举报, 返回视图页
         /// </summary>
         /// <param name="id">指定楼层的帖子id</param>
         /// <returns></returns>
-        public ActionResult jubao_tiezi(int id=0)
+        public ActionResult jubao_tiezi(int id = 0)
         {
-            return View();
+            if (id > 0)
+            {
+                ViewData["tzid"] = id;
+                return View();
+            }
+            return new EmptyResult();
+        }
+
+        /// <summary>
+        /// 举报帖子内容提交到数据库, 如果已经被举报过, 直接返回举报成功, 如果同一个ip同一天大量举报, 返回失败
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public ActionResult jubao_sub(tiezi_jubao model)
+        {
+            if (model != null && model.tzid > 0 && model.reason != null)
+            {
+                model.addtime = DateTime.Now;
+                model.ip = Tools.GetRealIP();
+                using(WeiQingEntities db=new WeiQingEntities())
+                {
+                    var t1 = DateTime.Now.Date;
+                    var ipCount = db.tiezi_jubao.Where(x => x.addtime > t1 && x.ip.Equals(model.ip)).Count();
+                    if (ipCount >= 10)
+                    {
+                        return Content("-1");
+                    }
+
+                    var count = db.tiezi_jubao.Where(x => x.tzid == model.tzid).Count();    // 此帖子是否已经举报过
+                    if (count > 0)
+                    {
+                        return Content("2");
+                    }
+
+                    db.tiezi_jubao.Add(model);
+                    return Content(db.SaveChanges().ToString());
+                }
+            }
+            return Content("-1");
         }
 
         /// <summary>

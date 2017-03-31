@@ -20,6 +20,18 @@
             font-size: 16px;
         }
 
+        .blueBtn{
+            display:inline-block;
+            margin-left:20px;
+            padding:5px 10px 5px;
+            font-size:14px;
+            background-color:#398BFC;
+            cursor:pointer;
+            color:#fff;
+            margin-top:10px;
+            margin-bottom:10px;margin-right:10px;
+        }
+
         #top_login_ul li {
             float: left;
             margin-left: 10px;
@@ -198,7 +210,15 @@
         }
 
         // 打开弹窗
-        function open(data) {
+        function openDialog(data, width, height) {
+            if (!data) {
+                return;
+            }
+            width = width || 500;
+            height = height || 320;
+            var ml = 0 - width / 2;
+            var mt = 0 - height / 2;
+            $("#hide_div").css("margin-left", ml + 'px').css('margin-top', mt + 'px').css("height", height + 'px').css("width", width + 'px');
             $("#hide_div").html(data);
             $("#canvas_div").show();
             $("#hide_div").show();
@@ -220,9 +240,7 @@
                     alert("请求错误");
                 },
                 success: function (data) {
-                    $("#hide_div").html(data);
-                    $("#canvas_div").show();
-                    $("#hide_div").show();
+                    openDialog(data, 500, 320);
                 }
             });
         }
@@ -236,9 +254,7 @@
                     alert("请求错误");
                 },
                 success: function (data) {
-                    $("#hide_div").html(data);
-                    $("#canvas_div").show();
-                    $("#hide_div").show();
+                    openDialog(data, 400, 200);
                 }
             });
         }
@@ -252,9 +268,7 @@
                     alert("请求错误");
                 },
                 success: function (data) {
-                    $("#hide_div").html(data);
-                    $("#canvas_div").show();
-                    $("#hide_div").show();
+                    openDialog(data, 400, 200);
                 }
             });
         }

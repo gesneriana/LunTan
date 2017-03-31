@@ -16,9 +16,9 @@ namespace EFDao.Entity
     {
         public long id { get; set; }
         public long tzid { get; set; }
-        public string content { get; set; }
         public string reason { get; set; }
         public System.DateTime addtime { get; set; }
         public string ip { get; set; }
+        public bool jb_type { get; set; }
     }
 }

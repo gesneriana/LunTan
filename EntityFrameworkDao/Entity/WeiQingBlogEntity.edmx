@@ -57,10 +57,10 @@
           </Key>
           <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="tzid" Type="uint" Nullable="false" />
-          <Property Name="content" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="reason" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="addtime" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ip" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="jb_type" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="title">
           <Key>
@@ -214,10 +214,10 @@
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="tzid" Type="Int64" Nullable="false" />
-          <Property Name="content" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="reason" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="addtime" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ip" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="jb_type" Type="Boolean" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -319,10 +319,10 @@
           <EntitySetMapping Name="tiezi_jubao">
             <EntityTypeMapping TypeName="WeiQingModel.tiezi_jubao">
               <MappingFragment StoreEntitySet="tiezi_jubao">
+                <ScalarProperty Name="jb_type" ColumnName="jb_type" />
                 <ScalarProperty Name="ip" ColumnName="ip" />
                 <ScalarProperty Name="addtime" ColumnName="addtime" />
                 <ScalarProperty Name="reason" ColumnName="reason" />
-                <ScalarProperty Name="content" ColumnName="content" />
                 <ScalarProperty Name="tzid" ColumnName="tzid" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
