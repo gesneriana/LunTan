@@ -6,11 +6,19 @@ using System.Threading.Tasks;
 
 namespace Entity
 {
+    /// <summary>
+    /// 包含帖子内容和楼主用户名的实体
+    /// </summary>
     public class TitleExt : EFDao.Entity.title
     {
         /// <summary>
         /// 一楼的内容
         /// </summary>
         public string content { get; set; }
+
+        /// <summary>
+        /// 用户名,显示帖子详情页的时候,用于包装多表查询的对象
+        /// </summary>
+        public string uname { get; set; }
     }
 }

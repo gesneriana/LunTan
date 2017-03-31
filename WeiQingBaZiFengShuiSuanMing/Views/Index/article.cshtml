@@ -11,11 +11,8 @@
 <script type="text/javascript" charset="utf-8" src="~/ueditor/lang/zh-cn/zh-cn.js"></script>
 
 <script type="text/javascript">
-    $(function () {
 
-    })
-
-    var ue = UE.getEditor('editor');
+    var ue = UE.getEditor('editor_tz');
     ue.ready(function () {
 
     });
@@ -76,10 +73,57 @@
             }
         });
     }
+
+    // 回帖,盖楼
+    function huitie() {
+        var tid = '@ViewData["tid"]';
+        var content = ue.getContent();
+        if (content == '') {
+            alert("请输入回帖内容");
+            return;
+        }
+        var b = true;
+        if (content.indexOf('<p>') >= 0 && content.indexOf('</p>') >= 0) {
+            b = true;
+        } else if (content.indexOf('<p>') >= 0 && content.indexOf('</p>') < 0) {
+            b = false;
+        }
+        if (b) {
+            $.ajax({
+                type: "POST",
+                url: "/index/huitie",
+                data: "tid=" + tid + "&content=" + content,
+                error: function (request) {
+                    alert('请求错误');
+                },
+                success: function (data) {
+                    if (data > 0) {
+                        alert("保存成功");
+                        location.href = "/index/article/@ViewData["tid"]";
+                    } else {
+                        alert("保存失败:" + data);
+                    }
+                }
+            });
+        } else {
+            alert("数据异常,请查询输入");
+        }
+    }
 </script>
 
 <div style="float:left;width:660px;">
-    <div></div>
+    <div style="text-align:center;font-size:12px;color:#666;line-height:200%;">
+        @{ 
+            if (ViewData["title"] != null)
+            {
+                var title = (Entity.TitleExt)ViewData["title"];
+                if (title != null)
+                {
+                    <text>楼主: @title.uname &emsp;主题: @title.art_title <br />关键字: @title.keywords &emsp;创建日期: @title.addtime.ToString("yyyy-MM-dd HH:mm") </text>
+                }
+            }
+        }
+    </div>
     @{ 
         if (ViewData["tzList"] != null)
         {
@@ -92,7 +136,7 @@
                     {
                         <text>
                             <div style="min-height:200px;width:100%;border:1px solid #E1E4E6;">
-                                <div style="width:80px;font-size:14px;min-height:200px;float:left;text-indent:1em;padding-top:10px;color:#2d64b3;background-color:#FBFBFD;">@item.uname </div>
+                                <div style="width:80px;font-size:14px;min-height:200px;float:left;text-indent:1em;padding-top:10px;color:#2d64b3;">@item.uname </div>
 
                                 <div style="min-width:500px;font-size:16px;min-height:200px;margin-left:80px;padding-top:10px;">
                                     @*楼层内容*@
@@ -143,9 +187,11 @@
     }
 
     <div style="padding-top:30px;">
-        <div>@Html.Raw(ViewData["url"]) </div>
-        <script id="editor" name="content" type="text/plain" style="width:100%;height:150px;">
+        <script id="editor_tz" name="content" type="text/plain" style="width:100%;height:150px;">
         </script>
-        <div class="blueBtn">发表</div>
+        <div>
+            <div class="blueBtn" onclick="huitie()">发表</div>
+            @(Html.Raw(ViewData["url"]))
+        </div>
     </div>
 </div>

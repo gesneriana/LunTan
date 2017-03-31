@@ -468,6 +468,10 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             return Redirect("/index/index");
         }
 
+        /// <summary>
+        /// 创建新帖的视图页
+        /// </summary>
+        /// <returns></returns>
         [Filters.CheckLogin(IsAjax = false, IsPost = false)]
         public ActionResult createSub()
         {
@@ -507,13 +511,13 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                         using (WeiQingEntities db = new WeiQingEntities())
                         {
                             db.title.Add(t);
-                            res = db.SaveChanges();
+                            res = db.SaveChanges(); // 保存帖子标题
                             if (res > 0)
                             {
                                 var tid = db.title.Where(x => x.uid == u.id).Max(x => x.id);
                                 tiezi tz = new tiezi() { tid = tid, addtime = dt, uid = u.id, content = model.content, floor = 1, state = 1, uname = u.nick_name };
                                 db.tiezi.Add(tz);
-                                res = db.SaveChanges();
+                                res = db.SaveChanges(); // 保存帖子的内容,一楼
                                 if (res > 0)
                                 {
                                     scope.Complete();
@@ -543,13 +547,15 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             {
                 using (WeiQingEntities db = new WeiQingEntities())
                 {
-                    var title = db.title.Where(x => x.id == id && x.state == 1).FirstOrDefault();
-                    ViewData["title"] = title;
+                    var title = (from t in db.title join us in db.user on t.uid equals us.id where t.id == id && t.state == 1 select new TitleExt() { uname = us.nick_name, id = t.id, addtime = t.addtime, art_title = t.art_title, keywords = t.keywords, state = t.state, uid = t.uid }).FirstOrDefault();
+                    ViewData["title"] = title;  // 获取帖子标题
+                    ViewData["tid"] = title.id; // 回帖需要用的参数
+
                     var q = (from tit in db.title join tz in db.tiezi on tit.id equals tz.tid where tz.state == 1 && tit.state == 1 && tz.tid == id orderby tz.id select new TieZiExt() { id = tz.id, addtime = tz.addtime, content = tz.content, floor = tz.floor, state = tz.state, tid = tz.tid, uid = tz.uid, uname = tz.uname });
                     // ViewData["sql"] = q.ToString();
                     var p = new EFPaging<TieZiExt>();
 
-                    var tzList = p.getPageList(q, "/index/article", page, 12);    // 获取帖子内容列表, 再获取回复内容列表
+                    var tzList = p.getPageList(q, "/index/article/" + 1, page, 12);    // 获取帖子内容列表, 再获取回复内容列表
                     if (tzList != null && tzList.Count > 0)
                     {
                         foreach (var item in tzList)
@@ -617,6 +623,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
+        [Filters.CheckLogin(IsAjax =true,IsLogin =false,IsPost =true)]
         public ActionResult jubao_sub(tiezi_jubao model)
         {
             if (model != null && model.tzid > 0 && model.reason != null)
@@ -639,6 +646,33 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                     }
 
                     db.tiezi_jubao.Add(model);
+                    return Content(db.SaveChanges().ToString());
+                }
+            }
+            return Content("-1");
+        }
+
+        /// <summary>
+        /// 回帖的请求地址
+        /// </summary>
+        /// <returns></returns>
+        [ValidateInput(false)]
+        [Filters.CheckLogin]
+        public ActionResult huitie(tiezi model)
+        {
+            if (model != null && model.tid > 0 && model.content != null && model.content.Length > 0)
+            {
+                model.addtime = DateTime.Now;
+                var user = (user)Session["user"];
+                model.uid = user.id;
+                model.state = 1;
+                model.uname = user.nick_name;
+                // 获取楼层
+                using (WeiQingEntities db = new WeiQingEntities())
+                {
+                    var floor = db.tiezi.Where(x => x.tid == model.tid).Max(x => x.floor);
+                    model.floor = floor + 1;    // 当前楼层加1
+                    db.tiezi.Add(model);
                     return Content(db.SaveChanges().ToString());
                 }
             }
