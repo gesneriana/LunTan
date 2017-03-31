@@ -555,7 +555,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                     // ViewData["sql"] = q.ToString();
                     var p = new EFPaging<TieZiExt>();
 
-                    var tzList = p.getPageList(q, "/index/article/" + 1, page, 12);    // 获取帖子内容列表, 再获取回复内容列表
+                    var tzList = p.getPageList(q, "/index/article/" + id, page, 12);    // 获取帖子内容列表, 再获取回复内容列表
                     if (tzList != null && tzList.Count > 0)
                     {
                         foreach (var item in tzList)
@@ -685,6 +685,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// <returns></returns>
         public ActionResult ycList()
         {
+
             return View();
         }
 
