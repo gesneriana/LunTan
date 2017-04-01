@@ -38,6 +38,9 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                     ViewData["baziList"] = efp.getPageList(bl, "/admin/index", page, 10);
                     ViewData["url"] = efp.pageUrl;
                 }
+
+                var notice = db.notice.OrderByDescending(x => x.addtime).FirstOrDefault();
+                ViewData["notice"] = notice;
             }
             return View();
         }
@@ -90,5 +93,48 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             }
             return Content("-1");
         }
+
+        /// <summary>
+        /// 发布公告
+        /// </summary>
+        /// <returns></returns>
+        [ValidateInput(false)]
+        public ActionResult fbgg(notice model)
+        {
+            if (model != null && model.content != null && model.content.Length > 0)
+            {
+                var user = (user)Session["user"];
+                using(WeiQingEntities db=new WeiQingEntities())
+                {
+                    var count = db.notice.Count();
+                    if (count == 0)
+                    {
+                        model.addtime = DateTime.Now;
+                        model.uid = (int)user.id;
+                        db.notice.Add(model);
+                        return Content(db.SaveChanges().ToString());
+                    }
+                    else
+                    {
+                        var notice = db.notice.OrderByDescending(x => x.addtime).FirstOrDefault();
+                        if (notice != null && notice.id > 0)
+                        {
+                            notice.show = model.show;
+                            notice.content = model.content;
+                            return Content(db.SaveChanges().ToString());
+                        }
+                        else
+                        {
+                            model.addtime = DateTime.Now;
+                            model.uid = (int)user.id;
+                            db.notice.Add(model);
+                            return Content(db.SaveChanges().ToString());
+                        }
+                    }
+                }
+            }
+            return Content("参数错误");
+        }
+
     }
 }

@@ -75,6 +75,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\getModel.cs" />
     <Compile Include="Entity\bazijianpi.cs">
       <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
     </Compile>
@@ -83,6 +84,9 @@
       <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\login_log.cs">
+      <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\notice.cs">
       <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\tiezi.cs">

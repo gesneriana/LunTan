@@ -13,6 +13,7 @@
         <EntityTypeShape EntityType="WeiQingModel.tiezi" Width="1.5" PointX="3.875" PointY="4.375" />
         <EntityTypeShape EntityType="WeiQingModel.tzreply" Width="1.5" PointX="6.5" PointY="4.375" />
         <EntityTypeShape EntityType="WeiQingModel.tiezi_jubao" Width="1.5" PointX="9.125" PointY="4.625" />
+        <EntityTypeShape EntityType="WeiQingModel.notice" Width="1.5" PointX="0.75" PointY="7.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

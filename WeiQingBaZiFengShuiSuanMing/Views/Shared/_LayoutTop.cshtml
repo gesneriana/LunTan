@@ -20,6 +20,8 @@
             font-size: 16px;
         }
 
+        hr{height:1px;background-color:#E0D0A3;border:none;}
+
         .badoo{text-align:right;float:right;height:48px;line-height:38px;}
         .badoo span{display:inline-block;padding:5px 5px 5px;margin-left:7px;margin-right:3px;color:#999;}
         .badoo a{display:inline-block;padding:5px 5px 5px;margin-left:7px;margin-right:3px;}
@@ -338,6 +340,7 @@
                 {
                     EFDao.Entity.user u = (EFDao.Entity.user)Session["user"];
                     <text>
+                        @{ if (u.is_admin) {<a style="display:inline-block;font-size:16px;" href="/admin/index" target="_blank">后台管理</a>}}
                         <span style="display:inline-block;float:right;color:#666;font-size:12px;">您好,@(u.nick_name) 
                         &emsp;&emsp;<a href="javascript:;" onclick="changePwd()">修改密码</a>
                         &emsp;&emsp; <a href="/index/logout">注销登录</a></span>
@@ -437,7 +440,7 @@
                             </tr>
                             <tr>
                                 <td colspan="2" style="text-align:center;color:#76644F;font-size:16px;">
-                                    <input type="button" value="确定" onclick="bzjpSub()" style="color:#76644F;" />
+                                    <a href="javascript:;" onclick="bzjpSub()" >申请八字简批</a>
                                 </td>
                             </tr>
                             @*<tr><td colspan="2" style="text-align:center;color:#76644F;font-size:16px;">今天已有0人预测</td></tr>*@
@@ -445,20 +448,30 @@
                     </form>
                 </div>
 
+                <hr />
+
                 @*每日一文*@
                 <div style="width:100%;min-height:200px;">
+                    <div style="text-align:center;height:25px;line-height:25px;"><a style="color:#c00;" href="#">查看更多文章</a> </div>
                     <ul style="width:100%;min-height:175px;">
                         <li></li>
                     </ul>
-                    <div style="text-align:center;height:25px;line-height:25px;"><a style="color:#c00;" href="#">查看更多文章</a> </div>
                 </div>
 
-                @*留言板*@
+                <hr />
+
+                @*公告板*@
                 <div style="width:100%;min-height:200px;">
-                    <ul style="width:100%;min-height:175px;">
-                        <li></li>
-                    </ul>
-                    <div style="text-align:center;height:25px;line-height:25px;"><a style="color:#c00;" href="#">查看更多留言</a> </div>
+                    <div style="text-align:center;height:25px;line-height:25px;color:#c00;">公告板</div>
+                    <div style="width:100%;min-height:175px;">
+                        @{ 
+                            var notice = EFDao.BLL.getModel.getNotice();
+                            if (notice != null)
+                            {
+                                <text>@Html.Raw(notice.content) </text>
+                            }
+                        }
+                    </div>
                 </div>
 
             </div>

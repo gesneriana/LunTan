@@ -38,6 +38,16 @@
           <Property Name="login_time" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="login_ip" Type="varchar" MaxLength="30" Nullable="false" />
         </EntityType>
+        <EntityType Name="notice">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="uid" Type="int" Nullable="false" />
+          <Property Name="addtime" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="content" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="show" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="tiezi">
           <Key>
             <PropertyRef Name="id" />
@@ -104,6 +114,7 @@
           <EntitySet Name="bazijianpi" EntityType="Self.bazijianpi" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="getpwdlog" EntityType="Self.getpwdlog" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="login_log" EntityType="Self.login_log" Schema="bazifengshuisuanming" store:Type="Tables" />
+          <EntitySet Name="notice" EntityType="Self.notice" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="tiezi" EntityType="Self.tiezi" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="tiezi_jubao" EntityType="Self.tiezi_jubao" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="title" EntityType="Self.title" Schema="bazifengshuisuanming" store:Type="Tables" />
@@ -138,6 +149,7 @@
           <EntitySet Name="tiezi" EntityType="WeiQingModel.tiezi" />
           <EntitySet Name="tzreply" EntityType="WeiQingModel.tzreply" />
           <EntitySet Name="tiezi_jubao" EntityType="WeiQingModel.tiezi_jubao" />
+          <EntitySet Name="notice" EntityType="WeiQingModel.notice" />
         </EntityContainer>
         <EntityType Name="getpwdlog">
           <Key>
@@ -218,6 +230,16 @@
           <Property Name="addtime" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ip" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="jb_type" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="notice">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uid" Type="Int32" Nullable="false" />
+          <Property Name="addtime" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="content" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="show" Type="Boolean" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -324,6 +346,17 @@
                 <ScalarProperty Name="addtime" ColumnName="addtime" />
                 <ScalarProperty Name="reason" ColumnName="reason" />
                 <ScalarProperty Name="tzid" ColumnName="tzid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="notice">
+            <EntityTypeMapping TypeName="WeiQingModel.notice">
+              <MappingFragment StoreEntitySet="notice">
+                <ScalarProperty Name="show" ColumnName="show" />
+                <ScalarProperty Name="content" ColumnName="content" />
+                <ScalarProperty Name="addtime" ColumnName="addtime" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

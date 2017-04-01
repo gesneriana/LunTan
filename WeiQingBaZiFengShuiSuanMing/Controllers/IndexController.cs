@@ -209,6 +209,11 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                             && p.pwd.Equals(u.pwd)).FirstOrDefault();
                             if (user != null && (user.nick_name.Equals(u.nick_name) || user.email.Equals(u.nick_name)))
                             {
+                                // 检查用户是否禁止登录,并且判断是否为管理员
+                                if (user.state == 0)
+                                {
+                                    return Content("你的账号被禁止登录");
+                                }
                                 string ip = Tools.GetRealIP();
                                 login_log log = new login_log() { uid = (int)user.id, login_ip = ip, login_time = DateTime.Now };
                                 db.login_log.Add(log);
@@ -429,7 +434,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                     u.pwd = HashTools.SHA1_Hash(u.pwd);
                     using (WeiQingEntities db = new WeiQingEntities())
                     {
-                        var user = db.user.Where(x => (x.nick_name.Equals(u.nick_name) || x.email.Equals(u.nick_name)) && x.pwd.Equals(u.pwd)).FirstOrDefault();
+                        var user = db.user.Where(x => (x.nick_name.Equals(u.nick_name) || x.email.Equals(u.nick_name)) && x.pwd.Equals(u.pwd) && x.state == 1).FirstOrDefault();
                         if (user != null && user.is_admin && user.id > 0)
                         {
                             Session["user"] = user;
