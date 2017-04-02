@@ -15,5 +15,10 @@ namespace Entity
         /// 新密码
         /// </summary>
         public string newpwd { get; set; }
+
+        /// <summary>
+        /// 修改用户资料时,保存用户的旧密码,已经被sha1算法处理过
+        /// </summary>
+        public string oldpwd { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using EFDao.Entity;
 using Common.Utility;
+using Entity;
 
 namespace WeiQingBaZiFengShuiSuanMing.Controllers
 {
@@ -77,7 +78,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (model != null && model.id > 0)
             {
-                SetNullString.setValues(model);
+                ReflectModel.setValues(model);
                 using (WeiQingEntities db = new WeiQingEntities())
                 {
                     var jp = db.bazijianpi.Where(x => x.id == model.id).FirstOrDefault();
@@ -131,6 +132,111 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                             return Content(db.SaveChanges().ToString());
                         }
                     }
+                }
+            }
+            return Content("参数错误");
+        }
+
+        /// <summary>
+        /// 用户当前论坛注册用户的列表,包括被禁止的用户
+        /// </summary>
+        /// <param name="key">查询条件</param>
+        /// <param name="page">页码</param>
+        /// <returns></returns>
+        public ActionResult userList(string key = "", int page = 1)
+        {
+            using (WeiQingEntities db = new WeiQingEntities())
+            {
+                if (key != null && key.Length > 0)
+                {
+                    var q = db.user.Where(x => x.nick_name.Contains(key) || x.email.Contains(key) || x.mobile.Contains(key) || x.qq.Contains(key) || x.wei_xin.Contains(key)).OrderByDescending(x => x.is_admin).ThenBy(x => x.state).ThenByDescending(x => x.reg_date);
+                    var p = new EFPaging<user>();
+                    var ulist = p.getPageList(q, "/index/userList", page, 20);
+                    ViewData["ulist"] = ulist;
+                    ViewData["url"] = p.pageUrl;
+                }
+                else
+                {
+                    var q = db.user.OrderByDescending(x => x.is_admin).ThenBy(x => x.state).ThenByDescending(x => x.reg_date);
+                    var p = new EFPaging<user>();
+                    var ulist = p.getPageList(q, "/index/userList", page, 20);
+                    ViewData["ulist"] = ulist;
+                    ViewData["url"] = p.pageUrl;
+                }
+            }
+            return View();
+        }
+
+        /// <summary>
+        /// 显示指定用户的信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult user_edit(int id = 0)
+        {
+            if (id > 0)
+            {
+                using(WeiQingEntities db=new WeiQingEntities())
+                {
+                    var u = db.user.Where(x => x.id == id).FirstOrDefault();
+                    if (u != null && u.id > 0)
+                    {
+                        ViewData["u"] = u;
+                        return View();
+                    }
+                }
+            }
+            return Content("无数据,没有找到指定用户的资料");
+        }
+
+        /// <summary>
+        /// 管理员在后台修改用户的资料
+        /// </summary>
+        /// <param name="u"></param>
+        /// <returns></returns>
+        public ActionResult updateUser(UserExt u)
+        {
+            if (u != null && u.id > 0)
+            {
+                if (u.id == 1 && (u.state == 0 || u.is_admin == false))
+                {
+                    return Content("超级管理员的权限不能更改");
+                }
+                if (u.pwd != null && u.pwd.Length >= 6)
+                {
+                    u.pwd = HashTools.SHA1_Hash(u.pwd);
+                }
+                else
+                {
+                    u.pwd = u.oldpwd;
+                }
+                if (u.email != null && u.email.Length > 0)
+                {
+                    if (u.reg_date == DateTime.MinValue)
+                    {
+                        return Content("注册时间参数错误");
+                    }
+                    ReflectModel.setValues(u);
+                    try
+                    {
+                        // user model = new user() { id = u.id, email = u.email, is_admin = u.is_admin, mobile = u.mobile, nick_name = u.nick_name, pwd = u.pwd, qq = u.qq, reg_date = u.reg_date, state = u.state, wei_xin = u.wei_xin };
+                        var model = ReflectModel.AutoCopyToBase<user, UserExt>(u);
+                        int res = EFCommon.Update(model);
+                        if (res > 0)
+                        {
+                            return Content("1");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        return Content(ex.Message);
+                    }
+
+                    return Content("修改失败");
+                }
+                else
+                {
+                    return Content("邮箱不能为空");
                 }
             }
             return Content("参数错误");

@@ -10,7 +10,7 @@ namespace Common.Utility
     /// <summary>
     /// 将string类型值为null的属性初始化为 string.Empty
     /// </summary>
-    public class SetNullString
+    public class ReflectModel
     {
         /// <summary>
         /// 将可空类型设置为 默认值 "", 日期时间则设置为DateTime.Now
@@ -50,6 +50,30 @@ namespace Common.Utility
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// 自动将子类对象复制到父类中,左侧为父类,右侧为子类, 参数为子类对象
+        /// </summary>
+        /// <typeparam name="TParent">父类</typeparam>
+        /// <typeparam name="TChild">扩展业务逻辑继承的子类</typeparam>
+        /// <param name="child">子类对象</param>
+        /// <returns></returns>
+        public static TParent AutoCopyToBase<TParent, TChild>(TChild child) where TParent : new()
+        {
+            TParent base_model = new TParent();
+            var ParentType = typeof(TParent);
+            var Properties = ParentType.GetProperties();
+            foreach (var Propertie in Properties)
+            {
+                //循环遍历属性
+                if (Propertie.CanRead && Propertie.CanWrite)
+                {
+                    //进行属性拷贝
+                    Propertie.SetValue(base_model, Propertie.GetValue(child, null), null);
+                }
+            }
+            return base_model;
         }
     }
 }

@@ -123,7 +123,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (u != null)
             {
-                SetNullString.setValues(u);
+                ReflectModel.setValues(u);
                 if (Tools.getStrLength(u.nick_name) < 3)
                     return Content("用户名的长度必须大于3个字符");
                 if (u.pwd.Length < 6)
@@ -196,7 +196,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (u != null)
             {
-                SetNullString.setValues(u);
+                ReflectModel.setValues(u);
                 if (u.nick_name.Length >= 3 && u.pwd.Length >= 6)
                 {
                     u.pwd = HashTools.SHA1_Hash(u.pwd);
@@ -263,7 +263,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (u != null)
             {
-                SetNullString.setValues(u);
+                ReflectModel.setValues(u);
                 if (u.nick_name.Length >= 3 && Tools.IsEmail(u.email))
                 {
                     try
@@ -333,7 +333,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (u != null)
             {
-                SetNullString.setValues(u);
+                ReflectModel.setValues(u);
                 if (u.nick_name.Length >= 3 && u.pwd.Length >= 6 && u.newpwd.Length >= 6 && !u.pwd.Equals(u.newpwd))
                 {
                     try
@@ -386,7 +386,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
 
                 try
                 {
-                    SetNullString.setValues(model, false);
+                    ReflectModel.setValues(model, false);
                     using (WeiQingEntities db = new WeiQingEntities())
                     {
                         model.addtime = DateTime.Now;
@@ -415,12 +415,21 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// <returns></returns>
         public ActionResult admin()
         {
+            if (Session["user"] != null)
+            {
+                var u = (user)Session["user"];
+                if (u.is_admin)
+                {
+                    return Redirect("/admin/index");
+                }
+            }
             return View();
         }
 
         /// <summary>
-        /// 验证用户是否具有管理员权限
+        /// 验证用户是否具有管理员权限,已弃用
         /// </summary>
+        /// <param name="u"></param>
         /// <returns></returns>
         [HttpPost]
         public ActionResult adminLogin(user u)
@@ -428,7 +437,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             if (u != null)
             {
                 // 查询用户的数据,判断权限
-                SetNullString.setValues(u);
+                ReflectModel.setValues(u);
                 if (u.nick_name.Length > 0 && u.pwd.Length > 0)
                 {
                     u.pwd = HashTools.SHA1_Hash(u.pwd);
@@ -449,6 +458,49 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 return Content("-2");
             }
             return Content("-1");
+        }
+
+        /// <summary>
+        /// 密码默认初始化为666666
+        /// </summary>
+        /// <param name="name">用户名</param>
+        /// <returns></returns>
+        public ActionResult resetUserPwd(string name = "", int id = 0)
+        {
+            var state = System.Configuration.ConfigurationManager.AppSettings["InitPwd"];
+            if ("1".Equals(state))
+            {
+                using (WeiQingEntities db = new WeiQingEntities())
+                {
+                    if (id > 0)
+                    {
+                        var u = db.user.Where(x => x.id == id).FirstOrDefault();
+                        if (u != null && u.id > 0)
+                        {
+                            u.pwd = HashTools.SHA1_Hash("666666");
+                            int res = db.SaveChanges();
+                            if (res > 0)
+                            {
+                                return Content("<script>alert('初始化密码成功,密码为666666')</script>");
+                            }
+                        }
+                    }
+                    if (name != null && name.Length > 0)
+                    {
+                        var u = db.user.Where(x => x.nick_name.Equals(name)).FirstOrDefault();
+                        if (u != null && u.id > 0)
+                        {
+                            u.pwd = HashTools.SHA1_Hash("666666");
+                            int res = db.SaveChanges();
+                            if (res > 0)
+                            {
+                                return Content("<script>alert('初始化密码成功,密码为666666')</script>");
+                            }
+                        }
+                    }
+                }
+            }
+            return Content("设置失败,请检查是否在应用程序设置中开启了此接口");
         }
 
         /// <summary>
@@ -494,7 +546,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (model != null)
             {
-                SetNullString.setValues(model);
+                ReflectModel.setValues(model);
                 int res = 0;
                 DateTime dt = DateTime.Now;
 
@@ -586,7 +638,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (model != null && model.tzid > 0)
             {
-                SetNullString.setValues(model);
+                ReflectModel.setValues(model);
                 if (model.content.Length == 0)
                     return Content("-2");   // 用户没有正确输入内容
                 

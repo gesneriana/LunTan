@@ -12,7 +12,7 @@ namespace Test
         static void Main(string[] args)
         {
             var user = new EFDao.Entity.user() { nick_name = "gesneriana", email = "s694060865@163.com", pwd = "angel." };
-            SetNullString.setValues(user);
+            ReflectModel.setValues(user);
             using(EFDao.Entity.WeiQingEntities db=new EFDao.Entity.WeiQingEntities())
             {
                 db.user.Add(user);

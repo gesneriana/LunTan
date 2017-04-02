@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace EFDao.Entity
 {
     /// <summary>
-    /// 使用Entity Framework进行增删改, 进行封装, 查询没办法做到标准的通用
+    /// 使用Entity Framework进行增删改, 进行封装, 查询没办法做到通用
     /// </summary>
     public class EFCommon
     {

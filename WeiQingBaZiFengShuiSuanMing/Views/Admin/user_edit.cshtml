@@ -1,0 +1,135 @@
+﻿@{
+    Layout = null;
+}
+
+@{ var m = (EFDao.Entity.user)ViewData["u"]; }
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>修改用户资料</title>
+    <style type="text/css">
+        .blueBtn {
+            display: inline-block;
+            margin-left: 20px;
+            padding: 5px 10px 5px;
+            font-size: 14px;
+            background-color: #398BFC;
+            cursor: pointer;
+            color: #fff;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            margin-right: 10px;
+        }
+
+        .blueBtn_s {
+            display: inline-block;
+            padding: 5px 10px 5px;
+            font-size: 12px;
+            background-color: #398BFC;
+            cursor: pointer;
+            color: #fff;
+            margin-top: 2px;
+            margin-bottom: 2px;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+    </style>
+    <script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+
+        // 修改用户资料
+        function changeUser() {
+            if ($("#email").val() == '') {
+                alert("邮箱不能为空");
+                return;
+            }
+            if ($("#pwd").val().length > 0 && $("#pwd").val().length < 6) {
+                alert("密码长度至少6位");
+                return;
+            }
+            $.ajax({
+                type: 'post',
+                url: '/admin/updateUser',
+                data: $("#uform").serialize(),
+                error: function (request) {
+                    alert('请求错误');
+                },
+                success: function (data) {
+                    if (data == 1) {
+                        alert("修改成功");
+                        location.href = "/admin/user_edit/@m.id";
+                    } else {
+                        alert(data);
+                    }
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+    <div style="text-align:center;">修改用户的资料</div>
+    <div style="width:800px;min-height:600px;margin:0px auto 0px;">
+        <form id="uform">
+            <input type="hidden" name="id" value="@m.id" />
+            <input type="hidden" name="nick_name" value="@m.nick_name" />
+            <input type="hidden" name="oldpwd" value="@m.pwd" />
+            <input type="hidden" name="reg_date" value="@m.reg_date.ToString("yyyy-MM-dd HH:mm:ss")" />
+            <table>
+                <tr>
+                    <td>用户名:</td>
+                    <td>@m.nick_name</td>
+                </tr>
+                <tr>
+                    <td>密码:</td>
+                    <td><input type="text" name="pwd" id="pwd" placeholder="留空不更改密码" /></td>
+                </tr>
+                <tr>
+                    <td>邮箱:</td>
+                    <td><input type="text" name="email" id="email" value="@m.email" /> </td>
+                </tr>
+                <tr>
+                    <td>手机号:</td>
+                    <td><input type="text" name="mobile" value="@m.mobile" /> </td>
+                </tr>
+                <tr>
+                    <td>QQ:</td>
+                    <td><input type="text" name="qq" value="@m.qq" /> </td>
+                </tr>
+                <tr>
+                    <td>微信:</td>
+                    <td><input type="text" name="wei_xin" value="@m.wei_xin" /> </td>
+                </tr>
+                <tr>
+                    <td>注册时间:</td>
+                    <td>@m.reg_date.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                </tr>
+
+                @*用户编号为1的管理员不可更改*@
+                <tr>
+                    <td>权限:</td>
+                    <td>
+                        <label for="ut1">管理员</label><input type="radio" name="is_admin" id="ut1" value="true" @{if (m.is_admin) { <text> checked="checked" </text>  } } />
+                        <label for="ut2">普通用户</label><input type="radio" name="is_admin" id="ut2" value="false" @{if (!m.is_admin) { <text> checked="checked" </text>  } } />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>状态:</td>
+                    <td>
+                        <label for="st1">正常使用</label><input type="radio" name="state" id="st1" value="1" @{if (m.state==1) { <text> checked="checked" </text>   } } />
+                        <label for="st2">禁止登录</label><input type="radio" name="state" id="st2" value="0" @{if (m.state==0) { <text> checked="checked" </text>   } } />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td><div class="blueBtn_s" onclick="changeUser()">保存修改</div> </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>

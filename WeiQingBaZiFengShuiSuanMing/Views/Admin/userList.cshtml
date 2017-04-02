@@ -1,0 +1,128 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>用户列表</title>
+    <style type="text/css">
+        * {
+            list-style-type: none;
+        }
+
+        body {
+            background-color: #FDFDF8;
+        }
+
+        a {
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        hr {
+            height: 1px;
+            background-color: #E0D0A3;
+            border: none;
+        }
+
+        .badoo {
+            text-align: right;
+            float: right;
+            height: 48px;
+            line-height: 38px;
+        }
+
+            .badoo span {
+                display: inline-block;
+                padding: 5px 5px 5px;
+                margin-left: 7px;
+                margin-right: 3px;
+                color: #999;
+            }
+
+            .badoo a {
+                display: inline-block;
+                padding: 5px 5px 5px;
+                margin-left: 7px;
+                margin-right: 3px;
+            }
+
+        .blueBtn {
+            display: inline-block;
+            margin-left: 20px;
+            padding: 5px 10px 5px;
+            font-size: 14px;
+            background-color: #398BFC;
+            cursor: pointer;
+            color: #fff;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            margin-right: 10px;
+        }
+
+        .blueBtn_s {
+            display: inline-block;
+            padding: 5px 10px 5px;
+            font-size: 12px;
+            background-color: #398BFC;
+            cursor: pointer;
+            color: #fff;
+            margin-top: 2px;
+            margin-bottom: 2px;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        .edit_tr{
+            cursor:pointer;
+            width:100%;
+            color:chocolate;
+        }
+        
+    </style>
+</head>
+<body>
+    <div style="text-align:center;">用户管理</div>
+    <div style="width:800px;min-height:600px;margin:0px auto 0px;">
+        <table id="ul_tab" style="width:100%;">
+            <tr>
+                <td>用户编号</td>
+                <td>用户名</td>
+                <td>邮箱</td>
+                <td>手机号</td>
+                <td>QQ</td>
+                <td>微信</td>
+                <td>注册时间</td>
+                <td>管理员</td>
+                <td>状态</td>
+            </tr>
+            @{
+                if (ViewData["ulist"] != null)
+                {
+                    var ulist = (List<EFDao.Entity.user>)ViewData["ulist"];
+                    if (ulist != null && ulist.Count > 0)
+                    {
+                        foreach (var item in ulist)
+                        {
+                            <tr class="edit_tr" onclick="javascript:window.open('/admin/user_edit/@item.id','_blank')">
+                                <td>@item.id</td>
+                                <td>@item.nick_name</td>
+                                <td>@item.email</td>
+                                <td>@item.mobile</td>
+                                <td>@item.qq</td>
+                                <td>@item.wei_xin</td>
+                                <td>@item.reg_date.ToString("yyyy-MM-dd HH:mm")</td>
+                                <td>@(item.is_admin?"是":"否")</td>
+                                <td>@(item.state==0?"禁止登录":"正常使用")</td>
+                            </tr>
+                        }
+                    }
+                }
+            }
+        </table>
+    </div>
+</body>
+</html>
