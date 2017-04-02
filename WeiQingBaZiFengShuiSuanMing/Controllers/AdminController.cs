@@ -219,7 +219,6 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                     ReflectModel.setValues(u);
                     try
                     {
-                        // user model = new user() { id = u.id, email = u.email, is_admin = u.is_admin, mobile = u.mobile, nick_name = u.nick_name, pwd = u.pwd, qq = u.qq, reg_date = u.reg_date, state = u.state, wei_xin = u.wei_xin };
                         var model = ReflectModel.AutoCopyToBase<user, UserExt>(u);
                         int res = EFCommon.Update(model);
                         if (res > 0)

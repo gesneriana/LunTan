@@ -465,7 +465,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// </summary>
         /// <param name="name">用户名</param>
         /// <returns></returns>
-        public ActionResult resetUserPwd(string name = "", int id = 0)
+        public ActionResult resetUserPwd(string name = "", int id = 0, string newpwd = "")
         {
             var state = System.Configuration.ConfigurationManager.AppSettings["InitPwd"];
             if ("1".Equals(state))
@@ -477,11 +477,22 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                         var u = db.user.Where(x => x.id == id).FirstOrDefault();
                         if (u != null && u.id > 0)
                         {
-                            u.pwd = HashTools.SHA1_Hash("666666");
-                            int res = db.SaveChanges();
-                            if (res > 0)
+                            if (newpwd != null && newpwd.Length >= 6)
                             {
-                                return Content("<script>alert('初始化密码成功,密码为666666')</script>");
+                                u.pwd = HashTools.SHA1_Hash(newpwd);
+                            }
+                            else
+                            {
+                                u.pwd = HashTools.SHA1_Hash("666666");
+                            }
+                            int res = db.SaveChanges();
+                            if (res > 0 && string.IsNullOrEmpty(newpwd))
+                            {
+                                return Content("<script>alert('初始化密码成功,密码为666666,请立即修改密码')</script>");
+                            }
+                            else if (res > 0)
+                            {
+                                return Content("<script>alert('初始化密码成功,密码为" + newpwd + " ,请立即修改密码')</script>");
                             }
                         }
                     }
@@ -490,17 +501,28 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                         var u = db.user.Where(x => x.nick_name.Equals(name)).FirstOrDefault();
                         if (u != null && u.id > 0)
                         {
-                            u.pwd = HashTools.SHA1_Hash("666666");
-                            int res = db.SaveChanges();
-                            if (res > 0)
+                            if (newpwd != null && newpwd.Length >= 6)
                             {
-                                return Content("<script>alert('初始化密码成功,密码为666666')</script>");
+                                u.pwd = HashTools.SHA1_Hash(newpwd);
+                            }
+                            else
+                            {
+                                u.pwd = HashTools.SHA1_Hash("666666");
+                            }
+                            int res = db.SaveChanges();
+                            if (res > 0 && string.IsNullOrEmpty(newpwd))
+                            {
+                                return Content("<script>alert('初始化密码成功,密码为666666,请立即修改密码')</script>");
+                            }
+                            else if (res > 0)
+                            {
+                                return Content("<script>alert('初始化密码成功,密码为" + newpwd + " ,请立即修改密码')</script>");
                             }
                         }
                     }
                 }
             }
-            return Content("设置失败,请检查是否在应用程序设置中开启了此接口");
+            return Content("设置失败,请检查是否在应用程序设置中开启了此接口,或者已设置为初始密码");
         }
 
         /// <summary>
