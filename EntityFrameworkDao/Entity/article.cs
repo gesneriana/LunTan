@@ -12,14 +12,14 @@ namespace EFDao.Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class tiezi_jubao
+    public partial class article
     {
         public long id { get; set; }
-        public long tzid { get; set; }
-        public string reason { get; set; }
+        public string title { get; set; }
+        public string keywords { get; set; }
         public System.DateTime addtime { get; set; }
-        public string ip { get; set; }
-        public bool jb_type { get; set; }
+        public int uid { get; set; }
         public int state { get; set; }
+        public string content { get; set; }
     }
 }

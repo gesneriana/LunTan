@@ -123,7 +123,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (u != null)
             {
-                ReflectModel.setValues(u);
+                reflectModel.setValues(u);
                 if (Tools.getStrLength(u.nick_name) < 3)
                     return Content("用户名的长度必须大于3个字符");
                 if (u.pwd.Length < 6)
@@ -196,7 +196,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (u != null)
             {
-                ReflectModel.setValues(u);
+                reflectModel.setValues(u);
                 if (u.nick_name.Length >= 3 && u.pwd.Length >= 6)
                 {
                     u.pwd = HashTools.SHA1_Hash(u.pwd);
@@ -263,7 +263,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (u != null)
             {
-                ReflectModel.setValues(u);
+                reflectModel.setValues(u);
                 if (u.nick_name.Length >= 3 && Tools.IsEmail(u.email))
                 {
                     try
@@ -333,7 +333,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (u != null)
             {
-                ReflectModel.setValues(u);
+                reflectModel.setValues(u);
                 if (u.nick_name.Length >= 3 && u.pwd.Length >= 6 && u.newpwd.Length >= 6 && !u.pwd.Equals(u.newpwd))
                 {
                     try
@@ -386,7 +386,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
 
                 try
                 {
-                    ReflectModel.setValues(model, false);
+                    reflectModel.setValues(model, false);
                     using (WeiQingEntities db = new WeiQingEntities())
                     {
                         model.addtime = DateTime.Now;
@@ -437,7 +437,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             if (u != null)
             {
                 // 查询用户的数据,判断权限
-                ReflectModel.setValues(u);
+                reflectModel.setValues(u);
                 if (u.nick_name.Length > 0 && u.pwd.Length > 0)
                 {
                     u.pwd = HashTools.SHA1_Hash(u.pwd);
@@ -568,7 +568,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (model != null)
             {
-                ReflectModel.setValues(model);
+                reflectModel.setValues(model);
                 int res = 0;
                 DateTime dt = DateTime.Now;
 
@@ -660,7 +660,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (model != null && model.tzid > 0)
             {
-                ReflectModel.setValues(model);
+                reflectModel.setValues(model);
                 if (model.content.Length == 0)
                     return Content("-2");   // 用户没有正确输入内容
                 
@@ -710,6 +710,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             {
                 model.addtime = DateTime.Now;
                 model.ip = Tools.GetRealIP();
+                model.state = 0;
                 using(WeiQingEntities db=new WeiQingEntities())
                 {
                     var t1 = DateTime.Now.Date;

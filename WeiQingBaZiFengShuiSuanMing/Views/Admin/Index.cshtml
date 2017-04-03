@@ -156,6 +156,7 @@
     <div id="menu" style="width:1000px;min-height:50px;margin:0px auto 0px;padding-bottom:10px;">
         <ul>
             <li><a href="/admin/userList" target="_blank" title="用户管理">用户管理</a> </li>
+            <li><a href="/admin/jubaoshenpi" target="_blank" title="举报审批">举报审批</a></li>
         </ul>
     </div>
 
@@ -184,26 +185,24 @@
                     {
                         foreach (var item in baziList)
                         {
-                            <text>
-                                <tr class="cp">
-                                    <td>@item.id</td>
-                                    <td>@item.name </td>
-                                    <td>@(item.sex == true ? "男" : "女") </td>
-                                    <td>@item.born_place </td>
-                                    <td>@item.born_date.ToString("yyyy-MM-dd HH:mm") </td>
-                                    <td>@item.bazi</td>
-                                    <td>
-                                        @{if (item.state == 0)
-                                            {<text>用户不可见</text> }
-                                            else
-                                            {<text>用户可见</text>} }
+                            <tr class="cp">
+                                <td>@item.id</td>
+                                <td>@item.name </td>
+                                <td>@(item.sex == true ? "男" : "女") </td>
+                                <td>@item.born_place </td>
+                                <td>@item.born_date.ToString("yyyy-MM-dd HH:mm") </td>
+                                <td>@item.bazi</td>
+                                <td>
+                                    @{if (item.state == 0)
+                                        {<text>用户不可见</text> }
+                                        else
+                                        {<text>用户可见</text>} }
                                 </td>
                                 <td><a target="_blank" href="/admin/jianpi/@item.id">简批</a></td>
                             </tr>
-                            </text>
-                                                    }
-                                                }
-                                            }
+                        }
+                    }
+                }
             }
         </table>
         <div>@Html.Raw(ViewData["url"])</div>

@@ -16,7 +16,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// 显示管理员的后台页面
         /// </summary>
         /// <returns></returns>
-        public ActionResult index(string key = "",int page=1)
+        public ActionResult index(string key = "", int page = 1)
         {
             using (WeiQingEntities db = new WeiQingEntities())
             {
@@ -78,7 +78,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (model != null && model.id > 0)
             {
-                ReflectModel.setValues(model);
+                reflectModel.setValues(model);
                 using (WeiQingEntities db = new WeiQingEntities())
                 {
                     var jp = db.bazijianpi.Where(x => x.id == model.id).FirstOrDefault();
@@ -105,7 +105,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             if (model != null && model.content != null && model.content.Length > 0)
             {
                 var user = (user)Session["user"];
-                using(WeiQingEntities db=new WeiQingEntities())
+                using (WeiQingEntities db = new WeiQingEntities())
                 {
                     var count = db.notice.Count();
                     if (count == 0)
@@ -176,7 +176,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (id > 0)
             {
-                using(WeiQingEntities db=new WeiQingEntities())
+                using (WeiQingEntities db = new WeiQingEntities())
                 {
                     var u = db.user.Where(x => x.id == id).FirstOrDefault();
                     if (u != null && u.id > 0)
@@ -216,10 +216,10 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                     {
                         return Content("注册时间参数错误");
                     }
-                    ReflectModel.setValues(u);
+                    reflectModel.setValues(u);
                     try
                     {
-                        var model = ReflectModel.AutoCopyToBase<user, UserExt>(u);
+                        var model = reflectModel.AutoCopyToBase<user, UserExt>(u);
                         int res = EFCommon.Update(model);
                         if (res > 0)
                         {
@@ -236,6 +236,105 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 else
                 {
                     return Content("邮箱不能为空");
+                }
+            }
+            return Content("参数错误");
+        }
+
+        /// <summary>
+        /// 审批列表页
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public ActionResult jubaoshenpi(int page = 1)
+        {
+            using (WeiQingEntities db = new WeiQingEntities())
+            {
+                var q = from t in db.tiezi_jubao orderby t.state, t.addtime select t;
+                var p = new EFPaging<tiezi_jubao>();
+                var list = p.getPageList(q, "/admin/jubaoshenpi", page, 20);
+                ViewData["list"] = list;
+                ViewData["url"] = p.pageUrl;
+            }
+            return View();
+        }
+
+        /// <summary>
+        /// 审批视图页面
+        /// </summary>
+        /// <param name="id">指定楼层的帖子id,主键</param>
+        /// <returns></returns>
+        public ActionResult editShenPi(int id = 0, int jbid = 0)
+        {
+            if (id > 0)
+            {
+                using (WeiQingEntities db = new WeiQingEntities())
+                {
+                    var t = (from te in db.tiezi where te.id == id select te).FirstOrDefault();
+                    var model = reflectModel.AutoCopyToChild<tiezi, TieZiExt>(t);   // 获取当前id的帖子对象
+                    if (model.id > 0)
+                    {
+                        var list = (from r in db.tzreply where r.tzid == model.id select r).ToList();
+                        model.replyList = list;
+                        ViewData["model"] = model;
+                        ViewData["jbid"] = jbid;
+                        if (model != null && model.id > 0)
+                        {
+                            return View();
+                        }
+                    }
+                }
+            }
+            return Content("没有数据");
+        }
+
+        /// <summary>
+        /// 帖子审批
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="jbid">举报表的主键</param>
+        /// <returns></returns>
+        public ActionResult shenPiTieZi(TieZiExt model, int jbid = 0)
+        {
+            if (model != null && model.id > 0 && jbid > 0)
+            {
+                using (WeiQingEntities db = new WeiQingEntities())
+                {
+                    int res = 0;
+                    var t = db.tiezi.Where(x => x.id == model.id).FirstOrDefault();
+                    if (t != null && t.id > 0)
+                    {
+                        t.state = model.state;
+
+                        if (model.replyList != null && model.replyList.Count > 0)
+                        {
+                            var rlist = db.tzreply.Where(x => x.tzid == t.id).ToList();  // 获取帖子的回复列表
+                            if (rlist != null && rlist.Count > 0)
+                            {
+                                var tempdic = model.replyList.ToDictionary(x => x.id);
+                                foreach (var item in rlist)
+                                {
+                                    if (tempdic.ContainsKey(item.id))
+                                    {
+                                        item.state = tempdic[item.id].state;
+                                    }
+                                }
+                                res += EFCommon.UpdateMany(rlist);
+                            }
+                        }
+
+                        var jb = db.tiezi_jubao.Where(x => x.id == jbid).FirstOrDefault();
+                        if (jb != null && jb.id > 0 && jb.tzid == t.id)
+                        {
+                            jb.state = 1;   // 已审批
+                            res += db.SaveChanges();
+                            if (res > 0)
+                            {
+                                return Content("审核成功");
+                            }
+                            return Content("审核失败");
+                        }
+                    }
                 }
             }
             return Content("参数错误");

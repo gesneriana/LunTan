@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 namespace Common.Utility
 {
     /// <summary>
-    /// 将string类型值为null的属性初始化为 string.Empty
+    /// 将string类型值为null的属性初始化为 string.Empty, 
+    /// 用反射从子类和父类之间相互复制属性值
     /// </summary>
-    public class ReflectModel
+    public class reflectModel
     {
         /// <summary>
         /// 将可空类型设置为 默认值 "", 日期时间则设置为DateTime.Now
@@ -58,7 +59,7 @@ namespace Common.Utility
         /// <typeparam name="TParent">父类</typeparam>
         /// <typeparam name="TChild">扩展业务逻辑继承的子类</typeparam>
         /// <param name="child">子类对象</param>
-        /// <returns></returns>
+        /// <returns>返回基类对象</returns>
         public static TParent AutoCopyToBase<TParent, TChild>(TChild child) where TParent : new()
         {
             TParent base_model = new TParent();
@@ -75,5 +76,30 @@ namespace Common.Utility
             }
             return base_model;
         }
+
+        /// <summary>
+        /// 自动将基类对象复制到扩展继承类中,左侧为父类(基类),右侧为子类(扩展类), 参数为父类(基类)对象,子类(扩展类)未赋值的属性默认为null
+        /// </summary>
+        /// <typeparam name="TParent">父类(基类)</typeparam>
+        /// <typeparam name="TChild">扩展业务逻辑继承的子类</typeparam>
+        /// <param name="parent">基类对象</param>
+        /// <returns>返回扩展的子类</returns>
+        public static TChild AutoCopyToChild<TParent, TChild>(TParent parent) where TChild : new()
+        {
+            TChild ext_model = new TChild();
+            var ParentType = typeof(TParent);
+            var parentProp = ParentType.GetProperties();
+            foreach (var Propertie in parentProp)
+            {
+                //循环遍历属性
+                if (Propertie.CanRead && Propertie.CanWrite)
+                {
+                    //进行属性拷贝
+                    Propertie.SetValue(ext_model, Propertie.GetValue(parent, null), null);
+                }
+            }
+            return ext_model;
+        }
+
     }
 }

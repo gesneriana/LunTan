@@ -76,6 +76,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\getModel.cs" />
+    <Compile Include="Entity\article.cs">
+      <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\bazijianpi.cs">
       <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
     </Compile>
