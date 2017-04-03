@@ -220,7 +220,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                     try
                     {
                         var model = reflectModel.AutoCopyToBase<user, UserExt>(u);
-                        int res = EFCommon.Update(model);
+                        int res = EfExt.Update(model);
                         if (res > 0)
                         {
                             return Content("1");
@@ -319,7 +319,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                                         item.state = tempdic[item.id].state;
                                     }
                                 }
-                                res += EFCommon.UpdateMany(rlist);
+                                res += EfExt.UpdateMany(rlist);
                             }
                         }
 
@@ -338,6 +338,31 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 }
             }
             return Content("参数错误");
+        }
+
+        /// <summary>
+        /// 发布每日文章
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [ValidateInput(false)]
+        public ActionResult fbart(article model)
+        {
+            if (model != null)
+            {
+                reflectModel.setValues(model);
+                if (model.content.Length > 0 && model.title.Length > 0)
+                {
+                    model.addtime = DateTime.MinValue;
+                    var user = (user)Session["user"];
+                    model.uid = (int)user.id;
+                    if (EfExt.insert(model) > 0)
+                    {
+                        return Content("发布成功");
+                    }
+                }
+            }
+            return Content("发布失败");
         }
 
     }

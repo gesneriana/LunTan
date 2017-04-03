@@ -175,6 +175,19 @@
             }
             #bzjpForm input[type=text]{width:120px;}
             #bzjpForm .bzjp_lt{font-size:12px;color:#76644F;text-align:right;width:40%;}
+            .art_li{
+                color:chocolate;
+                cursor:pointer;
+            }
+            .art_li .tit{
+                font-size:14px;
+            }
+            .art_li .dt{
+                display:block;
+                float:right;
+                font-size:12px;
+                margin-right:5px;
+            }
     </style>
     <script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
     <script language="javascript" type="text/javascript" src="~/plugins/My97DatePicker/WdatePicker.js"></script>
@@ -345,7 +358,7 @@
                         &emsp;&emsp;<a href="javascript:;" onclick="changePwd()">修改密码</a>
                         &emsp;&emsp; <a href="/index/logout">注销登录</a></span>
                     </text>
-                }
+                            }
             }
 
         </div>
@@ -454,7 +467,16 @@
                 <div style="width:100%;min-height:200px;">
                     <div style="text-align:center;height:25px;line-height:25px;"><a style="color:#c00;" href="#">查看更多文章</a> </div>
                     <ul style="width:100%;min-height:175px;">
-                        <li></li>
+                        @{
+                            var list = EFDao.BLL.getData.getArtList();
+                            if (list != null && list.Count > 0)
+                            {
+                                foreach (var item in list)
+                                {
+                                    <li class="art_li" onclick="javascript:window.open('/index/news/@(item.id)','_blank')"><span class="tit">@item.title</span> <span class="dt">@item.addtime.ToString("yyyy-MM-dd HH:mm") </span> </li>
+                                }
+                            }
+                        }
                     </ul>
                 </div>
 
@@ -465,7 +487,7 @@
                     <div style="text-align:center;height:25px;line-height:25px;color:#c00;">公告板</div>
                     <div style="width:100%;min-height:175px;">
                         @{ 
-                            var notice = EFDao.BLL.getModel.getNotice();
+                            var notice = EFDao.BLL.getData.getNotice();
                             if (notice != null)
                             {
                                 <text>@Html.Raw(notice.content) </text>

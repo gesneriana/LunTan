@@ -725,6 +725,7 @@
     <Content Include="Views\Admin\user_edit.cshtml" />
     <Content Include="Views\Admin\jubaoshenpi.cshtml" />
     <Content Include="Views\Admin\editShenPi.cshtml" />
+    <Content Include="Views\Index\news.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

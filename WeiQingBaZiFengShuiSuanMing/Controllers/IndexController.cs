@@ -799,5 +799,30 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 根据指定的文章id,查看文章
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult news(int id = 0)
+        {
+            if (id > 0)
+            {
+                try
+                {
+                    var m = EfExt.select<article>(id);
+                    if (m != null && m.id > 0)
+                    {
+                        ViewData["m"] = m;
+                        return View();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Content(ex.Message);
+                }
+            }
+            return Content("<script>alert('无数据');location.href='/index/index';</script>");
+        }
     }
 }
