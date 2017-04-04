@@ -1,0 +1,45 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutTop.cshtml";
+}
+
+
+@*分页查看留言板的内容*@
+
+<script type="text/javascript">
+
+</script>
+
+<style type="text/css">
+    .bztr {
+        height: 30px;
+        line-height: 30px;
+    }
+</style>
+
+<div style="text-align:center;height:50px;line-height:50px;font-size:16px;color:#666;">留言板</div>
+
+<div>
+    <table style="width:100%;">
+        @{
+            if (ViewData["list"] != null)
+            {
+                var lybList = (List<EFDao.Entity.liuyanban>)ViewData["list"];
+                if (lybList != null && lybList.Count > 0)
+                {
+                    foreach (var item in lybList)
+                    {
+                        <text>
+                            <tr class="bztr">
+                                <td>@item.uname</td>
+                                <td>@item.content</td>
+                                <td>@item.addtime.ToString("yyyy-MM-dd HH:mm")</td>
+                            </tr>
+                        </text>
+                    }
+                }
+            }
+        }
+    </table>
+</div>
+
+<div>@Html.Raw(ViewData["url"]) </div>

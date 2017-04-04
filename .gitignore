@@ -166,8 +166,8 @@ csx/
 ecf/
 rcf/
 
-# Microsoft Azure ApplicationInsights config file
-ApplicationInsights.config
+# Microsoft Azure ApplicationInsights config file,这个文件不能过滤,否则有可能导致项目不能启动
+# ApplicationInsights.config
 
 # Windows Store app package directory
 AppPackages/

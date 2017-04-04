@@ -41,6 +41,18 @@
           <Property Name="ip_address" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="log_time" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
+        <EntityType Name="liuyanban">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="uid" Type="int" Nullable="false" />
+          <Property Name="uname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="addtime" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ip" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="state" Type="int" Nullable="false" />
+          <Property Name="content" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
         <EntityType Name="login_log">
           <Key>
             <PropertyRef Name="id" />
@@ -127,6 +139,7 @@
           <EntitySet Name="article" EntityType="Self.article" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="bazijianpi" EntityType="Self.bazijianpi" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="getpwdlog" EntityType="Self.getpwdlog" Schema="bazifengshuisuanming" store:Type="Tables" />
+          <EntitySet Name="liuyanban" EntityType="Self.liuyanban" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="login_log" EntityType="Self.login_log" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="notice" EntityType="Self.notice" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="tiezi" EntityType="Self.tiezi" Schema="bazifengshuisuanming" store:Type="Tables" />
@@ -165,6 +178,7 @@
           <EntitySet Name="tiezi_jubao" EntityType="WeiQingModel.tiezi_jubao" />
           <EntitySet Name="notice" EntityType="WeiQingModel.notice" />
           <EntitySet Name="article" EntityType="WeiQingModel.article" />
+          <EntitySet Name="liuyanban" EntityType="WeiQingModel.liuyanban" />
         </EntityContainer>
         <EntityType Name="getpwdlog">
           <Key>
@@ -268,6 +282,18 @@
           <Property Name="uid" Type="Int32" Nullable="false" />
           <Property Name="state" Type="Int32" Nullable="false" />
           <Property Name="content" Type="String" Nullable="false" MaxLength="3000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="liuyanban">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uid" Type="Int32" Nullable="false" />
+          <Property Name="uname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="addtime" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ip" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="state" Type="Int32" Nullable="false" />
+          <Property Name="content" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -399,6 +425,19 @@
                 <ScalarProperty Name="addtime" ColumnName="addtime" />
                 <ScalarProperty Name="keywords" ColumnName="keywords" />
                 <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="liuyanban">
+            <EntityTypeMapping TypeName="WeiQingModel.liuyanban">
+              <MappingFragment StoreEntitySet="liuyanban">
+                <ScalarProperty Name="content" ColumnName="content" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="ip" ColumnName="ip" />
+                <ScalarProperty Name="addtime" ColumnName="addtime" />
+                <ScalarProperty Name="uname" ColumnName="uname" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -22,7 +22,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             // 查询八字简批的关键字段
             using (WeiQingEntities db = new WeiQingEntities())
             {
-                // 搜索入口
+                #region 搜索入口, 搜索帖子和预测内容
                 if (type != null && type.Length > 0 && key != null && key.Length > 0)
                 {
                     switch (type)
@@ -94,12 +94,17 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                     ViewData["tzList"] = tz;    // 默认显示的帖子
                     #endregion
                 }
+                #endregion
 
                 // 判断数量,是否显示更多按钮,打开列表页
                 var ycCount = db.bazijianpi.Where(x => x.state == 1).Count();
                 var tzCount = db.title.Where(x => x.state == 1).Count();
                 ViewData["ycCount"] = ycCount;
                 ViewData["tzCount"] = tzCount;
+
+                // 加载最近的10条留言列表
+                var lyList = db.liuyanban.Where(x => x.state == 1).OrderByDescending(x => x.addtime).Take(10).ToList();
+                ViewData["lyList"] = lyList;
             }
             return View(ViewData["act"].ToString());
         }
@@ -621,7 +626,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// <param name="id">帖子表的外键tid (title表的主键)</param>
         /// <param name="page">页码</param>
         /// <returns></returns>
-        public ActionResult article(int id = 0, int page = 1)
+        public ActionResult tiezi(int id = 0, int page = 1)
         {
             if (id > 0)
             {
@@ -635,7 +640,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                     // ViewData["sql"] = q.ToString();
                     var p = new EFPaging<TieZiExt>();
 
-                    var tzList = p.getPageList(q, "/index/article/" + id, page, 12);    // 获取帖子内容列表, 再获取回复内容列表
+                    var tzList = p.getPageList(q, "/index/tiezi/" + id, page, 12);    // 获取帖子内容列表, 再获取回复内容列表
                     if (tzList != null && tzList.Count > 0)
                     {
                         foreach (var item in tzList)
@@ -663,13 +668,13 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 reflectModel.setValues(model);
                 if (model.content.Length == 0)
                     return Content("-2");   // 用户没有正确输入内容
-                
+
                 var u = (user)Session["user"];
                 model.uid = (int)u.id;
                 model.addtime = DateTime.Now;
                 model.state = 1;    // 显示,被举报之后可能会屏蔽
                 model.uname = u.nick_name;
-                using(WeiQingEntities db=new WeiQingEntities())
+                using (WeiQingEntities db = new WeiQingEntities())
                 {
                     var tzuid = db.tiezi.Where(x => x.id == model.tzid).Select(x => x.uid).FirstOrDefault();    // 回复的帖子的uid
                     if (tzuid == u.id)
@@ -703,7 +708,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [Filters.CheckLogin(IsAjax =true,IsLogin =false,IsPost =true)]
+        [Filters.CheckLogin(IsAjax = true, IsLogin = false, IsPost = true)]
         public ActionResult jubao_sub(tiezi_jubao model)
         {
             if (model != null && model.tzid > 0 && model.reason != null)
@@ -711,7 +716,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 model.addtime = DateTime.Now;
                 model.ip = Tools.GetRealIP();
                 model.state = 0;
-                using(WeiQingEntities db=new WeiQingEntities())
+                using (WeiQingEntities db = new WeiQingEntities())
                 {
                     var t1 = DateTime.Now.Date;
                     var ipCount = db.tiezi_jubao.Where(x => x.addtime > t1 && x.ip.Equals(model.ip)).Count();
@@ -794,9 +799,67 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// 分页查看帖子列表
         /// </summary>
         /// <returns></returns>
+        public ActionResult titleList(string key = "", int page = 1)
+        {
+            using (WeiQingEntities db = new WeiQingEntities())
+            {
+                if (key != null && key.Length > 0)
+                {
+                    // var q = db.title.Where(x => x.state == 1 && (x.art_title.Contains(key) || x.keywords.Contains(key))).OrderByDescending(x => x.addtime);
+                    var q1 = from t in db.title
+                             join u in db.user on t.uid equals u.id
+                             where t.state == 1 && (t.art_title.Contains(key) || t.keywords.Contains(key))
+                             orderby t.addtime descending
+                             select new TitleUserExt()
+                             {
+                                 addtime = t.addtime,
+                                 art_title = t.art_title,
+                                 id = t.id,
+                                 keywords = t.keywords,
+                                 nick_name = u.nick_name,
+                                 state = t.state,
+                                 uid = t.uid
+                             };
+                    var p = new EFPaging<TitleUserExt>();
+                    ViewData["list"] = p.getPageList(q1, "/index/titleList", page, 20);
+                    ViewData["url"] = p.pageUrl;
+                    return View();
+                }
+                else
+                {
+                    // var q = db.title.Where(x => x.state == 1).OrderByDescending(x => x.addtime);
+                    var q1 = from t in db.title
+                             join u in db.user on t.uid equals u.id
+                             where t.state == 1
+                             orderby t.addtime descending
+                             select new TitleUserExt()
+                             {
+                                 addtime = t.addtime,
+                                 art_title = t.art_title,
+                                 id = t.id,
+                                 keywords = t.keywords,
+                                 nick_name = u.nick_name,
+                                 state = t.state,
+                                 uid = t.uid
+                             };
+                    var p = new EFPaging<TitleUserExt>();
+                    ViewData["list"] = p.getPageList(q1, "/index/titleList", page, 20);
+                    ViewData["url"] = p.pageUrl;
+                    return View();
+                }
+            }
+            return View();
+        }
+
+        /// <summary>
+        /// 分页查看文章列表
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
         public ActionResult artList(string key = "", int page = 1)
         {
-            using(WeiQingEntities db=new WeiQingEntities())
+            using (WeiQingEntities db = new WeiQingEntities())
             {
                 if (key != null && key.Length > 0)
                 {
@@ -822,7 +885,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public ActionResult news(int id = 0)
+        public ActionResult article(int id = 0)
         {
             if (id > 0)
             {
@@ -842,5 +905,52 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             }
             return Content("<script>alert('无数据');location.href='/index/index';</script>");
         }
+
+        /// <summary>
+        /// 添加留言板的内容
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public ActionResult addLiuYan(string content = "")
+        {
+            if (content != null && content.Length > 0)
+            {
+                liuyanban model = new liuyanban() { content = content };
+                if (Session["user"] != null)
+                {
+                    var u = (user)Session["user"];
+                    model.uid = (int)u.id;
+                    model.uname = u.nick_name;
+                }
+                else
+                {
+                    model.uid = 0;
+                    model.uname = "游客";
+                }
+                model.addtime = DateTime.Now;
+                model.state = 1;
+                model.ip = Tools.GetRealIP();
+                return Content(EfExt.insert(model).ToString());
+            }
+            return Content("0");
+        }
+
+        /// <summary>
+        /// 根据时间逆序分页显示留言板的内容
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult liuyanList(int page = 1)
+        {
+            using(WeiQingEntities db=new WeiQingEntities())
+            {
+                var q = db.liuyanban.Where(x => x.state == 1).OrderByDescending(x => x.addtime);
+                var p = new EFPaging<liuyanban>();
+                var list = p.getPageList(q, "/index/liuyanList", page, 20);
+                ViewData["list"] = list;
+                ViewData["url"] = p.pageUrl;
+            }
+            return View();
+        }
+
     }
 }

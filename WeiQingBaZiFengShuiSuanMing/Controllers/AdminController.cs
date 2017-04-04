@@ -366,15 +366,71 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         }
 
         /// <summary>
-        /// 站长发布的文章列表
+        /// 站长发布的文章列表,分页显示所有,优先显示 state==1 的文章
         /// </summary>
         /// <param name="key"></param>
         /// <param name="page"></param>
         /// <returns></returns>
-        public ActionResult artList(string key="",int page=1)
+        public ActionResult artList(string key = "", int page = 1)
         {
+            using (WeiQingEntities db = new WeiQingEntities())
+            {
+                if (key != null && key.Length > 0)
+                {
+                    var q = db.article.Where(x => x.title.Contains(key) || x.keywords.Contains(key)).OrderByDescending(x => x.state).ThenByDescending(x => x.addtime);
+                    var p = new EFPaging<article>();
+                    var list = p.getPageList(q, "/admin/artList", page, 20);
+                    ViewData["list"] = list;
+                    ViewData["url"] = p.pageUrl;
+                }
+                else
+                {
+                    var q = db.article.OrderByDescending(x => x.state).ThenByDescending(x => x.addtime);
+                    var p = new EFPaging<article>();
+                    var list = p.getPageList(q, "/admin/artList", page, 20);
+                    ViewData["list"] = list;
+                    ViewData["url"] = p.pageUrl;
+                }
+            }
+            return View();
+        }
 
-            return Content("");
+        /// <summary>
+        /// 修改发布文章的视图页
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult edit_art(int id = 0)
+        {
+            if (id > 0)
+            {
+                var m = EfExt.select<article>(id);
+                if (m != null && m.id > 0)
+                {
+                    ViewData["model"] = m;
+                    return View();
+                }
+            }
+            return Content("无数据");
+        }
+
+        /// <summary>
+        /// 管理员修改每日发布的文章
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [ValidateInput(false)]
+        public ActionResult edit_article(article model)
+        {
+            if (model != null && model.id > 0)
+            {
+                var r = EfExt.update(model);
+                if (r > 0)
+                {
+                    return Content("修改成功");
+                }
+            }
+            return Content("修改失败");
         }
 
     }

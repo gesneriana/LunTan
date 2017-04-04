@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Entity
 {
     /// <summary>
-    /// 包含帖子内容和楼主用户名的实体
+    /// 包含帖子内容和楼主用户名的实体,用于创建帖子的实体类
     /// </summary>
     public class TitleExt : EFDao.Entity.title
     {

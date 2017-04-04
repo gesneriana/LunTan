@@ -2,25 +2,25 @@
     Layout = "~/Views/Shared/_LayoutTop.cshtml";
 }
 
-@*分页查看可显示的文章的列表*@
+@*分页查看帖子列表*@
 
 <script type="text/javascript">
     $(function () {
         $("#key").focus();
         $('#key').bind('keypress', function (event) {
             if (event.keyCode == "13") {
-                searchArticle();
+                searchTieZi();
             }
         });
     })
 
-    // 搜索文章
-    function searchArticle() {
+    // 搜索预测历史
+    function searchTieZi() {
         var key = $("#key").val();
         if (key == '')
-            location.href = '/index/artList';
+            location.href = '/index/titleList';
         else
-            location.href = "/index/artList?key=" + key;
+            location.href = "/index/titleList?key=" + key;
     }
 </script>
 
@@ -32,10 +32,10 @@
     }
 </style>
 
-<div style="text-align:center;height:50px;line-height:50px;font-size:16px;color:#666;">查看文章列表</div>
+<div style="text-align:center;height:50px;line-height:50px;font-size:16px;color:#666;">查看全部帖子</div>
 
 <div style="text-align:center;">
-    <input type="text" id="key" placeholder="请输入标题,关键字搜索" /> <div class="blueBtn_s" onclick="searchArticle()">查找</div>
+    <input type="text" id="key" placeholder="请输入标题,关键字搜索" /> <div class="blueBtn_s" onclick="searchTieZi()">查找</div>
 </div>
 
 <div>
@@ -43,14 +43,15 @@
         @{
             if (ViewData["list"] != null)
             {
-                var artList = (List<EFDao.Entity.article>)ViewData["list"];
-                if (artList != null && artList.Count > 0)
+                var titleList = (List<Entity.TitleUserExt>)ViewData["list"];
+                if (titleList != null && titleList.Count > 0)
                 {
-                    foreach (var item in artList)
+                    foreach (var item in titleList)
                     {
                         <text>
-                            <tr class="bztr" onclick="location.href='/index/article/@item.id'">
-                                <td>@item.title</td>
+                            <tr class="bztr" onclick="location.href='/index/tiezi/@item.id'">
+                                <td>@item.nick_name</td>
+                                <td>@item.art_title</td>
                                 <td>@item.keywords</td>
                                 <td>@item.addtime.ToString("yyyy-MM-dd HH:mm")</td>
                             </tr>

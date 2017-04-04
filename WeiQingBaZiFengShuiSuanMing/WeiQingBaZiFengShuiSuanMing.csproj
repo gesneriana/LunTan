@@ -717,15 +717,19 @@
     <Content Include="ueditor\third-party\video-js\font\vjs.woff" />
     <Content Include="Views\Index\bzjp.cshtml" />
     <Content Include="Views\Index\createSub.cshtml" />
-    <Content Include="Views\Index\article.cshtml" />
+    <Content Include="Views\Index\tiezi.cshtml" />
     <Content Include="Views\Index\ycList.cshtml" />
-    <Content Include="Views\Index\artList.cshtml" />
+    <Content Include="Views\Index\titleList.cshtml" />
     <Content Include="Views\Index\jubao_tiezi.cshtml" />
     <Content Include="Views\Admin\userList.cshtml" />
     <Content Include="Views\Admin\user_edit.cshtml" />
     <Content Include="Views\Admin\jubaoshenpi.cshtml" />
     <Content Include="Views\Admin\editShenPi.cshtml" />
-    <Content Include="Views\Index\news.cshtml" />
+    <Content Include="Views\Index\article.cshtml" />
+    <Content Include="Views\Admin\artList.cshtml" />
+    <Content Include="Views\Admin\edit_art.cshtml" />
+    <Content Include="Views\Index\artList.cshtml" />
+    <Content Include="Views\Index\liuyanList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

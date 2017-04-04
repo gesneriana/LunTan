@@ -11,6 +11,14 @@
         background-repeat: repeat-x;
         padding-top: 2px;
     }
+    .lyb{
+        width: 660px;
+        min-height:300px;
+        margin-top: 5px;
+        background-image: url(/imgs/split-line-x.png);
+        background-repeat: repeat-x;
+        padding-top: 2px;
+    }
     .news_box{float:left;width:660px;}
     .news_box_rt{float:right;width:330px;}
 
@@ -109,6 +117,30 @@
         // window.open('/index/createSub', "_blank");
         location.href = '/index/createSub';
     }
+
+    // 添加内容到留言板
+    function liuyan() {
+        var content = $("#liuyanban").val();
+        if (content.length == 0) {
+            alert("请输入内容");
+            return;
+        }
+        $.ajax({
+            type: "post",
+            url: "/index/addLiuYan",
+            data: "content=" + content,
+            error: function (request) {
+                alert("请求错误");
+            },
+            success: function (data) {
+                if (data > 0) {
+                    location.href = '@Request.RawUrl';
+                } else {
+                    alert("添加失败");
+                }
+            }
+        });
+    }
 </script>
 
 
@@ -148,7 +180,7 @@
                         }
                     }
                 </ul>
-                <div style="width:100%;height:30px;line-height:30px;color:#551A8B;">@{if((int)ViewData["ycCount"] >1) {<text><a href="/index/ycList" target="_blank">查看更多预测</a> </text> }} </div>
+                <div style="width:100%;height:30px;line-height:30px;color:#551A8B;">@{if((int)ViewData["ycCount"] >12) {<text><a href="/index/ycList" target="_blank">查看更多预测</a> </text> }} </div>
             </div>
 
             <div class="rt">
@@ -163,7 +195,7 @@
                                 {
                                     <text>
                                         <li style="height:20px;width:100%;">
-                                            <a style="display:block;height:100%;width:100%;color:#551A8B;font-size:12px;" href="/index/article/@item.id" target="_blank">
+                                            <a style="display:block;height:100%;width:100%;color:#551A8B;font-size:12px;" href="/index/tiezi/@item.id" target="_blank">
                                                 <span style="width:60px;height:100%;display:inline-block;"> @item.nick_name </span>
                                                 <span style="display:inline-block;margin-right:5px;margin-left:5px;height:100%;">@item.art_title</span>
                                                 <span style="display:block;float:right;margin-right:5px;margin-left:5px;height:100%;">@item.addtime.ToString("yyyy-MM-dd")</span>
@@ -179,8 +211,33 @@
                         }
                     }
                 </ul>
-                <div style="width:100%;height:30px;line-height:30px;color:#551A8B;">@{if((int)ViewData["tzCount"]>1) {<text><a href="/index/artList" target="_blank">全部帖子</a> </text> }} </div>
+                <div style="width:100%;height:30px;line-height:30px;color:#551A8B;">@{if((int)ViewData["tzCount"]>12) {<text><a href="/index/titleList" target="_blank">全部帖子</a> </text> }} </div>
             </div>
+        </div>
+    </div>
+
+    @*留言板,游客和登录用户都可以,管理员可以删除留言,记录留言的ip地址*@
+    <div class="lyb">
+        <div style="text-align:center;cursor:pointer;color:chocolate;" onclick="javascript:window.open('/index/liuyanList','_blank')">留言板</div>
+        <div style="width:100%;min-height:210px;">
+            <table style="width:100%;">
+                @{ 
+                    if (ViewData["lyList"] != null)
+                    {
+                        var lyList = (List<EFDao.Entity.liuyanban>)ViewData["lyList"];
+                        if (lyList != null && lyList.Count > 0)
+                        {
+                            foreach (var item in lyList)
+                            {
+                                <tr style="width:100%;cursor:pointer;" onclick="javascript:window.open('/index/liuyanList','_blank')"><td>@item.uname :</td> <td> @item.content </td><td style="width:180px;color:chocolate;">@item.addtime.ToString("yyyy-MM-dd HH:mm") </td>  </tr>
+                            }
+                        }
+                    }
+                }
+            </table>
+        </div>
+        <div style="text-align:center;">
+            <input type="text" id="liuyanban" placeholder="请输入留言内容" /><div class="blueBtn_s" onclick="liuyan()">我要留言</div>
         </div>
     </div>
 </div>

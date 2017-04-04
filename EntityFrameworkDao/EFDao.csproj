@@ -86,6 +86,9 @@
     <Compile Include="Entity\getpwdlog.cs">
       <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\liuyanban.cs">
+      <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\login_log.cs">
       <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
     </Compile>

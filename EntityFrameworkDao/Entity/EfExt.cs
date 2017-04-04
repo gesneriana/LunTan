@@ -11,7 +11,7 @@ namespace EFDao.Entity
 {
     /// <summary>
     /// 使用Entity Framework进行增删改, 进行封装, 查询没办法做到通用, 
-    /// 尽量使用泛型方法,小写字母开头的方法, 如果需要先进行查询,或者更改多张表的对象, 尽量不使用这个工具类, 因为会多次打开与数据库的连接
+    /// 尽量使用泛型方法,小写字母开头的方法, 如果需要先进行查询然后同时更新数据,或者更改多张表的对象, 尽量不使用这个工具类, 因为会多次打开与数据库的连接
     /// 这时可以使用反射将扩展类复制为基类对象
     /// </summary>
     public class EfExt
@@ -20,7 +20,7 @@ namespace EFDao.Entity
         /// <summary>
         /// 使用linq进行简单的泛型查询,一次最多只能得到一条记录
         /// </summary>
-        /// <typeparam name="T">需要得到的类型, 查询哪张表</typeparam>
+        /// <typeparam name="T">需要得到的类型, 查询哪张表(必须和表名称一致)</typeparam>
         /// <param name="id">主键</param>
         /// <returns></returns>
         public static T select<T>(int id) where T : class, new()
@@ -40,8 +40,8 @@ namespace EFDao.Entity
         /// 使用命名参数查询,尽量不要使用此方法, 可能会一次性查询出大量的数据, 应该使用分页查询通用方法
         /// SqlQuery(select * from article keywords like @p0, "%"+keywords+"%")
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="sql">需要得到的类型, 查询哪张表</param>
+        /// <typeparam name="T">需要得到的类型, 查询哪张表(必须和表名称一致)</typeparam>
+        /// <param name="sql">查询语句,参照注释</param>
         /// <param name="param">查询参数</param>
         /// <returns></returns>
         public static List<T> selectList<T>(string sql, params object[] param) where T : class, new()

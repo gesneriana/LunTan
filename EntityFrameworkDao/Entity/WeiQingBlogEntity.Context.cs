@@ -35,5 +35,6 @@ namespace EFDao.Entity
         public virtual DbSet<tiezi_jubao> tiezi_jubao { get; set; }
         public virtual DbSet<notice> notice { get; set; }
         public virtual DbSet<article> article { get; set; }
+        public virtual DbSet<liuyanban> liuyanban { get; set; }
     }
 }

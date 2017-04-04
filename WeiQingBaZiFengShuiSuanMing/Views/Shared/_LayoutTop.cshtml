@@ -461,11 +461,12 @@
                     </form>
                 </div>
 
+                <div style="height:20px;width:100%;"></div>
                 <hr />
 
                 @*每日一文*@
                 <div style="width:100%;min-height:200px;">
-                    <div style="text-align:center;height:25px;line-height:25px;"><a style="color:#c00;" href="#">查看更多文章</a> </div>
+                    <div style="text-align:center;height:25px;line-height:25px;"><a style="color:#c00;" target="_blank" href="/index/artList">查看更多文章</a> </div>
                     <ul style="width:100%;min-height:175px;">
                         @{
                             var list = EFDao.BLL.getData.getArtList();
@@ -473,7 +474,7 @@
                             {
                                 foreach (var item in list)
                                 {
-                                    <li class="art_li" onclick="javascript:window.open('/index/news/@(item.id)','_blank')"><span class="tit">@item.title</span> <span class="dt">@item.addtime.ToString("yyyy-MM-dd HH:mm") </span> </li>
+                                    <li class="art_li" onclick="javascript:window.open('/index/article/@(item.id)','_blank')"><span class="tit">@item.title</span> <span class="dt">@item.addtime.ToString("yyyy-MM-dd HH:mm") </span> </li>
                                 }
                             }
                         }
@@ -484,7 +485,7 @@
 
                 @*公告板*@
                 <div style="width:100%;min-height:200px;">
-                    <div style="text-align:center;height:25px;line-height:25px;color:#c00;">公告板</div>
+                    <div style="text-align:center;height:25px;line-height:25px;color:#c00;">今日公告</div>
                     <div style="width:100%;min-height:175px;">
                         @{ 
                             var notice = EFDao.BLL.getData.getNotice();
