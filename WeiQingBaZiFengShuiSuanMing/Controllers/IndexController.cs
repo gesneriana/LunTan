@@ -794,8 +794,26 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// 分页查看帖子列表
         /// </summary>
         /// <returns></returns>
-        public ActionResult artList()
+        public ActionResult artList(string key = "", int page = 1)
         {
+            using(WeiQingEntities db=new WeiQingEntities())
+            {
+                if (key != null && key.Length > 0)
+                {
+                    var q = db.article.Where(x => x.state == 1 && (x.title.Contains(key) || x.keywords.Contains(key))).OrderByDescending(x => x.addtime);
+                    var p = new EFPaging<article>();
+                    ViewData["list"] = p.getPageList(q, "/index/artList", page, 20);
+                    ViewData["url"] = p.pageUrl;
+                    return View();
+                }
+                else
+                {
+                    var q = db.article.Where(x => x.state == 1).OrderByDescending(x => x.addtime);
+                    var p = new EFPaging<article>();
+                    ViewData["list"] = p.getPageList(q, "/index/artList", page, 20);
+                    ViewData["url"] = p.pageUrl;
+                }
+            }
             return View();
         }
 

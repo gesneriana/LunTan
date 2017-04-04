@@ -365,5 +365,17 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             return Content("发布失败");
         }
 
+        /// <summary>
+        /// 站长发布的文章列表
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public ActionResult artList(string key="",int page=1)
+        {
+
+            return Content("");
+        }
+
     }
 }
