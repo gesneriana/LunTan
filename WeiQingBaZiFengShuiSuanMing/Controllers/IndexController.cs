@@ -139,8 +139,8 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 u.pwd = HashTools.SHA1_Hash(u.pwd);
                 DateTime dt = DateTime.Now;
                 u.reg_date = dt;
+                u.state = 1;
                 int res = 0;
-
 
                 try
                 {
