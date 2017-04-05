@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Common.Utility
 {
     /// <summary>
-    /// 将string类型值为null的属性初始化为 string.Empty, 
+    /// 将string类型值为null的属性初始化为 string.Empty, 将时间设置为当前时间
     /// 用反射从子类和父类之间相互复制属性值
     /// </summary>
     public class reflectModel
