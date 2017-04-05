@@ -375,8 +375,8 @@
             </div>
             <div id="top_rt">
                 欢迎加入算命风水相术中医交流群: 372417319
-                <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=91d9e0f11f19ee1bd61dd49ec63bf8699dc118530fb84b063ca944f3db685f98">
-                    <img border="0" src="//pub.idqqimg.com/wpa/images/group.png" height="16" alt="QQ飞车交流群" title="QQ飞车交流群">
+                <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=102983be9cfa6dc4b4e22a6fcfa8f67dda93e3bdeffdae8aaead089c1295c240">
+                    <img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="算命风水相术中医" title="算命风水相术中医">
                 </a>,八字、算命、风水堪舆、手面相、择日取名、六爻八卦、壬遁太乙、相法星象专业预测群，
                 由群主清清流水——魏清每天坐堂免费预测，欢迎问测者加入！
             </div>
@@ -466,7 +466,7 @@
 
                 @*每日一文*@
                 <div style="width:100%;min-height:200px;">
-                    <div style="text-align:center;height:25px;line-height:25px;"><a style="color:#c00;" target="_blank" href="/index/artList">查看更多文章</a> </div>
+                    <div style="text-align:center;height:25px;line-height:25px;"><a style="color:#c00;" target="_blank" @{if (Request.RawUrl.IndexOf("/index/artList") >= 0) { <text> href='javascript:;' </text>  } else { <text> href="/index/artList" </text>   } } >查看更多文章</a> </div>
                     <ul style="width:100%;min-height:175px;">
                         @{
                             var list = EFDao.BLL.getData.getArtList();
