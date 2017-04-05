@@ -11,6 +11,7 @@ namespace Test
     {
         static void Main(string[] args)
         {
+            /*
             var user = new EFDao.Entity.user() { nick_name = "gesneriana", email = "s694060865@163.com", pwd = "angel." };
             reflectModel.setValues(user);
             using(EFDao.Entity.WeiQingEntities db=new EFDao.Entity.WeiQingEntities())
@@ -18,6 +19,9 @@ namespace Test
                 db.user.Add(user);
                 db.SaveChanges();
             }
+            */
+            var t = typeof(EFDao.Entity.article);
+            Console.WriteLine(t.Name);
         }
     }
 }
