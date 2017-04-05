@@ -218,7 +218,7 @@
 
     @*留言板,游客和登录用户都可以,管理员可以删除留言,记录留言的ip地址*@
     <div class="lyb">
-        <div style="text-align:center;cursor:pointer;color:chocolate;" onclick="javascript:window.open('/index/liuyanList','_blank')">留言板</div>
+        <div style="text-align:center;cursor:pointer;color:chocolate;" title="查看更多留言内容" onclick="javascript:window.open('/index/liuyanList','_blank')">留言板</div>
         <div style="width:100%;min-height:210px;">
             <table style="width:100%;">
                 @{ 
@@ -229,7 +229,7 @@
                         {
                             foreach (var item in lyList)
                             {
-                                <tr style="width:100%;cursor:pointer;" onclick="javascript:window.open('/index/liuyanList','_blank')"><td>@item.uname :</td> <td> @item.content </td><td style="width:180px;color:chocolate;">@item.addtime.ToString("yyyy-MM-dd HH:mm") </td>  </tr>
+                                <tr style="width:100%;"><td>@item.uname :</td> <td> @item.content </td><td style="width:180px;color:chocolate;">@item.addtime.ToString("yyyy-MM-dd HH:mm") </td>  </tr>
                             }
                         }
                     }
