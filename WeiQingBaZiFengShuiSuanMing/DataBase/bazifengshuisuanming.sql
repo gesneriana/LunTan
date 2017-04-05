@@ -10,10 +10,8 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-04-05 12:19:44
+Date: 2017-04-05 12:53:42
 */
-
--- 首先使用navicat创建 bazifengshuisuanming 数据库, 然后执行sql创建表
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -35,8 +33,8 @@ CREATE TABLE `article` (
 -- ----------------------------
 -- Records of article
 -- ----------------------------
-INSERT INTO `article` VALUES ('1', '四月四日', '清明节时期', '2017-04-04 02:37:21', '1', '1', '<p>上班好好做, 努力, 遇到损友很烦</p>');
-INSERT INTO `article` VALUES ('2', '四月五号', '碰到损友真的很烦', '2017-04-05 00:41:01', '1', '1', '<p>以后不交朋友</p>');
+INSERT INTO `article` VALUES ('1', '四月四日', '清明节时期', '2017-04-04 02:37:21', '1', '1', '<p>上班好好做, 努力, 终于找到了一个不错的工作</p>');
+INSERT INTO `article` VALUES ('2', '四月五号', '年前诸事不顺', '2017-04-05 00:41:01', '1', '1', '<p>心情复杂</p>');
 
 -- ----------------------------
 -- Table structure for bazijianpi
@@ -114,7 +112,7 @@ CREATE TABLE `login_log` (
   `login_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登录时间',
   `login_ip` varchar(30) NOT NULL DEFAULT '' COMMENT '登录的ip地址',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of login_log
@@ -223,6 +221,16 @@ INSERT INTO `login_log` VALUES ('101', '1', '2017-04-05 01:28:59', '::1');
 INSERT INTO `login_log` VALUES ('102', '1', '2017-04-05 03:54:23', '::1');
 INSERT INTO `login_log` VALUES ('103', '1', '2017-04-05 11:20:15', '::1');
 INSERT INTO `login_log` VALUES ('104', '1', '2017-04-05 11:31:14', '::1');
+INSERT INTO `login_log` VALUES ('105', '1', '2017-04-05 12:35:22', '::1');
+INSERT INTO `login_log` VALUES ('106', '2', '2017-04-05 12:36:57', '::1');
+INSERT INTO `login_log` VALUES ('107', '2', '2017-04-05 12:40:25', '::1');
+INSERT INTO `login_log` VALUES ('108', '3', '2017-04-05 12:40:55', '::1');
+INSERT INTO `login_log` VALUES ('109', '4', '2017-04-05 12:42:43', '::1');
+INSERT INTO `login_log` VALUES ('110', '4', '2017-04-05 12:42:48', '::1');
+INSERT INTO `login_log` VALUES ('111', '1', '2017-04-05 12:43:04', '::1');
+INSERT INTO `login_log` VALUES ('112', '1', '2017-04-05 12:48:04', '127.0.0.1');
+INSERT INTO `login_log` VALUES ('113', '1', '2017-04-05 12:51:22', '127.0.0.1');
+INSERT INTO `login_log` VALUES ('114', '1', '2017-04-05 12:51:29', '127.0.0.1');
 
 -- ----------------------------
 -- Table structure for notice
@@ -355,9 +363,10 @@ CREATE TABLE `user` (
   `is_admin` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否为管理员.默认为否',
   `state` int(11) NOT NULL DEFAULT '1' COMMENT '状态,默认为可登录,被禁止后不能登录',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'admin666', 'BAC3D3E72B8767E72E31614555C9C369AAE832F0', '694060865@qq.com', '', '', '', '2017-03-18 21:38:02', '', '1');
+INSERT INTO `user` VALUES ('1', 'admin666', '8868A3F76C3D792904D831C44612A377C04A58C9', '694060865@qq.com', '', '', '', '2017-03-18 21:38:02', '', '1');
+INSERT INTO `user` VALUES ('4', '本间芽衣子', 'F6687CF03F6661A4F37293E247E200E757473236', '2312302652@qq.com', '', '', '', '2017-04-05 12:42:44', '\0', '1');
