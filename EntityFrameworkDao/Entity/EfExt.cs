@@ -44,9 +44,6 @@ namespace EFDao.Entity
         /// <returns></returns>
         public static List<T> selectList<T>(string sql, params object[] param) where T : class, new()
         {
-            var typeName = typeof(T).ToString();    // 完全限定名
-            int last = typeName.LastIndexOf(".");  // 只获取类名称,不需要命名空间
-            string tableName = typeName.Substring(last + 1);    // 去掉 .
             using (WeiQingEntities db = new WeiQingEntities())
             {
                 var set = db.Set<T>();
