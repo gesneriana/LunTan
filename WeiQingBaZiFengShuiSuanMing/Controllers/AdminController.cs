@@ -433,5 +433,45 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             return Content("修改失败");
         }
 
+        /// <summary>
+        /// 根据时间逆序分页显示留言板的内容
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult liuyanList(int page = 1)
+        {
+            using (WeiQingEntities db = new WeiQingEntities())
+            {
+                var q = db.liuyanban.OrderByDescending(x => x.state).ThenByDescending(x => x.addtime);
+                var p = new EFPaging<liuyanban>();
+                var list = p.getPageList(q, "/admin/liuyanList", page, 20);
+                ViewData["list"] = list;
+                ViewData["url"] = p.pageUrl;
+            }
+            return View();
+        }
+
+        /// <summary>
+        /// 修改留言内容的状态
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <param name="state">设定的状态值</param>
+        /// <returns></returns>
+        public ActionResult liuyanState(int id = 0, int state = -1)
+        {
+            if (id > 0 && state >= 0)
+            {
+                using(WeiQingEntities db=new WeiQingEntities())
+                {
+                    var m = db.liuyanban.Where(x => x.id == id).FirstOrDefault();
+                    if (m != null && m.id > 0)
+                    {
+                        m.state = state;
+                        return Content(db.SaveChanges().ToString());
+                    }
+                }
+            }
+            return Content("0");
+        }
+
     }
 }

@@ -730,6 +730,7 @@
     <Content Include="Views\Admin\edit_art.cshtml" />
     <Content Include="Views\Index\artList.cshtml" />
     <Content Include="Views\Index\liuyanList.cshtml" />
+    <Content Include="Views\Admin\liuyanList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
