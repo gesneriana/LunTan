@@ -249,12 +249,24 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="imgs\split-line-x.png" />
-    <Content Include="imgs\mfycgq.png" />
-    <Content Include="imgs\weixin.jpg" />
-    <Content Include="imgs\guanbi.png" />
-    <Content Include="imgs\title.png" />
-    <Content Include="imgs\news-bg.png" />
+    <Content Include="imgs\split-line-x.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="imgs\mfycgq.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="imgs\weixin.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="imgs\guanbi.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="imgs\title.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="imgs\news-bg.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="plugins\My97DatePicker\calendar.js" />
     <Content Include="plugins\My97DatePicker\config.js" />
     <Content Include="plugins\My97DatePicker\lang\en.js" />
@@ -287,7 +299,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="论坛发布文件包.zip" />
+    <None Include="论坛发布文件包.zip" />
     <None Include="Properties\PublishProfiles\wq.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\clipboard.min.js" />
