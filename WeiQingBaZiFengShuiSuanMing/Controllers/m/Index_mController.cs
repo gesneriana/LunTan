@@ -14,6 +14,8 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers.m
     {
         public ActionResult index()
         {
+            var list = EFDao.BLL.getData.getArtList();
+            ViewData["artList"] = list;
             return View();
         }
     }

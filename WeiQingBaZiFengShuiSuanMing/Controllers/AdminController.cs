@@ -202,14 +202,21 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 {
                     return Content("超级管理员的权限不能更改");
                 }
+
+                var cur_user = (user)Session["user"];
                 if (u.pwd != null && u.pwd.Length >= 6)
                 {
+                    if (u.id == 1 && cur_user.id != 1)
+                    {
+                        return Content("超级管理员的密码不能更改");
+                    }
                     u.pwd = HashTools.SHA1_Hash(u.pwd);
                 }
                 else
                 {
                     u.pwd = u.oldpwd;
                 }
+
                 if (u.email != null && u.email.Length > 0)
                 {
                     if (u.reg_date == DateTime.MinValue)
