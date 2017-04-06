@@ -602,7 +602,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\m\Index_m\Index_m.cshtml" />
     <Content Include="Views\Shared\_LayoutTop.cshtml" />
     <Content Include="Views\Index\Index.cshtml" />
     <Content Include="Views\Index\regView.cshtml" />
