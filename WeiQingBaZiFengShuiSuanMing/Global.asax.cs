@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using WeiQingBaZiFengShuiSuanMing.App_Start;
 
 namespace WeiQingBaZiFengShuiSuanMing
 {
@@ -16,6 +17,9 @@ namespace WeiQingBaZiFengShuiSuanMing
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            ViewEngines.Engines.Clear();
+            ViewEngines.Engines.Add(new MyViewEngine());
         }
     }
 }
