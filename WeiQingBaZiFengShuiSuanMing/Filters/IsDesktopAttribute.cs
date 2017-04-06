@@ -11,12 +11,12 @@ using System.Web.Routing;
 namespace WeiQingBaZiFengShuiSuanMing.Filters
 {
     /// <summary>
-    /// 检查当前访问的设备是否是手机,如果是跳转到手机路由
+    /// 检查当前访问的设备是否是桌面PC,如果是,直接跳转到电脑版
     /// </summary>
-    public class IsMobileAttribute : ActionFilterAttribute
+    public class IsDesktopAttribute : ActionFilterAttribute
     {
         /// <summary>
-        /// 执行action请求之前根据设备的类型, 跳转到不同的路由
+        /// 执行action请求之前根据设备的类型 重定向跳转到不同的路由中
         /// </summary>
         /// <param name="filterContext"></param>
         public override void OnActionExecuting(ActionExecutingContext cntx)
@@ -24,9 +24,9 @@ namespace WeiQingBaZiFengShuiSuanMing.Filters
             base.OnActionExecuting(cntx);
 
             bool isMobile = cntx.HttpContext.Request.Browser.IsMobileDevice;
-            if (isMobile)
+            if (!isMobile)
             {
-                cntx.Result = new RedirectResult("/m/index/index");
+                cntx.Result = new RedirectResult("/index/index");
             }
         }
     }

@@ -10,13 +10,13 @@ using System.Transactions;
 
 namespace WeiQingBaZiFengShuiSuanMing.Controllers
 {
+    [Filters.IsMobile]
     public class IndexController : Controller
     {
         /// <summary>
         /// 首页
         /// </summary>
         /// <returns></returns>
-        [Filters.IsMobile]
         public ActionResult index(string key = "", string type = "", int page = 1)
         {
             // 查询八字简批的关键字段
@@ -106,7 +106,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 var lyList = db.liuyanban.Where(x => x.state == 1).OrderByDescending(x => x.addtime).Take(10).ToList();
                 ViewData["lyList"] = lyList;
             }
-            return View(ViewData["act"].ToString());
+            return View();
         }
 
         /// <summary>

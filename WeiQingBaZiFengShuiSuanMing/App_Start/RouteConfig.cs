@@ -13,10 +13,20 @@ namespace WeiQingBaZiFengShuiSuanMing
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            // 手机版的路由
+            routes.MapRoute(
+                name: "mobile",
+                url: "m/{controller}/{action}/{id}",
+                defaults: new { controller = "Index", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "WeiQingBaZiFengShuiSuanMing.Controllers_m" }
+            );
+
+            // 外网默认访问的路由
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Index", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Index", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "WeiQingBaZiFengShuiSuanMing.Controllers" }
             );
         }
     }
