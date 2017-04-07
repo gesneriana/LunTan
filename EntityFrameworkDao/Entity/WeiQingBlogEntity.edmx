@@ -10,6 +10,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cateid" Type="int" Nullable="false" />
           <Property Name="title" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="keywords" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="addtime" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
@@ -29,7 +30,14 @@
           <Property Name="addtime" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="bazi" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="state" Type="int" Nullable="false" />
-          <Property Name="yuce_content" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="yuce_content" Type="varchar" MaxLength="2000" Nullable="false" />
+        </EntityType>
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="category_name" Type="varchar" MaxLength="30" Nullable="false" />
         </EntityType>
         <EntityType Name="getpwdlog">
           <Key>
@@ -51,7 +59,7 @@
           <Property Name="addtime" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ip" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="state" Type="int" Nullable="false" />
-          <Property Name="content" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="content" Type="varchar" MaxLength="500" Nullable="false" />
         </EntityType>
         <EntityType Name="login_log">
           <Key>
@@ -69,7 +77,7 @@
           <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="uid" Type="int" Nullable="false" />
           <Property Name="addtime" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="content" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="content" Type="varchar" MaxLength="1000" Nullable="false" />
           <Property Name="show" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="tiezi">
@@ -91,7 +99,7 @@
           </Key>
           <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="tzid" Type="uint" Nullable="false" />
-          <Property Name="reason" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="reason" Type="varchar" MaxLength="500" Nullable="false" />
           <Property Name="addtime" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ip" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="jb_type" Type="bit" Nullable="false" />
@@ -105,8 +113,8 @@
           <Property Name="uid" Type="uint" Nullable="false" />
           <Property Name="addtime" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="state" Type="uint" Nullable="false" />
-          <Property Name="art_title" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="keywords" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="art_title" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="keywords" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="tzreply">
           <Key>
@@ -126,7 +134,7 @@
           </Key>
           <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nick_name" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="pwd" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="pwd" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="mobile" Type="varchar" MaxLength="11" Nullable="false" />
           <Property Name="qq" Type="varchar" MaxLength="11" Nullable="false" />
@@ -138,6 +146,7 @@
         <EntityContainer Name="WeiQingModelStoreContainer">
           <EntitySet Name="article" EntityType="Self.article" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="bazijianpi" EntityType="Self.bazijianpi" Schema="bazifengshuisuanming" store:Type="Tables" />
+          <EntitySet Name="category" EntityType="Self.category" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="getpwdlog" EntityType="Self.getpwdlog" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="liuyanban" EntityType="Self.liuyanban" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="login_log" EntityType="Self.login_log" Schema="bazifengshuisuanming" store:Type="Tables" />
@@ -179,6 +188,7 @@
           <EntitySet Name="notice" EntityType="WeiQingModel.notice" />
           <EntitySet Name="article" EntityType="WeiQingModel.article" />
           <EntitySet Name="liuyanban" EntityType="WeiQingModel.liuyanban" />
+          <EntitySet Name="category" EntityType="WeiQingModel.category" />
         </EntityContainer>
         <EntityType Name="getpwdlog">
           <Key>
@@ -282,6 +292,7 @@
           <Property Name="uid" Type="Int32" Nullable="false" />
           <Property Name="state" Type="Int32" Nullable="false" />
           <Property Name="content" Type="String" Nullable="false" MaxLength="3000" FixedLength="false" Unicode="false" />
+          <Property Name="cateid" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="liuyanban">
           <Key>
@@ -294,6 +305,13 @@
           <Property Name="ip" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="state" Type="Int32" Nullable="false" />
           <Property Name="content" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="category_name" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -419,6 +437,7 @@
           <EntitySetMapping Name="article">
             <EntityTypeMapping TypeName="WeiQingModel.article">
               <MappingFragment StoreEntitySet="article">
+                <ScalarProperty Name="cateid" ColumnName="cateid" />
                 <ScalarProperty Name="content" ColumnName="content" />
                 <ScalarProperty Name="state" ColumnName="state" />
                 <ScalarProperty Name="uid" ColumnName="uid" />
@@ -438,6 +457,14 @@
                 <ScalarProperty Name="addtime" ColumnName="addtime" />
                 <ScalarProperty Name="uname" ColumnName="uname" />
                 <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="category">
+            <EntityTypeMapping TypeName="WeiQingModel.category">
+              <MappingFragment StoreEntitySet="category">
+                <ScalarProperty Name="category_name" ColumnName="category_name" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

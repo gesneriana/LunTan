@@ -12,15 +12,9 @@ namespace EFDao.Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class article
+    public partial class category
     {
         public long id { get; set; }
-        public string title { get; set; }
-        public string keywords { get; set; }
-        public System.DateTime addtime { get; set; }
-        public int uid { get; set; }
-        public int state { get; set; }
-        public string content { get; set; }
-        public int cateid { get; set; }
+        public string category_name { get; set; }
     }
 }

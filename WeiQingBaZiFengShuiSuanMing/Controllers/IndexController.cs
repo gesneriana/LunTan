@@ -103,8 +103,10 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 ViewData["tzCount"] = tzCount;
 
                 // 加载最近的10条留言列表
+                /*
                 var lyList = db.liuyanban.Where(x => x.state == 1).OrderByDescending(x => x.addtime).Take(10).ToList();
                 ViewData["lyList"] = lyList;
+                */
             }
             return View();
         }

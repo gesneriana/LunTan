@@ -480,5 +480,50 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             return Content("0");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult category()
+        {
+            ViewData["flList"] = EfExt.selectAll<category>();
+            return View();
+        }
+
+        /// <summary>
+        /// 添加文章分类名称
+        /// </summary>
+        /// <param name="catename"></param>
+        /// <returns></returns>
+        public ActionResult addCategory(string catename = "")
+        {
+            if (catename != null && catename.Length > 0)
+            {
+                var r = EfExt.insert(new category() { category_name = catename });
+                if (r > 0) return Content("1");
+            }
+            return Content("添加失败");
+        }
+
+        /// <summary>
+        /// 更新分类名称
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="catename"></param>
+        /// <returns></returns>
+        public ActionResult updateCategory(int id = 0, string catename = "")
+        {
+            if (id > 0 && catename != null && catename.Length > 0)
+            {
+                var m = new category() { id = id, category_name = catename };
+                var r = EfExt.update(m);
+                if (r > 0)
+                {
+                    return Content("1");
+                }
+            }
+            return Content("修改失败");
+        }
+
     }
 }

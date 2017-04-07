@@ -53,6 +53,22 @@ namespace EFDao.Entity
         }
 
         /// <summary>
+        /// 查询所有数据, 慎用, 除非可以包装一次取出的数据是有限的, 例如分类名称
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static List<T> selectAll<T>() where T : class, new()
+        {
+            string tableName = typeof(T).Name;
+            using (WeiQingEntities db = new WeiQingEntities())
+            {
+                var set = db.Set<T>();
+                var list = set.SqlQuery(string.Format("select * from `{0}`", tableName)).ToList();
+                return list;
+            }
+        }
+
+        /// <summary>
         /// 新增
         /// </summary>
         /// <param name="obj"></param>

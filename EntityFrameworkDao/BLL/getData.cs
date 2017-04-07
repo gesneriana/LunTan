@@ -41,5 +41,17 @@ namespace EFDao.BLL
                 return list;
             }
         }
+
+        /// <summary>
+        /// PC版模板页获取最新的10条留言板内容
+        /// </summary>
+        /// <returns></returns>
+        public static List<liuyanban> getLybList()
+        {
+            using(WeiQingEntities db=new WeiQingEntities())
+            {
+                return db.liuyanban.Where(x => x.state == 1).OrderByDescending(x => x.addtime).Take(10).ToList();
+            }
+        }
     }
 }

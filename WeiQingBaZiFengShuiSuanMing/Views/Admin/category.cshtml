@@ -1,0 +1,178 @@
+﻿@{
+    Layout = null;
+}
+@*文章分类名称管理*@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>文章分类名称管理</title>
+    <style type="text/css">
+        * {
+            list-style-type: none;
+        }
+
+        body {
+            background-color: #FDFDF8;
+        }
+
+        a {
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        hr {
+            height: 1px;
+            background-color: #E0D0A3;
+            border: none;
+        }
+
+        .badoo {
+            text-align: right;
+            float: right;
+            height: 48px;
+            line-height: 38px;
+        }
+
+            .badoo span {
+                display: inline-block;
+                padding: 5px 5px 5px;
+                margin-left: 7px;
+                margin-right: 3px;
+                color: #999;
+            }
+
+            .badoo a {
+                display: inline-block;
+                padding: 5px 5px 5px;
+                margin-left: 7px;
+                margin-right: 3px;
+            }
+
+        .blueBtn {
+            display: inline-block;
+            margin-left: 20px;
+            padding: 5px 10px 5px;
+            font-size: 14px;
+            background-color: #398BFC;
+            cursor: pointer;
+            color: #fff;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            margin-right: 10px;
+        }
+
+        .blueBtn_s {
+            display: inline-block;
+            padding: 5px 10px 5px;
+            font-size: 12px;
+            background-color: #398BFC;
+            cursor: pointer;
+            color: #fff;
+            margin-top: 2px;
+            margin-bottom: 2px;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        .edit_tr {
+            cursor: pointer;
+            width: 100%;
+            color: chocolate;
+        }
+    </style>
+    <script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+
+        // 添加分类名称
+        function addCategory() {
+            var catename = $("#catename").val();
+            if (catename == '') {
+                alert("请输入分类名称");
+                return;
+            }
+            $.ajax({
+                type: "POST",
+                url: "/admin/addCategory",
+                data: "catename=" + catename,
+                error: function (request) {
+                    alert('请求错误');
+                },
+                success: function (data) {
+                    if (data == 1) {
+                        alert("添加成功");
+                        location.href = '@Request.RawUrl';
+                    } else {
+                        alert(data);
+                    }
+                }
+            });
+        }
+
+        // 修改分类名称
+        function changeName(id) {
+            var catename = $("#cate" + id).val();
+            if (catename == '') {
+                alert("请输入分类名称");
+                return;
+            }
+            $.ajax({
+                type: "POST",
+                url: "/admin/updateCategory",
+                data: "catename=" + catename + "&id=" + id,
+                error: function (request) {
+                    alert('请求错误');
+                },
+                success: function (data) {
+                    if (data == 1) {
+                        alert("修改成功");
+                        location.href = '@Request.RawUrl';
+                    } else {
+                        alert(data);
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <div style="text-align:center;">留言内容管理</div>
+
+    <div style="width:800px;margin:30px auto 30px;text-align:center;">
+        <input type="text" id="catename" placeholder="请输入分类名称" style="height:20px;width:120px;"/><div class="blueBtn_s" onclick="addCategory()">添加分类</div>
+    </div>
+
+    <div style="width:800px;min-height:600px;margin:0px auto 0px;">
+        <table style="width:100%;">
+            <tr>
+                <td>分类编号</td>
+                <td>分类名称</td>
+                <td>修改</td>
+            </tr>
+            @{
+                if (ViewData["flList"] != null)
+                {
+                    var flList = (List<EFDao.Entity.category>)ViewData["flList"];
+                    if (flList != null && flList.Count > 0)
+                    {
+                        foreach (var item in flList)
+                        {
+                            <text>
+                                <tr class="bztr">
+                                    <td>@item.id</td>
+                                    <td><input type="text" id="cate@(item.id)" value="@item.category_name" /> </td>
+                                    <td><div class="blueBtn_s" onclick="changeName('@(item.id)')">修改</div></td>
+                                </tr>
+                            </text>
+                        }
+                    }
+                }
+            }
+        </table>
+        <div>
+            @Html.Raw(ViewData["url"])
+        </div>
+    </div>
+</body>
+</html>
