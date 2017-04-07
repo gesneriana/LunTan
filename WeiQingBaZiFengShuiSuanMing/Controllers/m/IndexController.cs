@@ -10,7 +10,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers.m
     /// 手机版的网站的控制器
     /// </summary>
     [Filters.IsDesktop]
-    public class Index_mController : Controller
+    public class IndexController : Controller
     {
         public ActionResult index()
         {
