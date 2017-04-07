@@ -222,7 +222,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
-    <Compile Include="Controllers\m\IndexController.cs" />
+    <Compile Include="Controllers\m\Index_mController.cs" />
     <Compile Include="Filters\AdminFilter.cs" />
     <Compile Include="Filters\CheckLoginAttribute.cs" />
     <Compile Include="Filters\IsMobileAttribute.cs" />
@@ -587,7 +587,7 @@
     <Content Include="ueditor\ueditor.config.js" />
     <Content Include="ueditor\ueditor.parse.js" />
     <Content Include="ueditor\ueditor.parse.min.js" />
-    <Content Include="Views\m\Index\Index.cshtml" />
+    <Content Include="Views\m\Index_m\Index.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

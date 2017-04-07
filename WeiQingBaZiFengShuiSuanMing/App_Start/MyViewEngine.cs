@@ -49,15 +49,7 @@ namespace WeiQingBaZiFengShuiSuanMing.App_Start
         /// <returns></returns>
         public override ViewEngineResult FindView(ControllerContext controllerContext, string viewName, string masterName, bool useCache)
         {
-            // 如果url路径中包含 /m/ 则优先搜索 m 文件夹中的视图
-            if (controllerContext.HttpContext.Request.RawUrl.IndexOf("/m/") >= 0)
-            {
-                ViewLocationFormats = fmt2;
-            }
-            else
-            {
-                ViewLocationFormats = fmt1;
-            }
+            // 由于IIS对于不同的控制器不能正常区分, 所以只能用不同的控制器名称   
             return base.FindView(controllerContext, viewName, masterName, useCache);
         }
 

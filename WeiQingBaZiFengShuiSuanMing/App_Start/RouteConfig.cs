@@ -17,7 +17,7 @@ namespace WeiQingBaZiFengShuiSuanMing
             routes.MapRoute(
                 name: "m",
                 url: "m/{controller}/{action}/{id}",
-                defaults: new { controller = "Index", action = "Index", id = UrlParameter.Optional },
+                defaults: new { controller = "Index_m", action = "Index", id = UrlParameter.Optional },
                 namespaces: new[] { "WeiQingBaZiFengShuiSuanMing.Controllers.m" }
             );
 

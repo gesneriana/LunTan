@@ -26,7 +26,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Filters
             bool isMobile = cntx.HttpContext.Request.Browser.IsMobileDevice;
             if (isMobile)
             {
-                cntx.Result = new RedirectResult("/m/index/index");
+                cntx.Result = new RedirectResult("/m/index_m/index");
             }
         }
     }
