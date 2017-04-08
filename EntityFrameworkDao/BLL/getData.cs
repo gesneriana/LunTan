@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EFDao.Entity;
+using EFDao.EntityExt;
 
 namespace EFDao.BLL
 {
@@ -51,6 +52,34 @@ namespace EFDao.BLL
             using(WeiQingEntities db=new WeiQingEntities())
             {
                 return db.liuyanban.Where(x => x.state == 1).OrderByDescending(x => x.addtime).Take(10).ToList();
+            }
+        }
+
+        /// <summary>
+        /// 获取前10条帖子, 置顶->排序->状态(显示优先)->添加时间 逆序
+        /// </summary>
+        /// <returns></returns>
+        public static List<TitleUserExt> getTitleList()
+        {
+            using (WeiQingEntities db = new WeiQingEntities())
+            {
+                var q = from t in db.title
+                        join u in db.user on t.uid equals u.id
+                        where t.state == 1
+                        orderby t.top descending, t.sort ascending, t.state descending, t.addtime descending
+                        select new TitleUserExt()
+                        {
+                            id = t.id,
+                            addtime = t.addtime,
+                            art_title = t.art_title,
+                            keywords = t.keywords,
+                            nick_name = u.nick_name,
+                            sort = t.sort,
+                            state = t.state,
+                            top = t.top,
+                            uid = t.uid
+                        };
+                return q.Take(10).ToList();
             }
         }
     }

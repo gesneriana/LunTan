@@ -526,7 +526,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         }
 
         /// <summary>
-        /// 帖子管理, 显示帖子列表
+        /// 帖子管理, 显示帖子列表视图页
         /// </summary>
         /// <param name="key"></param>
         /// <param name="page"></param>
@@ -540,7 +540,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                     var q = from t in db.title
                              join u in db.user on t.uid equals u.id
                              where t.art_title.Contains(key) || t.keywords.Contains(key)
-                             orderby t.top descending, t.sort ascending, t.state ascending, t.addtime descending
+                             orderby t.top descending, t.sort ascending, t.state descending, t.addtime descending
                              select new TitleUserExt()
                              {
                                  id = t.id,
@@ -564,7 +564,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 {
                     var q = from t in db.title
                             join u in db.user on t.uid equals u.id
-                            orderby t.top descending, t.sort ascending, t.state ascending, t.addtime descending
+                            orderby t.top descending, t.sort ascending, t.state descending, t.addtime descending
                             select new TitleUserExt()
                             {
                                 id = t.id,
@@ -585,6 +585,30 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 }
             }
             return View();
+        }
+
+        /// <summary>
+        /// 管理员更新帖子的设置
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public ActionResult editTitle(title model)
+        {
+            if (model != null && model.id > 0 && model.sort <= 100 && model.sort >= 0)
+            {
+                using(WeiQingEntities db=new WeiQingEntities())
+                {
+                    var m = db.title.Where(x => x.id == model.id).FirstOrDefault();
+                    if (m != null && m.id > 0)
+                    {
+                        m.top = model.top;
+                        m.sort = model.sort;
+                        m.state = model.state;
+                        return Content(db.SaveChanges().ToString());
+                    }
+                }
+            }
+            return Content("修改失败");
         }
 
     }

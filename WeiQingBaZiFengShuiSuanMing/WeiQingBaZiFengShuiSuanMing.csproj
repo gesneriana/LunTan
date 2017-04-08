@@ -619,7 +619,7 @@
     <Content Include="ueditor\third-party\video-js\font\vjs.ttf" />
     <Content Include="ueditor\third-party\video-js\font\vjs.woff" />
     <Content Include="Views\Index\bzjp.cshtml" />
-    <Content Include="Views\Index\createSub.cshtml" />
+    <Content Include="Views\Index\createTitle.cshtml" />
     <Content Include="Views\Index\tiezi.cshtml" />
     <Content Include="Views\Index\ycList.cshtml" />
     <Content Include="Views\Index\titleList.cshtml" />

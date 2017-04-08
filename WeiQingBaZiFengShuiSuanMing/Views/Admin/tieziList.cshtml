@@ -76,16 +76,76 @@
             margin-right: 20px;
         }
 
+        .sort_num{width:60px;}
+
         .edit_tr {
-            cursor: pointer;
             width: 100%;
             color: chocolate;
         }
     </style>
+    <script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            $("#key").focus();
+            $("#key").keydown(function (event) {
+                if (event.keyCode == 13) {
+                    search();
+                }
+            });
+        })
+
+        // 搜索
+        function search() {
+            var key = $("#key").val();
+            if (key.length > 0) {
+                location.href = "/admin/tieziList?key=" + key;
+            } else {
+                location.href = "/admin/tieziList";
+            }
+        }
+
+        // 修改帖子
+        function changeTitle(id) {
+            var top = $("input[name=top" + id + "]:checked").val();
+            var sort = $("#sort" + id).val();
+            var state = $("input[name=state" + id + "]:checked").val();
+            if (sort.length == 0) {
+                sort = 100;
+            } else {
+                if (isNaN(parseInt(sort))) {
+                    sort = 100;
+                }
+            }
+
+            // alert("top:" + top + " sort:" + sort + " state:" + state + " id:" + id);
+            $.ajax({
+                type: 'post',
+                url: '/admin/editTitle',
+                data: 'id=' + id + '&top=' + top + "&sort=" + sort + "&state=" + state,
+                error: function (request) {
+                    alert('请求错误');
+                },
+                success: function (data) {
+                    if (data > 0) {
+                        alert('修改成功');
+                        location.href = '@Request.RawUrl';
+                    } else if(data==0){
+                        alert("数据未更改");
+                    } else {
+                        alert(data);
+                    }
+                }
+            })
+        }
+    </script>
 </head>
 <body>
     <div style="text-align:center;">帖子管理</div>
-    <div style="width:800px;min-height:800px;margin:0px auto 0px;">
+    <div style="text-align:center;">
+        <input type="text" id="key" placeholder="标题或者关键字搜索" /><div class="blueBtn_s" onclick="search()">搜索</div>
+    </div>
+    <div style="width:1000px;min-height:800px;margin:0px auto 0px;">
         <table id="ul_tab" style="width:100%;">
             <tr>
                 <td>帖子编号</td>
@@ -93,7 +153,7 @@
                 <td>标题</td>
                 <td>关键字</td>
                 <td>置顶</td>
-                <td>排序</td>
+                <td>排序(0-100)</td>
                 <td>状态</td>
                 <td>添加时间</td>
                 <td>修改</td>
@@ -106,16 +166,22 @@
                     {
                         foreach (var item in tlist)
                         {
-                            <tr class="edit_tr" onclick="javascript:window.open('/admin/user_edit/@item.id','_blank')">
+                            <tr class="edit_tr">
                                 <td>@item.id</td>
                                 <td>@item.nick_name</td>
                                 <td>@item.art_title</td>
                                 <td>@item.keywords</td>
-                                <td>@(item.top?"已置顶":"未置顶") </td>
-                                <td>@item.sort</td>
-                                <td>@(item.state==0?"不显示":"显示")</td>
+                                <td>
+                                    <label for="tpzd@(item.id)">置顶</label><input type="radio" name="top@(item.id)" class="tp@(item.id)" id="tpzd@(item.id)" value="true" @{if (item.top) { <text>checked="checked" </text>}} />
+                                    <label for="tpbzd@(item.id)">不置顶</label><input type="radio" name="top@(item.id)" class="tp@(item.id)" id="tpbzd@(item.id)" value="false" @{if (!item.top) { <text>checked="checked" </text>}} />
+                                </td>
+                                <td><input class="sort_num" type="number" name="sort" id="sort@(item.id)" value="@item.sort" /> </td>
+                                <td>
+                                    <label for="stxs@(item.id)">显示</label><input type="radio" name="state@(item.id)" class="state@(item.id)" id="stxs@(item.id)" value="1" @{if (item.state==1) { <text> checked="checked" </text> }} />
+                                    <label for="styc@(item.id)">隐藏</label><input type="radio" name="state@(item.id)" class="state@(item.id)" id="styc@(item.id)" value="0" @{if (item.state==0) { <text> checked="checked" </text> }} />
+                                </td>
                                 <td>@item.addtime.ToString("yyyy-MM-dd HH:mm")</td>
-                                <td><div class="blueBtn_s">修改</div> </td>
+                                <td><div class="blueBtn_s" onclick="changeTitle('@item.id')">修改</div> </td>
                             </tr>
                         }
                     }

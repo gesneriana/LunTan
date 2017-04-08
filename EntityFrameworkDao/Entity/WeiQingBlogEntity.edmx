@@ -16,7 +16,10 @@
           <Property Name="addtime" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="uid" Type="int" Nullable="false" />
           <Property Name="state" Type="int" Nullable="false" />
+          <Property Name="top" Type="bit" Nullable="false" />
+          <Property Name="sort" Type="int" Nullable="false" />
           <Property Name="content" Type="varchar" MaxLength="3000" Nullable="false" />
+          <Property Name="img" Type="varchar" MaxLength="200" Nullable="false" />
         </EntityType>
         <EntityType Name="bazijianpi">
           <Key>
@@ -38,6 +41,7 @@
           </Key>
           <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="category_name" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="img" Type="varchar" MaxLength="200" Nullable="false" />
         </EntityType>
         <EntityType Name="getpwdlog">
           <Key>
@@ -111,12 +115,12 @@
           </Key>
           <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="uid" Type="uint" Nullable="false" />
-          <Property Name="addtime" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="state" Type="uint" Nullable="false" />
           <Property Name="art_title" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="keywords" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="top" Type="bit" Nullable="false" />
           <Property Name="sort" Type="int" Nullable="false" />
+          <Property Name="state" Type="uint" Nullable="false" />
+          <Property Name="addtime" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="tzreply">
           <Key>
@@ -297,6 +301,9 @@
           <Property Name="state" Type="Int32" Nullable="false" />
           <Property Name="content" Type="String" Nullable="false" MaxLength="3000" FixedLength="false" Unicode="false" />
           <Property Name="cateid" Type="Int32" Nullable="false" />
+          <Property Name="top" Type="Boolean" Nullable="false" />
+          <Property Name="sort" Type="Int32" Nullable="false" />
+          <Property Name="img" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="liuyanban">
           <Key>
@@ -316,6 +323,7 @@
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="category_name" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="img" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -443,6 +451,9 @@
           <EntitySetMapping Name="article">
             <EntityTypeMapping TypeName="WeiQingModel.article">
               <MappingFragment StoreEntitySet="article">
+                <ScalarProperty Name="img" ColumnName="img" />
+                <ScalarProperty Name="sort" ColumnName="sort" />
+                <ScalarProperty Name="top" ColumnName="top" />
                 <ScalarProperty Name="cateid" ColumnName="cateid" />
                 <ScalarProperty Name="content" ColumnName="content" />
                 <ScalarProperty Name="state" ColumnName="state" />
@@ -470,6 +481,7 @@
           <EntitySetMapping Name="category">
             <EntityTypeMapping TypeName="WeiQingModel.category">
               <MappingFragment StoreEntitySet="category">
+                <ScalarProperty Name="img" ColumnName="img" />
                 <ScalarProperty Name="category_name" ColumnName="category_name" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>

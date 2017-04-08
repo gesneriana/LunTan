@@ -43,7 +43,7 @@
         @{
             if (ViewData["list"] != null)
             {
-                var titleList = (List<Entity.TitleUserExt>)ViewData["list"];
+                var titleList = (List<EFDao.EntityExt.TitleUserExt>)ViewData["list"];
                 if (titleList != null && titleList.Count > 0)
                 {
                     foreach (var item in titleList)

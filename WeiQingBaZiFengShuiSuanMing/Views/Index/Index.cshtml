@@ -30,11 +30,7 @@
         height:100%;
         float:left;
     }
-    .yuce_history_article_content .rt{
-        width:50%;
-        height:100%;
-        float:right;
-    }
+
         .yuce_history_article_content ul {
             min-height: 252px;
             width:100%;
@@ -92,48 +88,6 @@
             location.href = "/index/index?key=" + key + "&type=ycls";
     }
 
-    // 搜索帖子标题
-    function searchTitle() {
-        var key = $("#tytz").val();
-        if (key == '')
-            location.href = '/index/index';
-        else
-            location.href = "/index/index?key=" + key + "&type=tytz";
-    }
-
-    // 创建帖子
-    function createSub() {
-        if ('@(Session["user"] == null ? "0" : "1")' == 0) {
-            alert("请先登录");
-            return;
-        }
-        // window.open('/index/createSub', "_blank");
-        location.href = '/index/createSub';
-    }
-
-    // 添加内容到留言板
-    function liuyan() {
-        var content = $("#liuyanban").val();
-        if (content.length == 0) {
-            alert("请输入内容");
-            return;
-        }
-        $.ajax({
-            type: "post",
-            url: "/index/addLiuYan",
-            data: "content=" + content,
-            error: function (request) {
-                alert("请求错误");
-            },
-            success: function (data) {
-                if (data > 0) {
-                    location.href = '@Request.RawUrl';
-                } else {
-                    alert("添加失败");
-                }
-            }
-        });
-    }
 </script>
 
 
@@ -147,7 +101,7 @@
                 预测历史&emsp;<input style="width:120px;" type="text" id="ycls" placeholder="请输入八字,名字" /> <a style="color:#551A8B;" href="javascript:;" onclick="searchBzjp()">查找</a>
             </div>
             <div class="yhat_rt">
-                坛友帖子&emsp;<input style="width:120px;" type="text" id="tytz" placeholder="主题或关键字" /> <a style="color:#551A8B;" href="javascript:;" onclick="searchTitle()">查找</a>&emsp;<a style="color:#551A8B;" href="javascript:;" onclick="createSub()">创建</a>
+                坛友帖子&emsp;<input style="width:120px;" type="text" id="tytz" placeholder="主题或关键字" /> <a style="color:#551A8B;" href="javascript:;" onclick="searchTitle()">查找</a>
             </div>
         </div>
         
@@ -176,6 +130,8 @@
                 <div style="width:100%;height:30px;line-height:30px;color:#551A8B;">@{if((int)ViewData["ycCount"] >12) {<text><a href="/index/ycList" target="_blank">查看更多预测</a> </text> }} </div>
             </div>
 
+            @*用户发布的帖子*@
+            @*
             <div class="rt">
                 <ul>
                     @{
@@ -206,6 +162,9 @@
                 </ul>
                 <div style="width:100%;height:30px;line-height:30px;color:#551A8B;">@{if((int)ViewData["tzCount"]>12) {<text><a href="/index/titleList" target="_blank">全部帖子</a> </text> }} </div>
             </div>
+            *@
+
+
         </div>
     </div>
 

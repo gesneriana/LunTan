@@ -22,5 +22,8 @@ namespace EFDao.Entity
         public int state { get; set; }
         public string content { get; set; }
         public int cateid { get; set; }
+        public bool top { get; set; }
+        public int sort { get; set; }
+        public string img { get; set; }
     }
 }

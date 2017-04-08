@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Transactions;
 using EFDao.Entity;
 using Common.Utility;
 using Entity;
-using System.Transactions;
 
 namespace WeiQingBaZiFengShuiSuanMing.Controllers
 {
@@ -27,45 +27,10 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 {
                     switch (type)
                     {
+                        // 搜索预测文章
                         case "ycls":
                             var yc = db.bazijianpi.Where(x => x.state == 1 && (x.bazi.Contains(key) || x.born_place.Contains(key) || x.name.Contains(key))).OrderByDescending(x => x.addtime).Take(12).ToList();
                             ViewData["baziList"] = yc;  // 搜索预测历史
-
-                            var tz = (from t in db.title
-                                      join u in db.user on t.uid equals u.id
-                                      where t.state == 1
-                                      orderby t.addtime descending
-                                      select new TitleUserExt()
-                                      {
-                                          id = t.id,
-                                          nick_name = u.nick_name,
-                                          addtime = t.addtime,
-                                          art_title = t.art_title,
-                                          keywords = t.keywords,
-                                          state = t.state,
-                                          uid = t.uid
-                                      }).Take(12).ToList();
-                            ViewData["tzList"] = tz;    // 默认显示的帖子
-                            break;
-                        case "tytz":
-                            var yc2 = db.bazijianpi.Where(x => x.state == 1).OrderByDescending(x => x.addtime).Take(12).ToList();
-                            ViewData["baziList"] = yc2;  // 默认显示的预测历史
-
-                            var tz2 = (from t in db.title
-                                       join u in db.user on t.uid equals u.id
-                                       where t.state == 1 && (t.art_title.Contains(key) || t.keywords.Contains(key))
-                                       orderby t.addtime descending
-                                       select new TitleUserExt()
-                                       {
-                                           id = t.id,
-                                           nick_name = u.nick_name,
-                                           addtime = t.addtime,
-                                           art_title = t.art_title,
-                                           keywords = t.keywords,
-                                           state = t.state,
-                                           uid = t.uid
-                                       }).Take(12).ToList();
-                            ViewData["tzList"] = tz2;    // 搜索帖子
                             break;
                         default:
                             return Redirect("/index/index");
@@ -76,37 +41,14 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                     #region 搜索默认
                     var yc = db.bazijianpi.Where(x => x.state == 1).OrderByDescending(x => x.addtime).Take(12).ToList();
                     ViewData["baziList"] = yc;  // 默认显示的预测历史
-
-                    var tz = (from t in db.title
-                              join u in db.user on t.uid equals u.id
-                              where t.state == 1
-                              orderby t.addtime descending
-                              select new TitleUserExt()
-                              {
-                                  id = t.id,
-                                  nick_name = u.nick_name,
-                                  addtime = t.addtime,
-                                  art_title = t.art_title,
-                                  keywords = t.keywords,
-                                  state = t.state,
-                                  uid = t.uid
-                              }).Take(12).ToList();
-                    ViewData["tzList"] = tz;    // 默认显示的帖子
                     #endregion
                 }
                 #endregion
 
-                // 判断数量,是否显示更多按钮,打开列表页
+                // 判断预测的文章数量,是否显示更多按钮,打开列表页
                 var ycCount = db.bazijianpi.Where(x => x.state == 1).Count();
-                var tzCount = db.title.Where(x => x.state == 1).Count();
                 ViewData["ycCount"] = ycCount;
-                ViewData["tzCount"] = tzCount;
 
-                // 加载最近的10条留言列表
-                /*
-                var lyList = db.liuyanban.Where(x => x.state == 1).OrderByDescending(x => x.addtime).Take(10).ToList();
-                ViewData["lyList"] = lyList;
-                */
             }
             return View();
         }
@@ -559,7 +501,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// </summary>
         /// <returns></returns>
         [Filters.CheckLogin(IsAjax = false, IsPost = false)]
-        public ActionResult createSub()
+        public ActionResult createTitle()
         {
             return View();
         }
@@ -571,7 +513,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// <returns></returns>
         [ValidateInput(false)]
         [Filters.CheckLogin]
-        public ActionResult createTitle(TitleExt model)
+        public ActionResult addTitle(TitleExt model)
         {
             if (model != null)
             {
@@ -807,12 +749,11 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             {
                 if (key != null && key.Length > 0)
                 {
-                    // var q = db.title.Where(x => x.state == 1 && (x.art_title.Contains(key) || x.keywords.Contains(key))).OrderByDescending(x => x.addtime);
                     var q1 = from t in db.title
                              join u in db.user on t.uid equals u.id
                              where t.state == 1 && (t.art_title.Contains(key) || t.keywords.Contains(key))
-                             orderby t.addtime descending
-                             select new TitleUserExt()
+                             orderby t.top descending, t.sort ascending, t.state descending, t.addtime descending
+                             select new EFDao.EntityExt.TitleUserExt()
                              {
                                  addtime = t.addtime,
                                  art_title = t.art_title,
@@ -822,19 +763,18 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                                  state = t.state,
                                  uid = t.uid
                              };
-                    var p = new EFPaging<TitleUserExt>();
+                    var p = new EFPaging<EFDao.EntityExt.TitleUserExt>();
                     ViewData["list"] = p.getPageList(q1, "/index/titleList", page, 20);
                     ViewData["url"] = p.pageUrl;
                     return View();
                 }
                 else
                 {
-                    // var q = db.title.Where(x => x.state == 1).OrderByDescending(x => x.addtime);
                     var q1 = from t in db.title
                              join u in db.user on t.uid equals u.id
                              where t.state == 1
-                             orderby t.addtime descending
-                             select new TitleUserExt()
+                             orderby t.top descending, t.sort ascending, t.state descending, t.addtime descending
+                             select new EFDao.EntityExt.TitleUserExt()
                              {
                                  addtime = t.addtime,
                                  art_title = t.art_title,
@@ -844,13 +784,12 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                                  state = t.state,
                                  uid = t.uid
                              };
-                    var p = new EFPaging<TitleUserExt>();
+                    var p = new EFPaging<EFDao.EntityExt.TitleUserExt>();
                     ViewData["list"] = p.getPageList(q1, "/index/titleList", page, 20);
                     ViewData["url"] = p.pageUrl;
                     return View();
                 }
             }
-            return View();
         }
 
         /// <summary>
