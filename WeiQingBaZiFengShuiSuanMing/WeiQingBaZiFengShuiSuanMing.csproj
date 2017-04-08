@@ -14,7 +14,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WeiQingBaZiFengShuiSuanMing</RootNamespace>
-    <AssemblyName>WeiQingBaZiFengShuiSuanMing</AssemblyName>
+    <AssemblyName>WQLunTan</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>

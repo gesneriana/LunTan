@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-04-05 12:53:42
+Date: 2017-04-09 02:30:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,20 +21,24 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `article`;
 CREATE TABLE `article` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '站长发布文章的主键',
+  `cateid` int(11) NOT NULL DEFAULT '0' COMMENT '文章分类表的id',
   `title` varchar(50) NOT NULL DEFAULT '' COMMENT '文章标题',
   `keywords` varchar(50) NOT NULL DEFAULT '' COMMENT '关键字',
   `addtime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
   `uid` int(11) NOT NULL DEFAULT '0' COMMENT '添加者id',
   `state` int(11) NOT NULL DEFAULT '0' COMMENT '状态, 1 可查看, 0 禁止显示',
+  `top` bit(1) NOT NULL DEFAULT b'0' COMMENT '置顶, 默认不置顶 false',
+  `sort` int(11) NOT NULL DEFAULT '100' COMMENT '排序,0-100, 从小到大排列',
   `content` varchar(3000) NOT NULL DEFAULT '' COMMENT '文章内容',
+  `img` varchar(200) NOT NULL DEFAULT '' COMMENT '文章封面图片, 用于轮播图',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of article
 -- ----------------------------
-INSERT INTO `article` VALUES ('1', '四月四日', '清明节时期', '2017-04-04 02:37:21', '1', '1', '<p>上班好好做, 努力, 终于找到了一个不错的工作</p>');
-INSERT INTO `article` VALUES ('2', '四月五号', '年前诸事不顺', '2017-04-05 00:41:01', '1', '1', '<p>心情复杂</p>');
+INSERT INTO `article` VALUES ('1', '1', '四月四日', '清明节时期', '2017-04-04 02:37:21', '1', '1', '\0', '100', '<p>上班好好做, 努力, 终于找到了一个不错的工作</p>', '');
+INSERT INTO `article` VALUES ('2', '1', '四月五号', '年前诸事不顺', '2017-04-05 00:41:01', '1', '1', '\0', '100', '<p>心情复杂</p>', '');
 
 -- ----------------------------
 -- Table structure for bazijianpi
@@ -49,7 +53,7 @@ CREATE TABLE `bazijianpi` (
   `addtime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
   `bazi` varchar(50) NOT NULL DEFAULT '' COMMENT '八字',
   `state` int(10) NOT NULL DEFAULT '0' COMMENT '状态,0为申请,1为已预测',
-  `yuce_content` varchar(500) NOT NULL DEFAULT '' COMMENT '预测结果',
+  `yuce_content` varchar(2000) NOT NULL DEFAULT '' COMMENT '预测结果',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
@@ -62,6 +66,24 @@ INSERT INTO `bazijianpi` VALUES ('3', '求测者', '\0', '2017-03-24 22:24:00', 
 INSERT INTO `bazijianpi` VALUES ('4', '求测者', '', '2017-03-24 22:25:00', '未知', '2017-03-24 22:25:52', '乙亥乙酉乙酉乙酉', '1', '<p>很不错</p>');
 INSERT INTO `bazijianpi` VALUES ('5', '求测者', '', '2017-03-27 12:46:00', '未知', '2017-03-27 12:46:05', '', '0', '');
 INSERT INTO `bazijianpi` VALUES ('6', '求测者', '', '2017-03-08 12:46:00', '未知', '2017-03-27 12:46:10', '', '0', '');
+
+-- ----------------------------
+-- Table structure for category
+-- ----------------------------
+DROP TABLE IF EXISTS `category`;
+CREATE TABLE `category` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `category_name` varchar(30) NOT NULL DEFAULT '' COMMENT '分类名称',
+  `img` varchar(200) NOT NULL DEFAULT '' COMMENT '分类名称旁边的小图存储的路径, 如果为空加载默认图片',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of category
+-- ----------------------------
+INSERT INTO `category` VALUES ('1', '每日一文', '');
+INSERT INTO `category` VALUES ('2', '命学浅析', '');
+INSERT INTO `category` VALUES ('3', '移动版', '');
 
 -- ----------------------------
 -- Table structure for getpwdlog
@@ -92,15 +114,16 @@ CREATE TABLE `liuyanban` (
   `addtime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
   `ip` varchar(20) NOT NULL DEFAULT '' COMMENT '客户端的ip地址',
   `state` int(10) NOT NULL DEFAULT '1' COMMENT '状态,默认为1 显示, 0 不显示',
-  `content` varchar(255) NOT NULL DEFAULT '' COMMENT '留言内容',
+  `content` varchar(500) NOT NULL DEFAULT '' COMMENT '留言内容',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of liuyanban
 -- ----------------------------
 INSERT INTO `liuyanban` VALUES ('1', '0', '游客', '2017-04-05 03:54:13', '::1', '1', '第一次留言,占个一楼');
 INSERT INTO `liuyanban` VALUES ('2', '1', '张先生', '2017-04-05 03:54:40', '::1', '1', '登录之后试试留言');
+INSERT INTO `liuyanban` VALUES ('3', '1', 'admin666', '2017-04-09 02:00:52', '::1', '1', '准备睡觉了');
 
 -- ----------------------------
 -- Table structure for login_log
@@ -112,7 +135,7 @@ CREATE TABLE `login_log` (
   `login_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登录时间',
   `login_ip` varchar(30) NOT NULL DEFAULT '' COMMENT '登录的ip地址',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of login_log
@@ -231,6 +254,42 @@ INSERT INTO `login_log` VALUES ('111', '1', '2017-04-05 12:43:04', '::1');
 INSERT INTO `login_log` VALUES ('112', '1', '2017-04-05 12:48:04', '127.0.0.1');
 INSERT INTO `login_log` VALUES ('113', '1', '2017-04-05 12:51:22', '127.0.0.1');
 INSERT INTO `login_log` VALUES ('114', '1', '2017-04-05 12:51:29', '127.0.0.1');
+INSERT INTO `login_log` VALUES ('115', '1', '2017-04-05 14:39:25', '127.0.0.1');
+INSERT INTO `login_log` VALUES ('116', '1', '2017-04-05 18:14:03', '127.0.0.1');
+INSERT INTO `login_log` VALUES ('117', '1', '2017-04-05 18:21:28', '127.0.0.1');
+INSERT INTO `login_log` VALUES ('118', '1', '2017-04-05 21:10:02', '127.0.0.1');
+INSERT INTO `login_log` VALUES ('119', '1', '2017-04-06 22:01:36', '127.0.0.1');
+INSERT INTO `login_log` VALUES ('120', '1', '2017-04-06 23:18:55', '127.0.0.1');
+INSERT INTO `login_log` VALUES ('121', '1', '2017-04-06 23:23:36', '::1');
+INSERT INTO `login_log` VALUES ('122', '1', '2017-04-06 23:25:00', '::1');
+INSERT INTO `login_log` VALUES ('123', '1', '2017-04-06 23:25:19', '::1');
+INSERT INTO `login_log` VALUES ('124', '1', '2017-04-06 23:25:31', '::1');
+INSERT INTO `login_log` VALUES ('125', '1', '2017-04-07 11:51:30', '::1');
+INSERT INTO `login_log` VALUES ('126', '1', '2017-04-07 13:10:43', '::1');
+INSERT INTO `login_log` VALUES ('127', '1', '2017-04-07 17:57:24', '::1');
+INSERT INTO `login_log` VALUES ('128', '1', '2017-04-07 18:38:57', '::1');
+INSERT INTO `login_log` VALUES ('129', '1', '2017-04-07 18:58:49', '::1');
+INSERT INTO `login_log` VALUES ('130', '1', '2017-04-07 19:20:27', '::1');
+INSERT INTO `login_log` VALUES ('131', '1', '2017-04-07 23:48:41', '::1');
+INSERT INTO `login_log` VALUES ('132', '1', '2017-04-08 01:59:22', '::1');
+INSERT INTO `login_log` VALUES ('133', '1', '2017-04-08 17:18:57', '::1');
+INSERT INTO `login_log` VALUES ('134', '1', '2017-04-08 18:07:34', '::1');
+INSERT INTO `login_log` VALUES ('135', '1', '2017-04-08 19:14:38', '::1');
+INSERT INTO `login_log` VALUES ('136', '1', '2017-04-08 20:43:36', '::1');
+INSERT INTO `login_log` VALUES ('137', '1', '2017-04-08 21:37:21', '::1');
+INSERT INTO `login_log` VALUES ('138', '1', '2017-04-08 22:36:03', '::1');
+INSERT INTO `login_log` VALUES ('139', '1', '2017-04-08 23:40:58', '::1');
+INSERT INTO `login_log` VALUES ('140', '1', '2017-04-09 00:59:20', '::1');
+INSERT INTO `login_log` VALUES ('141', '1', '2017-04-09 01:05:31', '::1');
+INSERT INTO `login_log` VALUES ('142', '1', '2017-04-09 01:07:26', '::1');
+INSERT INTO `login_log` VALUES ('143', '1', '2017-04-09 01:09:25', '::1');
+INSERT INTO `login_log` VALUES ('144', '1', '2017-04-09 01:42:21', '::1');
+INSERT INTO `login_log` VALUES ('145', '1', '2017-04-09 01:47:02', '::1');
+INSERT INTO `login_log` VALUES ('146', '1', '2017-04-09 01:47:14', '::1');
+INSERT INTO `login_log` VALUES ('147', '1', '2017-04-09 01:47:22', '::1');
+INSERT INTO `login_log` VALUES ('148', '1', '2017-04-09 01:48:02', '::1');
+INSERT INTO `login_log` VALUES ('149', '1', '2017-04-09 02:16:34', '::1');
+INSERT INTO `login_log` VALUES ('150', '1', '2017-04-09 02:19:23', '127.0.0.1');
 
 -- ----------------------------
 -- Table structure for notice
@@ -240,7 +299,7 @@ CREATE TABLE `notice` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '公告表的主键',
   `uid` int(11) NOT NULL DEFAULT '0' COMMENT '发布的用户id',
   `addtime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '发布时间',
-  `content` varchar(500) NOT NULL DEFAULT '' COMMENT '公告内容',
+  `content` varchar(1000) NOT NULL DEFAULT '' COMMENT '公告内容',
   `show` bit(1) NOT NULL DEFAULT b'1' COMMENT '是否显示',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -264,7 +323,7 @@ CREATE TABLE `tiezi` (
   `uname` varchar(20) NOT NULL DEFAULT '' COMMENT '发帖人的用户名,减少不必要的查询',
   `content` varchar(3000) NOT NULL DEFAULT '' COMMENT '帖子回复',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tiezi
@@ -283,6 +342,7 @@ INSERT INTO `tiezi` VALUES ('11', '0000000001', '2017-03-31 20:56:08', '1', '10'
 INSERT INTO `tiezi` VALUES ('12', '0000000001', '2017-03-31 20:59:03', '1', '11', '1', '张先生', '<p>玩儿玩儿</p>');
 INSERT INTO `tiezi` VALUES ('13', '0000000001', '2017-03-31 21:00:41', '1', '12', '1', '张先生', '<p>玩儿玩儿</p>');
 INSERT INTO `tiezi` VALUES ('14', '0000000001', '2017-03-31 21:16:47', '1', '13', '1', '张先生', '<p>weq qwweqweq</p>');
+INSERT INTO `tiezi` VALUES ('15', '0000000003', '2017-04-09 01:13:21', '1', '1', '1', 'admin666', '<p>大家不要在论坛发布其他无关的内容<br/></p>');
 
 -- ----------------------------
 -- Table structure for tiezi_jubao
@@ -291,7 +351,7 @@ DROP TABLE IF EXISTS `tiezi_jubao`;
 CREATE TABLE `tiezi_jubao` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `tzid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '指定楼层的帖子id,tiezi表的主键',
-  `reason` varchar(255) NOT NULL DEFAULT '' COMMENT '举报的理由',
+  `reason` varchar(500) NOT NULL DEFAULT '' COMMENT '举报的理由',
   `addtime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '举报时间',
   `ip` varchar(50) NOT NULL DEFAULT '' COMMENT '举报人的ip地址',
   `jb_type` bit(1) NOT NULL DEFAULT b'1' COMMENT '举报类型,1 内容,0 回复',
@@ -313,18 +373,21 @@ DROP TABLE IF EXISTS `title`;
 CREATE TABLE `title` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '楼主',
-  `addtime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
+  `art_title` varchar(100) NOT NULL DEFAULT '' COMMENT '标题',
+  `keywords` varchar(100) NOT NULL DEFAULT '' COMMENT '关键字',
+  `top` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否置顶,默认为0 不置顶',
+  `sort` int(11) NOT NULL DEFAULT '100' COMMENT '排序, 0-100之间, 默认为100, 从小到大排列',
   `state` int(10) unsigned NOT NULL DEFAULT '1' COMMENT '是否可见',
-  `art_title` varchar(50) NOT NULL DEFAULT '' COMMENT '标题',
-  `keywords` varchar(50) NOT NULL DEFAULT '' COMMENT '关键字',
+  `addtime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of title
 -- ----------------------------
-INSERT INTO `title` VALUES ('1', '1', '2017-03-27 23:57:29', '1', '阿尔文', '王企鹅');
-INSERT INTO `title` VALUES ('2', '1', '2017-03-28 00:34:53', '1', '想要过的更好', '心情不好');
+INSERT INTO `title` VALUES ('1', '1', '阿尔文', '王企鹅', '', '100', '1', '2017-03-27 23:57:29');
+INSERT INTO `title` VALUES ('2', '1', '想要过的更好', '心情不好', '\0', '100', '1', '2017-03-28 00:34:53');
+INSERT INTO `title` VALUES ('3', '1', '论坛相关说明', '新规定', '\0', '100', '1', '2017-04-09 01:13:21');
 
 -- ----------------------------
 -- Table structure for tzreply
@@ -354,7 +417,7 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键,标识列',
   `nick_name` varchar(20) NOT NULL DEFAULT '未填写' COMMENT '昵称',
-  `pwd` varchar(50) NOT NULL COMMENT '密码,保存的是hash算法处理之后的值',
+  `pwd` varchar(200) NOT NULL COMMENT '密码,保存的是hash算法处理之后的值',
   `email` varchar(50) NOT NULL COMMENT '邮箱,必须填写, 可以用于找回密码',
   `mobile` varchar(11) NOT NULL DEFAULT '' COMMENT '手机号,非必填, 当邮箱不可用的情况可以用于找回密码',
   `qq` varchar(11) NOT NULL DEFAULT '' COMMENT 'qq号,非必填,邮箱不可用时 可以用于找回密码',
