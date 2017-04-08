@@ -20,5 +20,7 @@ namespace EFDao.Entity
         public long state { get; set; }
         public string keywords { get; set; }
         public string art_title { get; set; }
+        public bool top { get; set; }
+        public int sort { get; set; }
     }
 }

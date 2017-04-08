@@ -525,5 +525,67 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             return Content("修改失败");
         }
 
+        /// <summary>
+        /// 帖子管理, 显示帖子列表
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public ActionResult tieziList(string key = "", int page = 1)
+        {
+            using(WeiQingEntities db=new WeiQingEntities())
+            {
+                if (key != null && key.Length > 0)
+                {
+                    var q = from t in db.title
+                             join u in db.user on t.uid equals u.id
+                             where t.art_title.Contains(key) || t.keywords.Contains(key)
+                             orderby t.top descending, t.sort ascending, t.state ascending, t.addtime descending
+                             select new TitleUserExt()
+                             {
+                                 id = t.id,
+                                 addtime = t.addtime,
+                                 art_title = t.art_title,
+                                 keywords = t.keywords,
+                                 nick_name = u.nick_name,
+                                 sort = t.sort,
+                                 state = t.state,
+                                 top = t.top,
+                                 uid = t.uid
+                             };
+                    // var q = db.title.Where(x => x.art_title.Contains(key) || x.keywords.Contains(key)).OrderByDescending(x => x.top).ThenBy(x => x.sort).ThenBy(x => x.state).ThenByDescending(x => x.addtime);
+                    var p = new EFPaging<TitleUserExt>();
+                    var tlist = p.getPageList(q, "/admin/tieziList", page, 20);
+                    ViewData["tlist"] = tlist;
+                    ViewData["url"] = p.pageUrl;
+                    return View();
+                }
+                else
+                {
+                    var q = from t in db.title
+                            join u in db.user on t.uid equals u.id
+                            orderby t.top descending, t.sort ascending, t.state ascending, t.addtime descending
+                            select new TitleUserExt()
+                            {
+                                id = t.id,
+                                addtime = t.addtime,
+                                art_title = t.art_title,
+                                keywords = t.keywords,
+                                nick_name = u.nick_name,
+                                sort = t.sort,
+                                state = t.state,
+                                top = t.top,
+                                uid = t.uid
+                            };
+                    // var q = db.title.OrderByDescending(x => x.top).ThenBy(x => x.sort).ThenBy(x => x.state).ThenByDescending(x => x.addtime);
+                    var p = new EFPaging<TitleUserExt>();
+                    var tlist = p.getPageList(q, "/admin/tieziList", page, 20);
+                    ViewData["tlist"] = tlist;
+                    ViewData["url"] = p.pageUrl;
+                }
+            }
+            return View();
+        }
+
     }
 }

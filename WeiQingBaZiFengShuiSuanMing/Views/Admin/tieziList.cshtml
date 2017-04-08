@@ -1,0 +1,130 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>帖子管理</title>
+    <style type="text/css">
+        * {
+            list-style-type: none;
+        }
+
+        body {
+            background-color: #FDFDF8;
+        }
+
+        a {
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        hr {
+            height: 1px;
+            background-color: #E0D0A3;
+            border: none;
+        }
+
+        .badoo {
+            text-align: right;
+            float: right;
+            height: 48px;
+            line-height: 38px;
+        }
+
+            .badoo span {
+                display: inline-block;
+                padding: 5px 5px 5px;
+                margin-left: 7px;
+                margin-right: 3px;
+                color: #999;
+            }
+
+            .badoo a {
+                display: inline-block;
+                padding: 5px 5px 5px;
+                margin-left: 7px;
+                margin-right: 3px;
+            }
+
+        .blueBtn {
+            display: inline-block;
+            margin-left: 20px;
+            padding: 5px 10px 5px;
+            font-size: 14px;
+            background-color: #398BFC;
+            cursor: pointer;
+            color: #fff;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            margin-right: 10px;
+        }
+
+        .blueBtn_s {
+            display: inline-block;
+            padding: 5px 10px 5px;
+            font-size: 12px;
+            background-color: #398BFC;
+            cursor: pointer;
+            color: #fff;
+            margin-top: 2px;
+            margin-bottom: 2px;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        .edit_tr {
+            cursor: pointer;
+            width: 100%;
+            color: chocolate;
+        }
+    </style>
+</head>
+<body>
+    <div style="text-align:center;">帖子管理</div>
+    <div style="width:800px;min-height:800px;margin:0px auto 0px;">
+        <table id="ul_tab" style="width:100%;">
+            <tr>
+                <td>帖子编号</td>
+                <td>创建人</td>
+                <td>标题</td>
+                <td>关键字</td>
+                <td>置顶</td>
+                <td>排序</td>
+                <td>状态</td>
+                <td>添加时间</td>
+                <td>修改</td>
+            </tr>
+            @{
+                if (ViewData["tlist"] != null)
+                {
+                    var tlist = (List<Entity.TitleUserExt>)ViewData["tlist"];
+                    if (tlist != null && tlist.Count > 0)
+                    {
+                        foreach (var item in tlist)
+                        {
+                            <tr class="edit_tr" onclick="javascript:window.open('/admin/user_edit/@item.id','_blank')">
+                                <td>@item.id</td>
+                                <td>@item.nick_name</td>
+                                <td>@item.art_title</td>
+                                <td>@item.keywords</td>
+                                <td>@(item.top?"已置顶":"未置顶") </td>
+                                <td>@item.sort</td>
+                                <td>@(item.state==0?"不显示":"显示")</td>
+                                <td>@item.addtime.ToString("yyyy-MM-dd HH:mm")</td>
+                                <td><div class="blueBtn_s">修改</div> </td>
+                            </tr>
+                        }
+                    }
+                }
+            }
+        </table>
+        <div>
+            @Html.Raw(ViewData["url"])
+        </div>
+    </div>
+</body>
+</html>

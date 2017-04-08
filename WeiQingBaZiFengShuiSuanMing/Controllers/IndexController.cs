@@ -582,7 +582,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 try
                 {
                     var u = (user)Session["user"];
-                    title t = new title() { uid = u.id, addtime = dt, art_title = model.art_title, keywords = model.keywords, state = 1 };
+                    title t = new title() { uid = u.id, addtime = dt, art_title = model.art_title, keywords = model.keywords, state = 1, sort = 100, top = false };
 
                     TransactionOptions transOpt = new TransactionOptions();
 

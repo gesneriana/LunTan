@@ -115,6 +115,8 @@
           <Property Name="state" Type="uint" Nullable="false" />
           <Property Name="art_title" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="keywords" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="top" Type="bit" Nullable="false" />
+          <Property Name="sort" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="tzreply">
           <Key>
@@ -233,6 +235,8 @@
           <Property Name="state" Type="Int64" Nullable="false" />
           <Property Name="keywords" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="art_title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="top" Type="Boolean" Nullable="false" />
+          <Property Name="sort" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="tiezi">
           <Key>
@@ -374,6 +378,8 @@
           <EntitySetMapping Name="title">
             <EntityTypeMapping TypeName="WeiQingModel.title">
               <MappingFragment StoreEntitySet="title">
+                <ScalarProperty Name="sort" ColumnName="sort" />
+                <ScalarProperty Name="top" ColumnName="top" />
                 <ScalarProperty Name="art_title" ColumnName="art_title" />
                 <ScalarProperty Name="keywords" ColumnName="keywords" />
                 <ScalarProperty Name="state" ColumnName="state" />
