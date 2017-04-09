@@ -506,20 +506,38 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         }
 
         /// <summary>
-        /// 更新分类名称
+        /// 更新文章分类
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="catename"></param>
+        /// <param name="model"></param>
+        /// <param name="img"></param>
         /// <returns></returns>
-        public ActionResult updateCategory(int id = 0, string catename = "")
+        public ActionResult updateCategory(category model, HttpPostedFileWrapper img)
         {
-            if (id > 0 && catename != null && catename.Length > 0)
+            if (model.id > 0 && model.category_name != null && model.category_name.Length > 0 && model.sort >= 0 && model.sort <= 100)
             {
-                var m = new category() { id = id, category_name = catename };
-                var r = EfExt.update(m);
-                if (r > 0)
+                reflectModel.setValues(model);  // 图片为空,清除null值
+                using (WeiQingEntities db = new WeiQingEntities())
                 {
-                    return Content("1");
+                    var m = db.category.Where(x => x.id == model.id).FirstOrDefault();
+                    if (m != null && m.id > 0)
+                    {
+                        m.category_name = model.category_name;
+                        // 如果已经上传了图片,则先删除旧图片
+                        if (img != null && img.ContentLength > 0)
+                        {
+                            if (m.img.Length > 0)
+                            {
+                                ImagesTools.delete(m.img);
+                            }
+                            m.img = ImagesTools.save(imgs: img);   // 图片保存到图片上传文件夹
+                        }
+                        m.sort = model.sort;
+                        int r = db.SaveChanges();
+                        if (r > 0)
+                        {
+                            return Content("1");
+                        }
+                    }
                 }
             }
             return Content("修改失败");

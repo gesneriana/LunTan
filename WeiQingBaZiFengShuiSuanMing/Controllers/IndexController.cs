@@ -19,36 +19,28 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// <returns></returns>
         public ActionResult index(string key = "", string type = "", int page = 1)
         {
-            // 查询八字简批的关键字段
             using (WeiQingEntities db = new WeiQingEntities())
             {
-                #region 搜索入口, 搜索帖子和预测内容
-                if (type != null && type.Length > 0 && key != null && key.Length > 0)
+                var yc = db.bazijianpi.Where(x => x.state == 1).OrderByDescending(x => x.addtime).Take(12).ToList();
+                ViewData["baziList"] = yc;  // 默认显示的预测历史
+
+                // 文章分类列表
+                var cateDic = db.category.Where(x => x.id <= 7).
+                    OrderBy(x => x.sort).ThenBy(x => x.id).
+                    Select(
+                            x => new EFDao.EntityExt.CategoryAricleExt(){ id = x.id, category_name = x.category_name, img = x.img, sort = x.sort }
+                            ).
+                    Take(7)
+                    .ToDictionary(x => x.id);
+                if (cateDic != null && cateDic.Count > 0)
                 {
-                    switch (type)
+                    foreach (var item in cateDic)
                     {
-                        // 搜索预测文章
-                        case "ycls":
-                            var yc = db.bazijianpi.Where(x => x.state == 1 && (x.bazi.Contains(key) || x.born_place.Contains(key) || x.name.Contains(key))).OrderByDescending(x => x.addtime).Take(12).ToList();
-                            ViewData["baziList"] = yc;  // 搜索预测历史
-                            break;
-                        default:
-                            return Redirect("/index/index");
+                        var artlist = db.article.Where(x => x.cateid == item.Key && x.state == 1).OrderByDescending(x => x.top).ThenBy(x => x.sort).ThenByDescending(x => x.addtime).Take(10).ToList();
+                        cateDic[item.Key].artlist = artlist;
                     }
                 }
-                else
-                {
-                    #region 搜索默认
-                    var yc = db.bazijianpi.Where(x => x.state == 1).OrderByDescending(x => x.addtime).Take(12).ToList();
-                    ViewData["baziList"] = yc;  // 默认显示的预测历史
-                    #endregion
-                }
-                #endregion
-
-                // 判断预测的文章数量,是否显示更多按钮,打开列表页
-                var ycCount = db.bazijianpi.Where(x => x.state == 1).Count();
-                ViewData["ycCount"] = ycCount;
-
+                ViewData["cateArtDic"] = cateDic;
             }
             return View();
         }

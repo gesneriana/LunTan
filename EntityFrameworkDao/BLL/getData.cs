@@ -30,6 +30,7 @@ namespace EFDao.BLL
         /// 模板页获取可以显示的文章列表,按时间倒序,只取前10条
         /// </summary>
         /// <returns></returns>
+          [Obsolete("文章实体类已更新,排序规则需要更改")]
         public static List<article> getArtList()
         {
             using(WeiQingEntities db=new WeiQingEntities())
@@ -66,7 +67,7 @@ namespace EFDao.BLL
                 var q = from t in db.title
                         join u in db.user on t.uid equals u.id
                         where t.state == 1
-                        orderby t.top descending, t.sort ascending, t.state descending, t.addtime descending
+                        orderby t.top descending, t.sort ascending, t.addtime descending
                         select new TitleUserExt()
                         {
                             id = t.id,

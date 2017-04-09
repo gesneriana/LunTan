@@ -83,6 +83,7 @@
         }
     </style>
     <script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-form.js"></script>
     <script type="text/javascript">
 
         // 添加分类名称
@@ -116,21 +117,34 @@
             if (catename == '') {
                 alert("请输入分类名称");
                 return;
+            } else {
+                $("#category_name" + id).val(catename);
             }
-            $.ajax({
-                type: "POST",
-                url: "/admin/updateCategory",
-                data: "catename=" + catename + "&id=" + id,
-                error: function (request) {
-                    alert('请求错误');
-                },
+            var sort = $("#sort_" + id).val();
+            if (sort == '' || sort.length == 0) {
+                alert("请输入排序");
+                return;
+            } else {
+                $("#sort" + id).val(sort);
+            }
+
+            // 文件上传
+            $("#upForm" + id).ajaxSubmit({
+                type: 'post',
+                url: '/admin/updateCategory',
                 success: function (data) {
-                    if (data == 1) {
+                    if (data > 0) {
                         alert("修改成功");
                         location.href = '@Request.RawUrl';
+                    } else if (data == 0) {
+                        alert("没有修改");
                     } else {
-                        alert(data);
+                        alert("修改失败");
                     }
+                    console.log(data);
+                },
+                error: function (XmlHttpRequest, textStatus, errorThrown) {
+                    alert("请求失败!");
                 }
             });
         }
@@ -143,12 +157,14 @@
         <input type="text" id="catename" placeholder="请输入分类名称" style="height:20px;width:120px;"/><div class="blueBtn_s" onclick="addCategory()">添加分类</div>
     </div>
 
-    <div style="width:800px;min-height:600px;margin:0px auto 0px;">
+    <div style="width:1000px;min-height:600px;margin:0px auto 0px;">
         <table style="width:100%;">
             <tr>
-                <td>分类编号</td>
-                <td>分类名称</td>
-                <td>修改</td>
+                <td width="80">分类编号</td>
+                <td width="120">分类名称</td>
+                <td width="80">排序</td>
+                <td>图片</td>
+                <td width="120">修改</td>
             </tr>
             @{
                 if (ViewData["flList"] != null)
@@ -162,6 +178,18 @@
                                 <tr class="bztr">
                                     <td>@item.id</td>
                                     <td><input type="text" id="cate@(item.id)" value="@item.category_name" /> </td>
+                                    <td><input type="number" id="sort_@(item.id)" value="@item.sort" /> </td>
+                                    <td>
+                                        <form enctype="multipart/form-data" id="upForm@(item.id)">
+                                            <input type="hidden" name="id" value="@(item.id)" />
+                                            <input type="hidden" name="category_name" id="category_name@(item.id)" value="@item.category_name" />
+                                            <input type="hidden" name="sort" id="sort@(item.id)" value="@item.sort" />
+                                            <input type="file" name="img" accept="image/*" id="img@(item.id)" />
+                                            @{if (item.img.Length > 0)
+                                                {<text><img src="@item.img.Replace(".","_s.")" /> </text>}
+                                             }
+                                        </form>
+                                    </td>
                                     <td><div class="blueBtn_s" onclick="changeName('@(item.id)')">修改</div></td>
                                 </tr>
                             </text>

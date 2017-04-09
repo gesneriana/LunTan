@@ -30,6 +30,11 @@
         height:100%;
         float:left;
     }
+    .yuce_history_article_content .rt{
+        width:50%;
+        height:100%;
+        float:right;
+    }
 
         .yuce_history_article_content ul {
             min-height: 252px;
@@ -100,6 +105,8 @@
         </div>
         
         <div class="yuce_history_article_content">
+
+            @*预测历史*@
             <div class="lt">
                 <ul>
                     @{ 
@@ -121,7 +128,12 @@
                         }
                     }
                 </ul>
-                <div style="width:100%;height:30px;line-height:30px;color:#551A8B;">@{if((int)ViewData["ycCount"] >12) {<text><a href="/index/ycList" target="_blank">查看更多预测</a> </text> }} </div>
+                <div style="width:100%;height:30px;line-height:30px;color:#551A8B;"> <a href="/index/ycList" target="_blank">查看更多预测</a> </div>
+            </div>
+
+            @*文章分类编号1*@
+            <div class="rt">
+
             </div>
 
 
