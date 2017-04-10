@@ -390,7 +390,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             {
                 if (key != null && key.Length > 0)
                 {
-                    var q = db.article.Where(x => x.title.Contains(key) || x.keywords.Contains(key)).OrderByDescending(x => x.state).ThenByDescending(x => x.addtime);
+                    var q = db.article.Where(x => x.title.Contains(key) || x.keywords.Contains(key)).OrderByDescending(x => x.top).ThenBy(x => x.sort).ThenByDescending(x => x.addtime);
                     var p = new EFPaging<article>();
                     var list = p.getPageList(q, "/admin/artList", page, 20);
                     ViewData["list"] = list;
@@ -398,12 +398,13 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 }
                 else
                 {
-                    var q = db.article.OrderByDescending(x => x.state).ThenByDescending(x => x.addtime);
+                    var q = db.article.OrderByDescending(x => x.top).ThenBy(x => x.sort).ThenByDescending(x => x.addtime);
                     var p = new EFPaging<article>();
                     var list = p.getPageList(q, "/admin/artList", page, 20);
                     ViewData["list"] = list;
                     ViewData["url"] = p.pageUrl;
-                }
+                }                
+                ViewData["cateDic"] = EfExt.selectAll<category>().ToDictionary(x => x.id);
             }
             return View();
         }

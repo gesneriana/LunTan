@@ -90,25 +90,32 @@
         <table id="ul_tab" style="width:100%;">
             <tr>
                 <td>文章编号</td>
+                <td>分类名称</td>
                 <td>标题</td>
                 <td>关键字</td>
                 <td>添加时间</td>
                 <td>状态</td>
+                <td>是否置顶</td>
+                <td>排序</td>
             </tr>
             @{
                 if (ViewData["list"] != null)
                 {
                     var artlist = (List<EFDao.Entity.article>)ViewData["list"];
+                    var cateDic = (Dictionary<long,EFDao.Entity.category>)ViewData["cateDic"];
                     if (artlist != null && artlist.Count > 0)
                     {
                         foreach (var item in artlist)
                         {
                             <tr class="edit_tr" onclick="javascript:window.open('/admin/edit_art/@item.id','_blank')">
                                 <td>@item.id</td>
+                                <td>@cateDic[item.cateid].category_name</td>
                                 <td>@item.title</td>
                                 <td>@item.keywords</td>
                                 <td>@item.addtime.ToString("yyyy-MM-dd HH:mm")</td>
                                 <td>@(item.state == 0 ? "隐藏" : "显示")</td>
+                                <td>@(item.top?"置顶":"不置顶")</td>
+                                <td>@item.sort</td>
                             </tr>
                         }
                     }
