@@ -14,9 +14,10 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
     public class IndexController : Controller
     {
         /// <summary>
-        /// 首页
+        /// 首页, 普通用户不需要刷新数据太频繁了, 也就是说管理员在后台更改了数据, 用户要等一分钟才能看到最新数据
         /// </summary>
         /// <returns></returns>
+        [OutputCache(Duration = 60)]
         public ActionResult index(string key = "", string type = "", int page = 1)
         {
             using (WeiQingEntities db = new WeiQingEntities())
@@ -28,7 +29,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 var cateDic = db.category.Where(x => x.id <= 7).
                     OrderBy(x => x.sort).ThenBy(x => x.id).
                     Select(
-                            x => new EFDao.EntityExt.CategoryAricleExt(){ id = x.id, category_name = x.category_name, img = x.img, sort = x.sort }
+                            x => new EFDao.EntityExt.CategoryAricleExt() { id = x.id, category_name = x.category_name, img = x.img, sort = x.sort }
                             ).
                     Take(7)
                     .ToDictionary(x => x.id);
