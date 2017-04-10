@@ -42,6 +42,8 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
 
                 var notice = db.notice.OrderByDescending(x => x.addtime).FirstOrDefault();
                 ViewData["notice"] = notice;
+
+                ViewData["cateList"] = EfExt.selectAll<category>();
             }
             return View();
         }
@@ -368,6 +370,10 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                         return Content("发布成功");
                     }
                 }
+                else
+                {
+                    return Content("请输入内容和标题");
+                }
             }
             return Content("发布失败");
         }
@@ -500,9 +506,17 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (model.category_name != null && model.category_name.Length > 0 && model.sort >= 0 && model.sort <= 100 && img != null && img.ContentLength > 0)
             {
-                model.img = ImagesTools.save(imgs: img);
-                var r = EfExt.insert(model);
-                if (r > 0) return Content("1");
+                using (WeiQingEntities db = new WeiQingEntities())
+                {
+                    var count = db.category.Count();
+                    if (count >= 7)
+                    {
+                        return Content("当前已经添加7个分类,暂不能继续添加");
+                    }
+                    model.img = ImagesTools.save(imgs: img);
+                    db.category.Add(model);
+                    return Content(db.SaveChanges().ToString());
+                }
             }
             return Content("添加失败");
         }

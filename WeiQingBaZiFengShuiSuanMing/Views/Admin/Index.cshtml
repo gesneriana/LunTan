@@ -90,6 +90,15 @@
             }
             var state = $("input[name=state]:checked").val();
             var art_keywords = $("#art_keywords").val();
+            var sort = $("#sort").val();
+            if (sort == '' || sort.length == 0) {
+                alert("请输入文章内容");
+                return;
+            }
+            if (isNaN(parseInt(sort))) {
+                alert("排序只能输入数字");
+                return;
+            }
             var content = ue_art.getContent();
             if (content == '') {
                 alert("请输入文章内容");
@@ -99,11 +108,12 @@
                 alert('文章内容数据异常');
                 return;
             }
-
+            alert($("#artForm").serialize());
+            // 文章不需要单独上传图片
             $.ajax({
                 type: 'post',
                 url: '/admin/fbart',
-                data: 'content=' + content + '&title=' + art_title + "&state=" + state + "&keywords=" + art_keywords,
+                data: $("#artForm").serialize() + "&content=" + content,
                 error: function (request) {
                     alert('请求错误');
                 },
@@ -252,8 +262,8 @@
 
     <div style="width:1000px;min-height:50px;margin:0px auto 0px;text-align:center;padding-bottom:30px;">
         <h3 style="color:chocolate;">公告板</h3>
-        <div style="width:600px;margin:0px auto 0px;">
-            <script id="editor_tz" name="content" type="text/plain" style="width:100%;height:150px;">
+        <div style="width:660px;margin:0px auto 0px;">
+            <script id="editor_tz" name="content" type="text/plain" style="width:100%;height:300px;">
             </script>
         </div>
         <label for="gg1">显示公告内容</label><input type="radio" id="gg1" name="show" @{if(notice.show) { <text>checked="checked" </text> }} value="true" />
@@ -263,16 +273,58 @@
 
 
     <div style="width:1000px;min-height:50px;margin:0px auto 0px;text-align:center;padding-bottom:30px;">
-        <h3 style="color:chocolate;">发布今日文章</h3>
-        <div style="width:600px;margin:0px auto 0px;">
-            标题&emsp;: <input type="text" name="title" id="art_title"/><br />
-            关键字: <input type="text" name="keywords" id="art_keywords" />
-            <script id="editor_art" name="content" type="text/plain" style="width:100%;height:150px;">
-            </script>
-        </div>
-        <label for="art1">显示文章内容</label><input type="radio" id="art1" name="state" value="1" />
-        <label for="art2">不显示文章内容</label><input type="radio" id="art2" name="state" checked="checked" value="0" />
-        <div class="blueBtn_s" onclick="fbart()">发布文章</div>
+        <form id="artForm">
+            <h3 style="color:chocolate;">发布今日文章</h3>
+            <div style="width:660px;margin:0px auto 0px;">
+                <table style="width:100%;">
+                    <tr>
+                        <td style="text-align:right;">分类:</td>
+                        <td style="text-align:left;">
+                            <select name="cateid" id="cateid">
+                                @{
+                                    if (ViewData["cateList"] != null)
+                                    {
+                                        var cateList = (List<EFDao.Entity.category>)ViewData["cateList"];
+                                        if (cateList != null && cateList.Count > 0)
+                                        {
+                                            foreach (var item in cateList)
+                                            {
+                                                <option value="@item.id">@item.category_name</option>
+                                            }
+                                        }
+                                    }
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;">置顶:</td>
+                        <td style="text-align:left;">
+                            <label for="zd1">置顶</label><input type="radio" id="zd1" name="top" value="true" />
+                            <label for="zd2">不置顶</label><input type="radio" id="zd2" name="top" checked="checked" value="false" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;">排序:</td>
+                        <td style="text-align:left;"><input type="number" id="sort" name="sort" value="100" /></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;">标题:</td>
+                        <td style="text-align:left;"><input type="text" name="title" id="art_title" /></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;">关键字:</td>
+                        <td style="text-align:left;"><input type="text" name="keywords" id="art_keywords" /></td>
+                    </tr>
+                </table>
+
+                <script id="editor_art" type="text/plain" style="width:100%;height:300px;">
+                </script>
+            </div>
+            <label for="art1">显示文章内容</label><input type="radio" id="art1" name="state" value="1" />
+            <label for="art2">不显示文章内容</label><input type="radio" id="art2" name="state" checked="checked" value="0" />
+            <div class="blueBtn_s" onclick="fbart()">发布文章</div>
+        </form>
     </div>
 
 </body>

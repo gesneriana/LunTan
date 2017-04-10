@@ -53,7 +53,7 @@ namespace EFDao.Entity
         }
 
         /// <summary>
-        /// 查询所有数据, 慎用, 除非可以包装一次取出的数据是有限的, 例如分类名称
+        /// 查询所有数据, 慎用, 除非可以保证一次取出的数据是有限的, 例如分类名称
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
