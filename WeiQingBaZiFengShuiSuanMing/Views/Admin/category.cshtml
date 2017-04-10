@@ -91,22 +91,40 @@
             var catename = $("#catename").val();
             if (catename == '') {
                 alert("请输入分类名称");
+                $("#catename").focus();
                 return;
             }
-            $.ajax({
-                type: "POST",
-                url: "/admin/addCategory",
-                data: "catename=" + catename,
-                error: function (request) {
-                    alert('请求错误');
-                },
+            var sort = $("#sort").val();
+            var img = $("#img").val();
+            if (sort == '' || sort.length == 0) {
+                alert("请输入排序");
+                $("#sort").focus();
+                return;
+            } else if (isNaN(parseInt(sort))) {
+                alert("排序只能输入数字");
+                $("#sort").focus();
+                return;
+            }
+            if (img == '' || img.length == 0) {
+                alert("请选择图片");
+                return;
+            }
+
+            // 文件上传
+            $("#addCateForm").ajaxSubmit({
+                type: 'post',
+                url: '/admin/addCategory',
                 success: function (data) {
-                    if (data == 1) {
+                    if (data > 0) {
                         alert("添加成功");
                         location.href = '@Request.RawUrl';
                     } else {
-                        alert(data);
+                        alert("添加失败");
                     }
+                    console.log(data);
+                },
+                error: function (XmlHttpRequest, textStatus, errorThrown) {
+                    alert("请求失败!");
                 }
             });
         }
@@ -154,7 +172,26 @@
     <div style="text-align:center;">文章分类名称管理</div>
 
     <div style="width:800px;margin:30px auto 30px;text-align:center;">
-        <input type="text" id="catename" placeholder="请输入分类名称" style="height:20px;width:120px;"/><div class="blueBtn_s" onclick="addCategory()">添加分类</div>
+        <form enctype="multipart/form-data" id="addCateForm">
+            <table style="width:100%;">
+                <tr>
+                    <td style="text-align:right;">分类名称:</td>
+                    <td style="text-align:left;"><input type="text" name="category_name" id="catename" placeholder="请输入分类名称" style="height:20px;width:240px;" /></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;">排序:</td>
+                    <td style="text-align:left;"><input type="number" name="sort" id="sort" value="100" style="height:20px;width:240px;" /></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;">图片:</td>
+                    <td style="text-align:left;"><input type="file" name="img" id="img" accept="image/*" /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style="text-align:left;"><div class="blueBtn_s" onclick="addCategory()">添加分类</div></td>
+                </tr>
+            </table>
+        </form>
     </div>
 
     <div style="width:1000px;min-height:600px;margin:0px auto 0px;">
@@ -186,7 +223,7 @@
                                             <input type="hidden" name="sort" id="sort@(item.id)" value="@item.sort" />
                                             <input type="file" name="img" accept="image/*" id="img@(item.id)" />
                                             @{if (item.img.Length > 0)
-                                                {<text><img src="@item.img.Replace(".","_s.")" /> </text>}
+                                                {<text><a href="@item.img.Replace(".","_s.")" target="_blank" >查看图片</a> </text>}
                                              }
                                         </form>
                                     </td>

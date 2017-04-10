@@ -30,7 +30,7 @@ namespace EFDao.BLL
         /// 模板页获取可以显示的文章列表,按时间倒序,只取前10条
         /// </summary>
         /// <returns></returns>
-          [Obsolete("文章实体类已更新,排序规则需要更改")]
+        [Obsolete("文章实体类已更新,排序规则需要更改")]
         public static List<article> getArtList()
         {
             using(WeiQingEntities db=new WeiQingEntities())

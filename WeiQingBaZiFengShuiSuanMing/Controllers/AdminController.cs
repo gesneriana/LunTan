@@ -467,7 +467,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (id > 0 && state >= 0)
             {
-                using(WeiQingEntities db=new WeiQingEntities())
+                using (WeiQingEntities db = new WeiQingEntities())
                 {
                     var m = db.liuyanban.Where(x => x.id == id).FirstOrDefault();
                     if (m != null && m.id > 0)
@@ -491,15 +491,17 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         }
 
         /// <summary>
-        /// 添加文章分类名称
+        /// 添加文章分类
         /// </summary>
-        /// <param name="catename"></param>
+        /// <param name="model"></param>
+        /// <param name="img"></param>
         /// <returns></returns>
-        public ActionResult addCategory(string catename = "")
+        public ActionResult addCategory(category model, HttpPostedFileWrapper img)
         {
-            if (catename != null && catename.Length > 0)
+            if (model.category_name != null && model.category_name.Length > 0 && model.sort >= 0 && model.sort <= 100 && img != null && img.ContentLength > 0)
             {
-                var r = EfExt.insert(new category() { category_name = catename });
+                model.img = ImagesTools.save(imgs: img);
+                var r = EfExt.insert(model);
                 if (r > 0) return Content("1");
             }
             return Content("添加失败");
