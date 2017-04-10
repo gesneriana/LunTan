@@ -43,7 +43,15 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 var notice = db.notice.OrderByDescending(x => x.addtime).FirstOrDefault();
                 ViewData["notice"] = notice;
 
-                ViewData["cateList"] = EfExt.selectAll<category>();
+                // 先读取缓存
+                var cateDic = httpCacheHelper.getCacheDictionary<long, category>("cateDic");
+                if (cateDic.Count == 0)
+                {
+                    cateDic = EfExt.selectAll<category>().ToDictionary(x => x.id);
+                    httpCacheHelper.SetCache("cateDic", cateDic);   // 从数据库查询,设置到缓存中
+                }
+
+                ViewData["cateList"] = cateDic.Values.ToList();
             }
             return View();
         }
@@ -390,7 +398,8 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             {
                 if (key != null && key.Length > 0)
                 {
-                    var q = db.article.Where(x => x.title.Contains(key) || x.keywords.Contains(key)).OrderByDescending(x => x.top).ThenBy(x => x.sort).ThenByDescending(x => x.addtime);
+                    var q = db.article.Where(x => x.title.Contains(key) || x.keywords.Contains(key)).
+                        OrderByDescending(x => x.top).ThenBy(x => x.sort).ThenByDescending(x => x.addtime);
                     var p = new EFPaging<article>();
                     var list = p.getPageList(q, "/admin/artList", page, 20);
                     ViewData["list"] = list;
@@ -403,8 +412,17 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                     var list = p.getPageList(q, "/admin/artList", page, 20);
                     ViewData["list"] = list;
                     ViewData["url"] = p.pageUrl;
-                }                
-                ViewData["cateDic"] = EfExt.selectAll<category>().ToDictionary(x => x.id);
+                }
+
+                // 先读取缓存
+                var cateDic = httpCacheHelper.getCacheDictionary<long, category>("cateDic");
+                if (cateDic.Count == 0)
+                {
+                    cateDic = EfExt.selectAll<category>().ToDictionary(x => x.id);
+                    httpCacheHelper.SetCache("cateDic", cateDic);   // 从数据库查询,设置到缓存中
+                }
+                ViewData["cateDic"] = cateDic;
+
             }
             return View();
         }
@@ -422,6 +440,16 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 if (m != null && m.id > 0)
                 {
                     ViewData["model"] = m;
+
+                    // 先读取缓存
+                    var cateDic = httpCacheHelper.getCacheDictionary<long, category>("cateDic");
+                    if (cateDic.Count == 0)
+                    {
+                        cateDic = EfExt.selectAll<category>().ToDictionary(x => x.id);
+                        httpCacheHelper.SetCache("cateDic", cateDic);   // 从数据库查询,设置到缓存中
+                    }
+                    ViewData["cateDic"] = cateDic;
+
                     return View();
                 }
             }
@@ -488,17 +516,24 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         }
 
         /// <summary>
-        /// 
+        /// 修改或者添加文章分类名称的视图页
         /// </summary>
         /// <returns></returns>
         public ActionResult category()
         {
-            ViewData["flList"] = EfExt.selectAll<category>();
+            // 先读取缓存
+            var cateDic = httpCacheHelper.getCacheDictionary<long, category>("cateDic");
+            if (cateDic.Count == 0)
+            {
+                cateDic = EfExt.selectAll<category>().ToDictionary(x => x.id);
+                httpCacheHelper.SetCache("cateDic", cateDic);   // 从数据库查询,设置到缓存中
+            }
+            ViewData["flList"] = cateDic.Values.ToList();
             return View();
         }
 
         /// <summary>
-        /// 添加文章分类
+        /// 添加文章分类,清除分类缓存
         /// </summary>
         /// <param name="model"></param>
         /// <param name="img"></param>
@@ -514,6 +549,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                     {
                         return Content("当前已经添加7个分类,暂不能继续添加");
                     }
+                    httpCacheHelper.RemoveCacheByKey("cateDic");
                     model.img = ImagesTools.save(imgs: img);
                     db.category.Add(model);
                     return Content(db.SaveChanges().ToString());
@@ -523,7 +559,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         }
 
         /// <summary>
-        /// 更新文章分类
+        /// 更新文章分类,清除分类缓存
         /// </summary>
         /// <param name="model"></param>
         /// <param name="img"></param>
@@ -552,6 +588,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                         int r = db.SaveChanges();
                         if (r > 0)
                         {
+                            httpCacheHelper.RemoveCacheByKey("cateDic");
                             return Content("1");
                         }
                     }
