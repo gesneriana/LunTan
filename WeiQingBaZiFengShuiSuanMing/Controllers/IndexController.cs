@@ -17,7 +17,6 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// 首页, 普通用户不需要刷新数据太频繁了, 也就是说管理员在后台更改了数据, 用户要等一分钟才能看到最新数据
         /// </summary>
         /// <returns></returns>
-        [OutputCache(Duration = 60)]
         public ActionResult index(string key = "", string type = "", int page = 1)
         {
             using (WeiQingEntities db = new WeiQingEntities())
