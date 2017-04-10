@@ -466,6 +466,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (model != null && model.id > 0)
             {
+                reflectModel.setValues(model);
                 var r = EfExt.update(model);
                 if (r > 0)
                 {

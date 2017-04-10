@@ -15,6 +15,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
     {
         /// <summary>
         /// 首页, 普通用户不需要刷新数据太频繁了, 也就是说管理员在后台更改了数据, 用户要等一分钟才能看到最新数据
+        /// 可能会导致一些bug, 登录成功之后, 必须改变url后面的参数才能加载最新视图页
         /// </summary>
         /// <returns></returns>
         public ActionResult index(string key = "", string type = "", int page = 1)

@@ -105,6 +105,20 @@
                 alert('文章内容数据异常');
                 return;
             }
+            var title = $("#title").val();
+            if (title == '' || title.length == 0) {
+                alert('请输入标题');
+                return;
+            }
+            var sort = $("#sort").val();
+            if (sort == '' || sort.length == 0) {
+                alert('请输入排序');
+                return;
+            }
+            if (isNaN(parseInt(sort))) {
+                alert('排序只能是数字');
+                return;
+            }
             $.ajax({
                 type: "POST",
                 url: "/admin/edit_article",
@@ -114,6 +128,9 @@
                 },
                 success: function (data) {
                     alert(data);
+                    if (data == '修改成功') {
+                        location.href = '@Request.RawUrl';
+                    }
                 }
             });
         }
