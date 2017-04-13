@@ -81,6 +81,9 @@
     <Compile Include="EntityExt\TitleExt.cs" />
     <Compile Include="EntityExt\TitleUserExt.cs" />
     <Compile Include="EntityExt\UserExt.cs" />
+    <Compile Include="Entity\adcontent.cs">
+      <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\article.cs">
       <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
     </Compile>

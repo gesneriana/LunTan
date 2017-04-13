@@ -17,6 +17,7 @@
         <EntityTypeShape EntityType="WeiQingModel.article" Width="1.5" PointX="3.375" PointY="7.75" />
         <EntityTypeShape EntityType="WeiQingModel.liuyanban" Width="1.5" PointX="5.375" PointY="7.75" />
         <EntityTypeShape EntityType="WeiQingModel.category" Width="1.5" PointX="7.375" PointY="7.75" />
+        <EntityTypeShape EntityType="WeiQingModel.adcontent" Width="1.5" PointX="9.375" PointY="7.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

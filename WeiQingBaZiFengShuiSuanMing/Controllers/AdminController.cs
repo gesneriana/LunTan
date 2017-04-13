@@ -684,5 +684,14 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             return Content("修改失败");
         }
 
+        /// <summary>
+        /// 修改广告内容
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult AdContent()
+        {
+            return View();
+        }
+
     }
 }
