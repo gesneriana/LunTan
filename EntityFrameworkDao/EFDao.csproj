@@ -82,89 +82,88 @@
     <Compile Include="EntityExt\TitleUserExt.cs" />
     <Compile Include="EntityExt\UserExt.cs" />
     <Compile Include="Entity\adcontent.cs">
-      <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
+      <DependentUpon>WeiQing.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\article.cs">
-      <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
+      <DependentUpon>WeiQing.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\bazijianpi.cs">
-      <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
+      <DependentUpon>WeiQing.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\category.cs">
-      <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
+      <DependentUpon>WeiQing.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\EfExt.cs" />
     <Compile Include="Entity\getpwdlog.cs">
-      <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
+      <DependentUpon>WeiQing.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\liuyanban.cs">
-      <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
+      <DependentUpon>WeiQing.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\login_log.cs">
-      <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
+      <DependentUpon>WeiQing.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\notice.cs">
-      <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
+      <DependentUpon>WeiQing.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\tiezi.cs">
-      <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
+      <DependentUpon>WeiQing.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\tiezi_jubao.cs">
-      <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
+      <DependentUpon>WeiQing.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\title.cs">
-      <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
+      <DependentUpon>WeiQing.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\tzreply.cs">
-      <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
+      <DependentUpon>WeiQing.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\user.cs">
-      <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
+      <DependentUpon>WeiQing.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entity\WeiQingBlogEntity.Context.cs">
+    <Compile Include="Entity\WeiQing.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>WeiQingBlogEntity.Context.tt</DependentUpon>
+      <DependentUpon>WeiQing.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entity\WeiQingBlogEntity.cs">
+    <Compile Include="Entity\WeiQing.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>WeiQingBlogEntity.tt</DependentUpon>
+      <DependentUpon>WeiQing.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entity\WeiQingBlogEntity.Designer.cs">
+    <Compile Include="Entity\WeiQing.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>WeiQingBlogEntity.edmx</DependentUpon>
+      <DependentUpon>WeiQing.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <EntityDeploy Include="Entity\WeiQingBlogEntity.edmx">
+    <EntityDeploy Include="Entity\WeiQing.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>WeiQingBlogEntity.Designer.cs</LastGenOutput>
+      <LastGenOutput>WeiQing.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Entity\WeiQingBlogEntity.edmx.diagram">
-      <DependentUpon>WeiQingBlogEntity.edmx</DependentUpon>
+    <None Include="Entity\WeiQing.edmx.diagram">
+      <DependentUpon>WeiQing.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Entity\WeiQingBlogEntity.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>WeiQingBlogEntity.edmx</DependentUpon>
-      <LastGenOutput>WeiQingBlogEntity.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Entity\WeiQingBlogEntity.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>WeiQingBlogEntity.edmx</DependentUpon>
-      <LastGenOutput>WeiQingBlogEntity.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Entity\WeiQing.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WeiQing.edmx</DependentUpon>
+      <LastGenOutput>WeiQing.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Entity\WeiQing.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WeiQing.edmx</DependentUpon>
+      <LastGenOutput>WeiQing.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -4,16 +4,16 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="WeiQingModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="bazifengshuisuanmingModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="adcontent">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="uid" Type="uint" Nullable="false" />
-          <Property Name="change_time" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="uid" Type="int" Nullable="false" />
+          <Property Name="last_change" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="content" Type="varchar" MaxLength="2000" Nullable="false" />
-          <Property Name="location" Type="int" Nullable="false" />
+          <Property Name="weizhi" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="article">
           <Key>
@@ -160,7 +160,7 @@
           <Property Name="is_admin" Type="bit" Nullable="false" />
           <Property Name="state" Type="int" Nullable="false" />
         </EntityType>
-        <EntityContainer Name="WeiQingModelStoreContainer">
+        <EntityContainer Name="bazifengshuisuanmingModelStoreContainer">
           <EntitySet Name="adcontent" EntityType="Self.adcontent" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="article" EntityType="Self.article" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="bazijianpi" EntityType="Self.bazijianpi" Schema="bazifengshuisuanming" store:Type="Tables" />
@@ -175,10 +175,151 @@
           <EntitySet Name="tzreply" EntityType="Self.tzreply" Schema="bazifengshuisuanming" store:Type="Tables" />
           <EntitySet Name="user" EntityType="Self.user" Schema="bazifengshuisuanming" store:Type="Tables" />
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="WeiQingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="bazifengshuisuanmingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="adcontent">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uid" Type="Int32" Nullable="false" />
+          <Property Name="last_change" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="content" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="weizhi" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="article">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cateid" Type="Int32" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="keywords" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="addtime" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uid" Type="Int32" Nullable="false" />
+          <Property Name="state" Type="Int32" Nullable="false" />
+          <Property Name="top" Type="Boolean" Nullable="false" />
+          <Property Name="sort" Type="Int32" Nullable="false" />
+          <Property Name="content" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="img" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="bazijianpi">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="sex" Type="Boolean" Nullable="false" />
+          <Property Name="born_date" Type="DateTime" Nullable="false" />
+          <Property Name="born_place" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="addtime" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="bazi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="state" Type="Int32" Nullable="false" />
+          <Property Name="yuce_content" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="category_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="sort" Type="Int32" Nullable="false" />
+          <Property Name="img" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="getpwdlog">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uid" Type="Int32" Nullable="false" />
+          <Property Name="nick_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ip_address" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="log_time" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="liuyanban">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uid" Type="Int32" Nullable="false" />
+          <Property Name="uname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="addtime" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ip" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="state" Type="Int32" Nullable="false" />
+          <Property Name="content" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="login_log">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uid" Type="Int32" Nullable="false" />
+          <Property Name="login_time" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="login_ip" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="notice">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uid" Type="Int32" Nullable="false" />
+          <Property Name="addtime" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="content" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="show" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tiezi">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tid" Type="Int64" Nullable="false" />
+          <Property Name="addtime" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uid" Type="Int64" Nullable="false" />
+          <Property Name="floor" Type="Int32" Nullable="false" />
+          <Property Name="state" Type="Int32" Nullable="false" />
+          <Property Name="uname" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="content" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tiezi_jubao">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tzid" Type="Int64" Nullable="false" />
+          <Property Name="reason" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="addtime" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ip" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="jb_type" Type="Boolean" Nullable="false" />
+          <Property Name="state" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="title">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uid" Type="Int64" Nullable="false" />
+          <Property Name="art_title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="keywords" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="top" Type="Boolean" Nullable="false" />
+          <Property Name="sort" Type="Int32" Nullable="false" />
+          <Property Name="state" Type="Int64" Nullable="false" />
+          <Property Name="addtime" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="tzreply">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tzid" Type="Int32" Nullable="false" />
+          <Property Name="uid" Type="Int32" Nullable="false" />
+          <Property Name="addtime" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="state" Type="Int32" Nullable="false" />
+          <Property Name="uname" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="content" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
         <EntityType Name="user">
           <Key>
             <PropertyRef Name="id" />
@@ -190,176 +331,186 @@
           <Property Name="mobile" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="qq" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="wei_xin" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="reg_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="reg_date" Type="DateTime" Nullable="false" />
           <Property Name="is_admin" Type="Boolean" Nullable="false" />
           <Property Name="state" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityContainer Name="WeiQingEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="bazifengshuisuanmingEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="adcontent" EntityType="Self.adcontent" />
+          <EntitySet Name="article" EntityType="Self.article" />
+          <EntitySet Name="bazijianpi" EntityType="Self.bazijianpi" />
+          <EntitySet Name="category" EntityType="Self.category" />
+          <EntitySet Name="getpwdlog" EntityType="Self.getpwdlog" />
+          <EntitySet Name="liuyanban" EntityType="Self.liuyanban" />
+          <EntitySet Name="login_log" EntityType="Self.login_log" />
+          <EntitySet Name="notice" EntityType="Self.notice" />
+          <EntitySet Name="tiezi" EntityType="Self.tiezi" />
+          <EntitySet Name="tiezi_jubao" EntityType="Self.tiezi_jubao" />
+          <EntitySet Name="title" EntityType="Self.title" />
+          <EntitySet Name="tzreply" EntityType="Self.tzreply" />
           <EntitySet Name="user" EntityType="Self.user" />
-          <EntitySet Name="getpwdlog" EntityType="WeiQingModel.getpwdlog" />
-          <EntitySet Name="bazijianpi" EntityType="WeiQingModel.bazijianpi" />
-          <EntitySet Name="login_log" EntityType="WeiQingModel.login_log" />
-          <EntitySet Name="title" EntityType="WeiQingModel.title" />
-          <EntitySet Name="tiezi" EntityType="WeiQingModel.tiezi" />
-          <EntitySet Name="tzreply" EntityType="WeiQingModel.tzreply" />
-          <EntitySet Name="tiezi_jubao" EntityType="WeiQingModel.tiezi_jubao" />
-          <EntitySet Name="notice" EntityType="WeiQingModel.notice" />
-          <EntitySet Name="article" EntityType="WeiQingModel.article" />
-          <EntitySet Name="liuyanban" EntityType="WeiQingModel.liuyanban" />
-          <EntitySet Name="category" EntityType="WeiQingModel.category" />
-          <EntitySet Name="adcontent" EntityType="WeiQingModel.adcontent" />
         </EntityContainer>
-        <EntityType Name="getpwdlog">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="uid" Type="Int32" Nullable="false" />
-          <Property Name="nick_name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="ip_address" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="log_time" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" Precision="0" />
-        </EntityType>
-        <EntityType Name="bazijianpi">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="sex" Type="Boolean" Nullable="false" />
-          <Property Name="born_date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="addtime" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" Precision="0" />
-          <Property Name="bazi" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="state" Type="Int32" Nullable="false" />
-          <Property Name="yuce_content" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="false" />
-          <Property Name="born_place" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="login_log">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="uid" Type="Int32" Nullable="false" />
-          <Property Name="login_time" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" Precision="0" />
-          <Property Name="login_ip" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="title">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="uid" Type="Int64" Nullable="false" />
-          <Property Name="addtime" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" Precision="0" />
-          <Property Name="state" Type="Int64" Nullable="false" />
-          <Property Name="keywords" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="art_title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="top" Type="Boolean" Nullable="false" />
-          <Property Name="sort" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="tiezi">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="tid" Type="Int64" Nullable="false" />
-          <Property Name="addtime" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" Precision="0" />
-          <Property Name="uid" Type="Int64" Nullable="false" />
-          <Property Name="content" Type="String" Nullable="false" MaxLength="3000" FixedLength="false" Unicode="false" />
-          <Property Name="floor" Type="Int32" Nullable="false" />
-          <Property Name="state" Type="Int32" Nullable="false" />
-          <Property Name="uname" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="tzreply">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="tzid" Type="Int32" Nullable="false" />
-          <Property Name="uid" Type="Int32" Nullable="false" />
-          <Property Name="addtime" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" Precision="0" />
-          <Property Name="state" Type="Int32" Nullable="false" />
-          <Property Name="uname" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="content" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="tiezi_jubao">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="tzid" Type="Int64" Nullable="false" />
-          <Property Name="reason" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="addtime" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" Precision="0" />
-          <Property Name="ip" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="jb_type" Type="Boolean" Nullable="false" />
-          <Property Name="state" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="notice">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="uid" Type="Int32" Nullable="false" />
-          <Property Name="addtime" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" Precision="0" />
-          <Property Name="content" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="show" Type="Boolean" Nullable="false" />
-        </EntityType>
-        <EntityType Name="article">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="keywords" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="addtime" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" Precision="0" />
-          <Property Name="uid" Type="Int32" Nullable="false" />
-          <Property Name="state" Type="Int32" Nullable="false" />
-          <Property Name="content" Type="String" Nullable="false" MaxLength="3000" FixedLength="false" Unicode="false" />
-          <Property Name="cateid" Type="Int32" Nullable="false" />
-          <Property Name="top" Type="Boolean" Nullable="false" />
-          <Property Name="sort" Type="Int32" Nullable="false" />
-          <Property Name="img" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="liuyanban">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="uid" Type="Int32" Nullable="false" />
-          <Property Name="uname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="addtime" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" Precision="0" />
-          <Property Name="ip" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="state" Type="Int32" Nullable="false" />
-          <Property Name="content" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="category">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="category_name" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="img" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="sort" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="adcontent">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="uid" Type="Int64" Nullable="false" />
-          <Property Name="change_time" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" Precision="0" />
-          <Property Name="content" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="false" />
-          <Property Name="location" Type="Int32" Nullable="false" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="WeiQingModelStoreContainer" CdmEntityContainer="WeiQingEntities">
-          <EntitySetMapping Name="user">
-            <EntityTypeMapping TypeName="WeiQingModel.user">
-              <MappingFragment StoreEntitySet="user">
+        <EntityContainerMapping StorageEntityContainer="bazifengshuisuanmingModelStoreContainer" CdmEntityContainer="bazifengshuisuanmingEntities">
+          <EntitySetMapping Name="adcontent">
+            <EntityTypeMapping TypeName="bazifengshuisuanmingModel.adcontent">
+              <MappingFragment StoreEntitySet="adcontent">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="last_change" ColumnName="last_change" />
+                <ScalarProperty Name="content" ColumnName="content" />
+                <ScalarProperty Name="weizhi" ColumnName="weizhi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="article">
+            <EntityTypeMapping TypeName="bazifengshuisuanmingModel.article">
+              <MappingFragment StoreEntitySet="article">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="cateid" ColumnName="cateid" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="keywords" ColumnName="keywords" />
+                <ScalarProperty Name="addtime" ColumnName="addtime" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
                 <ScalarProperty Name="state" ColumnName="state" />
-                <ScalarProperty Name="is_admin" ColumnName="is_admin" />
+                <ScalarProperty Name="top" ColumnName="top" />
+                <ScalarProperty Name="sort" ColumnName="sort" />
+                <ScalarProperty Name="content" ColumnName="content" />
+                <ScalarProperty Name="img" ColumnName="img" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bazijianpi">
+            <EntityTypeMapping TypeName="bazifengshuisuanmingModel.bazijianpi">
+              <MappingFragment StoreEntitySet="bazijianpi">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="sex" ColumnName="sex" />
+                <ScalarProperty Name="born_date" ColumnName="born_date" />
+                <ScalarProperty Name="born_place" ColumnName="born_place" />
+                <ScalarProperty Name="addtime" ColumnName="addtime" />
+                <ScalarProperty Name="bazi" ColumnName="bazi" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="yuce_content" ColumnName="yuce_content" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="category">
+            <EntityTypeMapping TypeName="bazifengshuisuanmingModel.category">
+              <MappingFragment StoreEntitySet="category">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="category_name" ColumnName="category_name" />
+                <ScalarProperty Name="sort" ColumnName="sort" />
+                <ScalarProperty Name="img" ColumnName="img" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="getpwdlog">
+            <EntityTypeMapping TypeName="bazifengshuisuanmingModel.getpwdlog">
+              <MappingFragment StoreEntitySet="getpwdlog">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="nick_name" ColumnName="nick_name" />
+                <ScalarProperty Name="ip_address" ColumnName="ip_address" />
+                <ScalarProperty Name="log_time" ColumnName="log_time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="liuyanban">
+            <EntityTypeMapping TypeName="bazifengshuisuanmingModel.liuyanban">
+              <MappingFragment StoreEntitySet="liuyanban">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="uname" ColumnName="uname" />
+                <ScalarProperty Name="addtime" ColumnName="addtime" />
+                <ScalarProperty Name="ip" ColumnName="ip" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="content" ColumnName="content" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="login_log">
+            <EntityTypeMapping TypeName="bazifengshuisuanmingModel.login_log">
+              <MappingFragment StoreEntitySet="login_log">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="login_time" ColumnName="login_time" />
+                <ScalarProperty Name="login_ip" ColumnName="login_ip" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="notice">
+            <EntityTypeMapping TypeName="bazifengshuisuanmingModel.notice">
+              <MappingFragment StoreEntitySet="notice">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="addtime" ColumnName="addtime" />
+                <ScalarProperty Name="content" ColumnName="content" />
+                <ScalarProperty Name="show" ColumnName="show" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tiezi">
+            <EntityTypeMapping TypeName="bazifengshuisuanmingModel.tiezi">
+              <MappingFragment StoreEntitySet="tiezi">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="tid" ColumnName="tid" />
+                <ScalarProperty Name="addtime" ColumnName="addtime" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="floor" ColumnName="floor" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="uname" ColumnName="uname" />
+                <ScalarProperty Name="content" ColumnName="content" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tiezi_jubao">
+            <EntityTypeMapping TypeName="bazifengshuisuanmingModel.tiezi_jubao">
+              <MappingFragment StoreEntitySet="tiezi_jubao">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="tzid" ColumnName="tzid" />
+                <ScalarProperty Name="reason" ColumnName="reason" />
+                <ScalarProperty Name="addtime" ColumnName="addtime" />
+                <ScalarProperty Name="ip" ColumnName="ip" />
+                <ScalarProperty Name="jb_type" ColumnName="jb_type" />
+                <ScalarProperty Name="state" ColumnName="state" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="title">
+            <EntityTypeMapping TypeName="bazifengshuisuanmingModel.title">
+              <MappingFragment StoreEntitySet="title">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="art_title" ColumnName="art_title" />
+                <ScalarProperty Name="keywords" ColumnName="keywords" />
+                <ScalarProperty Name="top" ColumnName="top" />
+                <ScalarProperty Name="sort" ColumnName="sort" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="addtime" ColumnName="addtime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tzreply">
+            <EntityTypeMapping TypeName="bazifengshuisuanmingModel.tzreply">
+              <MappingFragment StoreEntitySet="tzreply">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="tzid" ColumnName="tzid" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="addtime" ColumnName="addtime" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="uname" ColumnName="uname" />
+                <ScalarProperty Name="content" ColumnName="content" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user">
+            <EntityTypeMapping TypeName="bazifengshuisuanmingModel.user">
+              <MappingFragment StoreEntitySet="user">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="nick_name" ColumnName="nick_name" />
                 <ScalarProperty Name="pwd" ColumnName="pwd" />
@@ -368,158 +519,8 @@
                 <ScalarProperty Name="qq" ColumnName="qq" />
                 <ScalarProperty Name="wei_xin" ColumnName="wei_xin" />
                 <ScalarProperty Name="reg_date" ColumnName="reg_date" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="getpwdlog">
-            <EntityTypeMapping TypeName="WeiQingModel.getpwdlog">
-              <MappingFragment StoreEntitySet="getpwdlog">
-                <ScalarProperty Name="log_time" ColumnName="log_time" />
-                <ScalarProperty Name="ip_address" ColumnName="ip_address" />
-                <ScalarProperty Name="nick_name" ColumnName="nick_name" />
-                <ScalarProperty Name="uid" ColumnName="uid" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="bazijianpi">
-            <EntityTypeMapping TypeName="WeiQingModel.bazijianpi">
-              <MappingFragment StoreEntitySet="bazijianpi">
-                <ScalarProperty Name="born_place" ColumnName="born_place" />
-                <ScalarProperty Name="yuce_content" ColumnName="yuce_content" />
+                <ScalarProperty Name="is_admin" ColumnName="is_admin" />
                 <ScalarProperty Name="state" ColumnName="state" />
-                <ScalarProperty Name="bazi" ColumnName="bazi" />
-                <ScalarProperty Name="addtime" ColumnName="addtime" />
-                <ScalarProperty Name="born_date" ColumnName="born_date" />
-                <ScalarProperty Name="sex" ColumnName="sex" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="login_log">
-            <EntityTypeMapping TypeName="WeiQingModel.login_log">
-              <MappingFragment StoreEntitySet="login_log">
-                <ScalarProperty Name="login_ip" ColumnName="login_ip" />
-                <ScalarProperty Name="login_time" ColumnName="login_time" />
-                <ScalarProperty Name="uid" ColumnName="uid" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="title">
-            <EntityTypeMapping TypeName="WeiQingModel.title">
-              <MappingFragment StoreEntitySet="title">
-                <ScalarProperty Name="sort" ColumnName="sort" />
-                <ScalarProperty Name="top" ColumnName="top" />
-                <ScalarProperty Name="art_title" ColumnName="art_title" />
-                <ScalarProperty Name="keywords" ColumnName="keywords" />
-                <ScalarProperty Name="state" ColumnName="state" />
-                <ScalarProperty Name="addtime" ColumnName="addtime" />
-                <ScalarProperty Name="uid" ColumnName="uid" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tiezi">
-            <EntityTypeMapping TypeName="WeiQingModel.tiezi">
-              <MappingFragment StoreEntitySet="tiezi">
-                <ScalarProperty Name="uname" ColumnName="uname" />
-                <ScalarProperty Name="state" ColumnName="state" />
-                <ScalarProperty Name="floor" ColumnName="floor" />
-                <ScalarProperty Name="content" ColumnName="content" />
-                <ScalarProperty Name="uid" ColumnName="uid" />
-                <ScalarProperty Name="addtime" ColumnName="addtime" />
-                <ScalarProperty Name="tid" ColumnName="tid" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tzreply">
-            <EntityTypeMapping TypeName="WeiQingModel.tzreply">
-              <MappingFragment StoreEntitySet="tzreply">
-                <ScalarProperty Name="content" ColumnName="content" />
-                <ScalarProperty Name="uname" ColumnName="uname" />
-                <ScalarProperty Name="state" ColumnName="state" />
-                <ScalarProperty Name="addtime" ColumnName="addtime" />
-                <ScalarProperty Name="uid" ColumnName="uid" />
-                <ScalarProperty Name="tzid" ColumnName="tzid" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tiezi_jubao">
-            <EntityTypeMapping TypeName="WeiQingModel.tiezi_jubao">
-              <MappingFragment StoreEntitySet="tiezi_jubao">
-                <ScalarProperty Name="state" ColumnName="state" />
-                <ScalarProperty Name="jb_type" ColumnName="jb_type" />
-                <ScalarProperty Name="ip" ColumnName="ip" />
-                <ScalarProperty Name="addtime" ColumnName="addtime" />
-                <ScalarProperty Name="reason" ColumnName="reason" />
-                <ScalarProperty Name="tzid" ColumnName="tzid" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="notice">
-            <EntityTypeMapping TypeName="WeiQingModel.notice">
-              <MappingFragment StoreEntitySet="notice">
-                <ScalarProperty Name="show" ColumnName="show" />
-                <ScalarProperty Name="content" ColumnName="content" />
-                <ScalarProperty Name="addtime" ColumnName="addtime" />
-                <ScalarProperty Name="uid" ColumnName="uid" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="article">
-            <EntityTypeMapping TypeName="WeiQingModel.article">
-              <MappingFragment StoreEntitySet="article">
-                <ScalarProperty Name="img" ColumnName="img" />
-                <ScalarProperty Name="sort" ColumnName="sort" />
-                <ScalarProperty Name="top" ColumnName="top" />
-                <ScalarProperty Name="cateid" ColumnName="cateid" />
-                <ScalarProperty Name="content" ColumnName="content" />
-                <ScalarProperty Name="state" ColumnName="state" />
-                <ScalarProperty Name="uid" ColumnName="uid" />
-                <ScalarProperty Name="addtime" ColumnName="addtime" />
-                <ScalarProperty Name="keywords" ColumnName="keywords" />
-                <ScalarProperty Name="title" ColumnName="title" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="liuyanban">
-            <EntityTypeMapping TypeName="WeiQingModel.liuyanban">
-              <MappingFragment StoreEntitySet="liuyanban">
-                <ScalarProperty Name="content" ColumnName="content" />
-                <ScalarProperty Name="state" ColumnName="state" />
-                <ScalarProperty Name="ip" ColumnName="ip" />
-                <ScalarProperty Name="addtime" ColumnName="addtime" />
-                <ScalarProperty Name="uname" ColumnName="uname" />
-                <ScalarProperty Name="uid" ColumnName="uid" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="category">
-            <EntityTypeMapping TypeName="WeiQingModel.category">
-              <MappingFragment StoreEntitySet="category">
-                <ScalarProperty Name="sort" ColumnName="sort" />
-                <ScalarProperty Name="img" ColumnName="img" />
-                <ScalarProperty Name="category_name" ColumnName="category_name" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="adcontent">
-            <EntityTypeMapping TypeName="WeiQingModel.adcontent">
-              <MappingFragment StoreEntitySet="adcontent">
-                <ScalarProperty Name="location" ColumnName="location" />
-                <ScalarProperty Name="content" ColumnName="content" />
-                <ScalarProperty Name="change_time" ColumnName="change_time" />
-                <ScalarProperty Name="uid" ColumnName="uid" />
-                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -541,7 +542,6 @@
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
-        <DesignerProperty Name="SynchronizePropertyFacets" Value="True" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->

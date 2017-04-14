@@ -14,13 +14,13 @@ namespace EFDao.Entity
     
     public partial class tiezi
     {
-        public int id { get; set; }
+        public long id { get; set; }
         public long tid { get; set; }
         public System.DateTime addtime { get; set; }
         public long uid { get; set; }
-        public string content { get; set; }
         public int floor { get; set; }
         public int state { get; set; }
         public string uname { get; set; }
+        public string content { get; set; }
     }
 }

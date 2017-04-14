@@ -20,29 +20,37 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// <returns></returns>
         public ActionResult index(string key = "", string type = "", int page = 1)
         {
-            using (WeiQingEntities db = new WeiQingEntities())
+            try
             {
-                var yc = db.bazijianpi.Where(x => x.state == 1).OrderByDescending(x => x.addtime).Take(12).ToList();
-                ViewData["baziList"] = yc;  // 默认显示的预测历史
-
-                // 文章分类列表
-                var cateDic = db.category.Where(x => x.id <= 7).
-                    OrderBy(x => x.sort).ThenBy(x => x.id).
-                    Select(
-                            x => new EFDao.EntityExt.CategoryAricleExt() { id = x.id, category_name = x.category_name, img = x.img, sort = x.sort }
-                            ).
-                    Take(7)
-                    .ToDictionary(x => x.id);
-                if (cateDic != null && cateDic.Count > 0)
+                using (WeiQingEntities db = new WeiQingEntities())
                 {
-                    foreach (var item in cateDic)
+                    var yc = db.bazijianpi.Where(x => x.state == 1).OrderByDescending(x => x.addtime).Take(12).ToList();
+                    ViewData["baziList"] = yc;  // 默认显示的预测历史
+
+                    // 文章分类列表
+                    var cateDic = db.category.Where(x => x.id <= 7).
+                        OrderBy(x => x.sort).ThenBy(x => x.id).
+                        Select(
+                                x => new EFDao.EntityExt.CategoryAricleExt() { id = x.id, category_name = x.category_name, img = x.img, sort = x.sort }
+                                ).
+                        Take(7)
+                        .ToDictionary(x => x.id);
+                    if (cateDic != null && cateDic.Count > 0)
                     {
-                        var artlist = db.article.Where(x => x.cateid == item.Key && x.state == 1).OrderByDescending(x => x.top).ThenBy(x => x.sort).ThenByDescending(x => x.addtime).Take(10).ToList();
-                        cateDic[item.Key].artlist = artlist;
+                        foreach (var item in cateDic)
+                        {
+                            var artlist = db.article.Where(x => x.cateid == item.Key && x.state == 1).OrderByDescending(x => x.top).ThenBy(x => x.sort).ThenByDescending(x => x.addtime).Take(10).ToList();
+                            cateDic[item.Key].artlist = artlist;
+                        }
                     }
+                    ViewData["cateArtDic"] = cateDic;
                 }
-                ViewData["cateArtDic"] = cateDic;
             }
+            catch (Exception ex)
+            {
+                return Content(ex.Message);
+            }
+
             return View();
         }
 

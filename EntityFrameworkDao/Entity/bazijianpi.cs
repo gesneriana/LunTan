@@ -18,10 +18,10 @@ namespace EFDao.Entity
         public string name { get; set; }
         public bool sex { get; set; }
         public System.DateTime born_date { get; set; }
+        public string born_place { get; set; }
         public System.DateTime addtime { get; set; }
         public string bazi { get; set; }
         public int state { get; set; }
         public string yuce_content { get; set; }
-        public string born_place { get; set; }
     }
 }

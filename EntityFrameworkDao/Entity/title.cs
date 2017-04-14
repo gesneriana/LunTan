@@ -16,11 +16,11 @@ namespace EFDao.Entity
     {
         public long id { get; set; }
         public long uid { get; set; }
-        public System.DateTime addtime { get; set; }
-        public long state { get; set; }
-        public string keywords { get; set; }
         public string art_title { get; set; }
+        public string keywords { get; set; }
         public bool top { get; set; }
         public int sort { get; set; }
+        public long state { get; set; }
+        public System.DateTime addtime { get; set; }
     }
 }

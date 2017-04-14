@@ -83,5 +83,38 @@ namespace EFDao.BLL
                 return q.Take(10).ToList();
             }
         }
+
+        /// <summary>
+        /// 模板页获取广告内容
+        /// </summary>
+        /// <returns></returns>
+        public static Dictionary<string,string> getAdContent()
+        {
+            var dic = new Dictionary<string, string>();
+            using(WeiQingEntities db=new WeiQingEntities())
+            {
+                var left = db.adcontent.Where(x => x.weizhi == 1).FirstOrDefault();
+                if (left != null && left.id > 0)
+                {
+                    dic.Add("left", left.content);
+                }
+                else
+                {
+                    dic.Add("left", null);
+                }
+
+                var right = db.adcontent.Where(x => x.weizhi == 2).FirstOrDefault();
+                if (right != null && right.id > 0)
+                {
+                    dic.Add("right", right.content);
+                }
+                else
+                {
+                    dic.Add("right", null);
+                }
+            }
+            return dic;
+        }
+
     }
 }

@@ -15,15 +15,15 @@ namespace EFDao.Entity
     public partial class article
     {
         public long id { get; set; }
+        public int cateid { get; set; }
         public string title { get; set; }
         public string keywords { get; set; }
         public System.DateTime addtime { get; set; }
         public int uid { get; set; }
         public int state { get; set; }
-        public string content { get; set; }
-        public int cateid { get; set; }
         public bool top { get; set; }
         public int sort { get; set; }
+        public string content { get; set; }
         public string img { get; set; }
     }
 }

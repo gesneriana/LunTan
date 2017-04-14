@@ -18,6 +18,7 @@ namespace EFDao.Entity
         public WeiQingEntities()
             : base("name=WeiQingEntities")
         {
+            this.Database.Initialize(false);
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -25,18 +26,18 @@ namespace EFDao.Entity
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<user> user { get; set; }
-        public virtual DbSet<getpwdlog> getpwdlog { get; set; }
-        public virtual DbSet<bazijianpi> bazijianpi { get; set; }
-        public virtual DbSet<login_log> login_log { get; set; }
-        public virtual DbSet<title> title { get; set; }
-        public virtual DbSet<tiezi> tiezi { get; set; }
-        public virtual DbSet<tzreply> tzreply { get; set; }
-        public virtual DbSet<tiezi_jubao> tiezi_jubao { get; set; }
-        public virtual DbSet<notice> notice { get; set; }
-        public virtual DbSet<article> article { get; set; }
-        public virtual DbSet<liuyanban> liuyanban { get; set; }
-        public virtual DbSet<category> category { get; set; }
         public virtual DbSet<adcontent> adcontent { get; set; }
+        public virtual DbSet<article> article { get; set; }
+        public virtual DbSet<bazijianpi> bazijianpi { get; set; }
+        public virtual DbSet<category> category { get; set; }
+        public virtual DbSet<getpwdlog> getpwdlog { get; set; }
+        public virtual DbSet<liuyanban> liuyanban { get; set; }
+        public virtual DbSet<login_log> login_log { get; set; }
+        public virtual DbSet<notice> notice { get; set; }
+        public virtual DbSet<tiezi> tiezi { get; set; }
+        public virtual DbSet<tiezi_jubao> tiezi_jubao { get; set; }
+        public virtual DbSet<title> title { get; set; }
+        public virtual DbSet<tzreply> tzreply { get; set; }
+        public virtual DbSet<user> user { get; set; }
     }
 }

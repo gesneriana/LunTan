@@ -16,7 +16,7 @@ namespace EFDao.Entity
     {
         public long id { get; set; }
         public string category_name { get; set; }
-        public string img { get; set; }
         public int sort { get; set; }
+        public string img { get; set; }
     }
 }

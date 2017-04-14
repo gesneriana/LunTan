@@ -94,13 +94,50 @@
 
         var ul = UE.getEditor('editor_left');
         ul.ready(function () {
-            ue.setContent('@Html.Raw("")');
+            ul.setContent('@Html.Raw(ViewData["left"])');
         });
 
         var ur = UE.getEditor('editor_right');
         ur.ready(function () {
-            ue.setContent('@Html.Raw("")');
+            ur.setContent('@Html.Raw(ViewData["right"])');
         });
+
+        // 保存左侧
+        function saveAd(loc) {
+            var content = '';
+            if (loc == 'left') {
+                content = ul.getContent();
+            } else if (loc == 'right') {
+                content = ur.getContent();
+            }
+
+            if (content == '' || content.length == 0) {
+                alert("请输入内容");
+                return;
+            }
+            if (content.indexOf('<p>') >= 0 && content.indexOf('</p>') < 0) {
+                alert("输入的内容数据异常");
+                return;
+            }
+            $.ajax({
+                type: "POST",
+                url: "/admin/updateAd",
+                data: "loc=" + loc + "&content=" + content,
+                error: function (request) {
+                    alert('请求错误');
+                },
+                success: function (data) {
+                    alert(data);
+                    if (data > 0) {
+                        location.href = '@Request.RawUrl';
+                    } else if (data == 0) {
+                        alert("未更改任何内容");
+                    } else {
+                        alert("修改失败:" + data);
+                    }
+                }
+            });
+        }
     </script>
 </head>
 <body>
@@ -120,7 +157,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td><div class="blueBtn_s" onclick="saveLeft()">保存</div> </td>
+                <td><div class="blueBtn_s" onclick="saveAd('left')">保存</div> </td>
             </tr>
         </table>
     </div>
@@ -140,7 +177,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td><div class="blueBtn_s" onclick="saveRight()">保存</div> </td>
+                <td><div class="blueBtn_s" onclick="saveAd('right')">保存</div> </td>
             </tr>
         </table>
     </div>

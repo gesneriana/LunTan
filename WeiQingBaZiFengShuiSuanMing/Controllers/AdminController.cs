@@ -685,12 +685,83 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         }
 
         /// <summary>
-        /// 修改广告内容
+        /// 位置
+        /// </summary>
+        public enum WeiZhi
+        {
+            /// <summary>
+            /// 左侧
+            /// </summary>
+            left = 1,
+            /// <summary>
+            /// 右侧
+            /// </summary>
+            right = 2
+        }
+
+        /// <summary>
+        /// 修改广告内容的视图页
         /// </summary>
         /// <returns></returns>
         public ActionResult AdContent()
         {
+            using (WeiQingEntities db = new WeiQingEntities())
+            {
+                var left = db.adcontent.Where(x => x.weizhi == 1).FirstOrDefault();
+                ViewData["left"] = left == null || left.id <= 0 ? "" : left.content;
+                var right = db.adcontent.Where(x => x.weizhi == 2).FirstOrDefault();
+                ViewData["right"] = right == null || right.id <= 0 ? "" : right.content;
+            }
             return View();
+        }
+
+        /// <summary>
+        /// 修改广告内容
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="loc"></param>
+        /// <returns></returns>
+        [ValidateInput(false)]
+        public ActionResult updateAd(string content = "", WeiZhi loc = WeiZhi.left)
+        {
+            if (content != null && content.Length > 0)
+            {
+                var u = (user)Session["user"];
+                DateTime dt = DateTime.Now;
+                var wz = (int)loc;
+                try
+                {
+                    using (WeiQingEntities db = new WeiQingEntities())
+                    {
+                        adcontent adc = new adcontent();
+                        var list = EfExt.selectList<adcontent>("select * from adcontent where weizhi=" + wz);
+                        if (list != null && list.Count > 0)
+                        {
+                            adc = list[0];
+                        }
+
+                        if (adc != null && adc.id > 0)
+                        {
+                            adc.last_change = dt;
+                            adc.content = content;
+                            var ent = db.Entry(adc);
+                            ent.State = System.Data.Entity.EntityState.Modified;
+                        }
+                        else
+                        {
+                            var ad = new adcontent() { last_change = dt, content = content, weizhi = wz, uid = (int)u.id };
+                            db.adcontent.Add(ad);
+                        }
+                        return Content(db.SaveChanges().ToString());
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Content(ex.Message);
+                }
+
+            }
+            return Content("参数错误");
         }
 
     }

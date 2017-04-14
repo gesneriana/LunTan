@@ -460,32 +460,50 @@
 
         @*预测*@
         <div id="yuce">
-
+            @{ var dic = EFDao.BLL.getData.getAdContent();}
             @*左边的八字预测*@
             <div class="yuce_lt">
-                <div style="height:40px;width:80px;float:left;">
-                    <img src="~/imgs/weixin.jpg" height="40" />
-                </div>
-                <div class="yuce_weixinhao">
-                    <div class="zzqc">
-                        站长亲测<br />
-                        <span style="font-size:14px;">&emsp;微信号:383129257</span>
+                @if (dic["left"] == null)
+                {
+                    <div style="height:40px;width:80px;float:left;">
+                        <img src="~/imgs/weixin.jpg" height="40" />
                     </div>
-                    <div class="bzxp">
-                        八字详批:198元
+                    <div class="yuce_weixinhao">
+                        <div class="zzqc">
+                            站长亲测<br />
+                            <span style="font-size:14px;">&emsp;微信号:383129257</span>
+                        </div>
+                        <div class="bzxp">
+                            八字详批:198元
+                        </div>
+                        <div class="mfycgq"><img src="~/imgs/mfycgq.png" height="40" /></div>
                     </div>
-                    <div class="mfycgq"><img src="~/imgs/mfycgq.png" height="40" /></div>
-                </div>
+                }
+                else
+                {
+                    <div>
+                        @Html.Raw(dic["left"])
+                    </div>
+                }
             </div>
 
             @*右边的八卦六爻预测*@
             <div class="yuce_rt">
-                <div style="height:40px;width:80px;float:left;">
-                    <img src="~/imgs/weixin.jpg" height="40" />
-                </div>
-                <div class="bgyc">
-                    八卦预测<br />每卦66元
-                </div>
+                @if (dic["right"] == null)
+                {
+                    <div style="height:40px;width:80px;float:left;">
+                        <img src="~/imgs/weixin.jpg" height="40" />
+                    </div>
+                    <div class="bgyc">
+                        八卦预测<br />每卦66元
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        @Html.Raw(dic["right"])
+                    </div>
+                }
             </div>
         </div>
 

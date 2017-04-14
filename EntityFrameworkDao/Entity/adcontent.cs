@@ -15,9 +15,9 @@ namespace EFDao.Entity
     public partial class adcontent
     {
         public long id { get; set; }
-        public long uid { get; set; }
-        public System.DateTime change_time { get; set; }
+        public int uid { get; set; }
+        public System.DateTime last_change { get; set; }
         public string content { get; set; }
-        public int location { get; set; }
+        public int weizhi { get; set; }
     }
 }
