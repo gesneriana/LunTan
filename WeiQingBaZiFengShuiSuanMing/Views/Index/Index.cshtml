@@ -81,20 +81,20 @@
         
         <div class="main_content1_content">
 
-            @*预测历史*@
+            @*文章分类编号1*@
             <div class="lt">
                 <ul>
-                    @{ 
-                        if (ViewData["baziList"] != null)
+                    @{
+                        if (ViewData["bannerList"] != null)
                         {
-                            var bzList = (List<EFDao.Entity.bazijianpi>)ViewData["baziList"];
-                            if (bzList != null && bzList.Count > 0)
+                            var bannerList = (List<EFDao.Entity.banner>)ViewData["bannerList"];
+                            if (bannerList != null && bannerList.Count > 0)
                             {
-                                foreach (var item in bzList)
+                                foreach (var item in bannerList)
                                 {
-                                    <text><li><a style="color:#551A8B;font-size:12px;" href="/index/bzjp/@item.id" target="_blank">@item.name &emsp;@item.bazi &emsp; @item.addtime.ToString("yyyy-MM-dd HH:mm") </a> </li> </text>
+                                    <text>
+                                        <li><a style="color:#551A8B;font-size:16px;" href="@item.url" target="_blank">@item.title</a> </li> </text>
                                 }
-                                <text>@Html.Raw(ViewData["baziUrl"]) </text>
                             }
                             else
                             {
@@ -105,9 +105,33 @@
                 </ul>
             </div>
 
-            @*文章分类编号1*@
+            @*预测历史*@
             <div class="rt">
-
+                <ul>
+                    @{
+                        if (ViewData["baziList"] != null)
+                        {
+                            var bzList = (List<EFDao.Entity.bazijianpi>)ViewData["baziList"];
+                            if (bzList != null && bzList.Count > 0)
+                            {
+                                foreach (var item in bzList)
+                                {
+                                    <text>
+                                        <li style="cursor:pointer;color:chocolate;" onclick="javascript: window.open('/index/bzjp/@item.id','_blank')">
+                                            <div style="width:80px;display:inline-block;">@item.name</div>
+                                            <div style="display:inline-block;">@item.bazi</div>
+                                            <div style="float:right;">@item.addtime.ToString("MM-dd HH:mm")</div>
+                                        </li>
+                                    </text>
+                                }
+                            }
+                            else
+                            {
+                                <text><li style="color:#551A8B;">无数据</li> </text>
+                            }
+                        }
+                    }
+                </ul>
             </div>
 
 
