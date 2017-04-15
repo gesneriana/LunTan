@@ -32,7 +32,7 @@
     }
 </style>
 
-<div style="text-align:center;height:50px;line-height:50px;font-size:16px;color:#666;">查看往期的预测内容</div>
+<div style="text-align:center;height:50px;line-height:50px;font-size:16px;color:#666;">查看更多预测内容</div>
 
 <div style="text-align:center;">
     <input type="text" id="key" placeholder="请输入名字,出生地,或者八字搜索" /> <div class="blueBtn_s" onclick="searchBzjp()">查找</div>
@@ -40,6 +40,12 @@
 
 <div>
     <table style="width:100%;">
+        <tr>
+            <td>姓名</td>
+            <td>出生地</td>
+            <td>八字</td>
+            <td>求测时间</td>
+        </tr>
         @{
             if (ViewData["ycList"] != null)
             {

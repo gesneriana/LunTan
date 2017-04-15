@@ -4,7 +4,7 @@
 
 <style type="text/css">
 
-    .yuce_history_article {
+    .main_content1 {
         width: 660px;
         margin-top: 5px;
         background-image: url(/imgs/split-line-x.png);
@@ -15,53 +15,42 @@
     .news_box{float:left;width:660px;}
     .news_box_rt{float:right;width:330px;}
 
-    .yuce_history_article_title {
+    .main_content1_title {
         height: 38px;
         font-size:12px;
         width: 100%;
-        background-color: #F5F5F1;
     }
-    .yuce_history_article_content{
+    .main_content1_content{
         width:100%;
         min-height:275px;
     }
-    .yuce_history_article_content .lt{
+    .main_content1_content .lt{
         width:50%;
         height:100%;
         float:left;
     }
-    .yuce_history_article_content .rt{
+    .main_content1_content .rt{
         width:50%;
         height:100%;
         float:right;
     }
 
-        .yuce_history_article_content ul {
+        .main_content1_content ul {
             min-height: 252px;
             width:100%;
         }
-        .yuce_history_article_title .yhat_lt {
+        .main_content1_title .yhat_lt {
             float:left;
-            background-image: url(/imgs/news-bg.png);
-            background-repeat: no-repeat;
             width: 50%;
             height: 38px;
-            background-position-x: 12px;
-            background-position-y: 12px;
-            text-indent: 38px;
             color: #CC0000;
             font-size: 16px;
             line-height: 38px;
         }
-        .yuce_history_article_title .yhat_rt {
+        .main_content1_title .yhat_rt {
             float:right;
-            background-image: url(/imgs/news-bg.png);
-            background-repeat: no-repeat;
             width: 50%;
             height: 38px;
-            background-position-x: 12px;
-            background-position-y: 12px;
-            text-indent: 38px;
             color: #CC0000;
             font-size: 16px;
             line-height: 38px;
@@ -93,18 +82,19 @@
 @*左侧的整个的文章列表*@
 <div class="news_box">
 
-    @*预测历史和帖子内容标题列表*@
-    <div class="yuce_history_article">
-        <div class="yuce_history_article_title">
+    @*上面内容的两个分类*@
+    <div class="main_content1">
+        <div class="main_content1_title">
             <div class="yhat_lt">
-                预测历史&emsp;<input style="width:120px;" type="text" id="ycls" placeholder="请输入八字,名字" /> <a style="color:#551A8B;" href="javascript:;" onclick="searchBzjp()">查找</a>
+                <div style="margin-left:20px;float:left;">● 预测历史</div>
+                <div style="float:right;color:#551A8B;margin-right:20px;"> <a href="/index/ycList" target="_blank">更多>></a> </div>
             </div>
             <div class="yhat_rt">
                 坛友帖子
             </div>
         </div>
         
-        <div class="yuce_history_article_content">
+        <div class="main_content1_content">
 
             @*预测历史*@
             <div class="lt">
@@ -128,7 +118,6 @@
                         }
                     }
                 </ul>
-                <div style="width:100%;height:30px;line-height:30px;color:#551A8B;"> <a href="/index/ycList" target="_blank">查看更多预测</a> </div>
             </div>
 
             @*文章分类编号1*@
