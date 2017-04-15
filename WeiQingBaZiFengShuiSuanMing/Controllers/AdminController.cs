@@ -840,5 +840,21 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             return Content("-1");
         }
 
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult deleteBanner(int id = 0)
+        {
+            var m = EfExt.select<banner>(id);
+            if (m != null && m.img != null && m.img.Length > 0)
+            {
+                ImagesTools.delete(m.img);
+            }
+            int r = EfExt.delete(new banner() { id = id });
+            return Content(r.ToString());
+        }
+
     }
 }

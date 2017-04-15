@@ -24,11 +24,14 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             {
                 using (WeiQingEntities db = new WeiQingEntities())
                 {
+                    var ba = db.banner.OrderBy(x => x.sort).Take(12).ToList();
+                    ViewData["bannerList"] = ba;
+
                     var yc = db.bazijianpi.Where(x => x.state == 1).OrderByDescending(x => x.addtime).Take(12).ToList();
                     ViewData["baziList"] = yc;  // 默认显示的预测历史
 
                     // 文章分类列表
-                    var cateDic = db.category.Where(x => x.id <= 7).
+                    var cateDic = db.category.Where(x => x.id <= 6).
                         OrderBy(x => x.sort).ThenBy(x => x.id).
                         Select(
                                 x => new EFDao.EntityExt.CategoryAricleExt() { id = x.id, category_name = x.category_name, img = x.img, sort = x.sort }

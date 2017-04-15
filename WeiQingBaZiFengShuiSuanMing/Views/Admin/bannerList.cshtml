@@ -112,6 +112,24 @@
                 $("#url").val(url);
             }
         }
+
+        function deleteBan(id) {
+            $.ajax({
+                type: "POST",
+                url: "/admin/deleteBanner",
+                data: "id=" + id,
+                error: function (request) {
+                    alert('请求错误');
+                },
+                success: function (data) {
+                    if (data>0) {
+                        location.href = '@Request.RawUrl';
+                    } else {
+                        alert("删除失败");
+                    }
+                }
+            });
+        }
     </script>
 </head>
 <body>
@@ -156,6 +174,7 @@
                 <td>排序</td>
                 <td>添加时间</td>
                 <td>跳转链接</td>
+                <td>删除</td>
             </tr>
             @{
                 if (ViewData["list"] != null)
@@ -165,12 +184,13 @@
                     {
                         foreach (var item in bannerlist)
                         {
-                            <tr class="edit_tr" onclick="javascript:window.open('/admin/edit_banner/@item.id','_blank')">
-                                <td>@item.id</td>
-                                <td>@item.title</td>
-                                <td>@item.sort</td>
-                                <td>@item.addtime.ToString("yyyy-MM-dd HH:mm")</td>
-                                <td>@item.url</td>
+                            <tr class="edit_tr" >
+                                <td onclick="javascript:window.open('/admin/edit_banner/@item.id','_blank')">@item.id</td>
+                                <td onclick="javascript:window.open('/admin/edit_banner/@item.id','_blank')">@item.title</td>
+                                <td onclick="javascript:window.open('/admin/edit_banner/@item.id','_blank')">@item.sort</td>
+                                <td onclick="javascript:window.open('/admin/edit_banner/@item.id','_blank')">@item.addtime.ToString("yyyy-MM-dd HH:mm")</td>
+                                <td onclick="javascript:window.open('/admin/edit_banner/@item.id','_blank')">@item.url</td>
+                                <td><div class="blueBtn_s" onclick="deleteBan('@item.id')">删除</div> </td>
                             </tr>
                         }
                     }
