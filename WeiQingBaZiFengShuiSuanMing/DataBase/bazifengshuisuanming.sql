@@ -10,10 +10,29 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-04-09 02:30:46
+Date: 2017-04-15 19:18:56
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for adcontent
+-- ----------------------------
+DROP TABLE IF EXISTS `adcontent`;
+CREATE TABLE `adcontent` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `uid` int(10) NOT NULL DEFAULT '0' COMMENT '用户id',
+  `last_change` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+  `content` varchar(2000) NOT NULL DEFAULT '' COMMENT '广告内容',
+  `weizhi` int(11) NOT NULL DEFAULT '0' COMMENT '位置',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of adcontent
+-- ----------------------------
+INSERT INTO `adcontent` VALUES ('1', '1', '2017-04-15 00:47:57', '<p>八字详批200.</p>', '1');
+INSERT INTO `adcontent` VALUES ('2', '1', '2017-04-15 01:01:38', '<p>八卦六爻预测</p>', '2');
 
 -- ----------------------------
 -- Table structure for article
@@ -32,13 +51,34 @@ CREATE TABLE `article` (
   `content` varchar(3000) NOT NULL DEFAULT '' COMMENT '文章内容',
   `img` varchar(200) NOT NULL DEFAULT '' COMMENT '文章封面图片, 用于轮播图',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of article
 -- ----------------------------
 INSERT INTO `article` VALUES ('1', '1', '四月四日', '清明节时期', '2017-04-04 02:37:21', '1', '1', '\0', '100', '<p>上班好好做, 努力, 终于找到了一个不错的工作</p>', '');
 INSERT INTO `article` VALUES ('2', '1', '四月五号', '年前诸事不顺', '2017-04-05 00:41:01', '1', '1', '\0', '100', '<p>心情复杂</p>', '');
+INSERT INTO `article` VALUES ('3', '4', '今天运气不错', '又学到了好多新知识', '2017-04-10 18:57:21', '1', '1', '\0', '100', '<p>脑壳疼.</p>', '');
+
+-- ----------------------------
+-- Table structure for banner
+-- ----------------------------
+DROP TABLE IF EXISTS `banner`;
+CREATE TABLE `banner` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `title` varchar(50) NOT NULL DEFAULT '' COMMENT '标题',
+  `sort` int(11) NOT NULL DEFAULT '100' COMMENT '排序,从小到大',
+  `addtime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
+  `uid` int(11) NOT NULL DEFAULT '0' COMMENT '添加者的id',
+  `img` varchar(255) NOT NULL DEFAULT '' COMMENT '图片路径',
+  `url` varchar(255) NOT NULL DEFAULT '' COMMENT '指向的链接',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of banner
+-- ----------------------------
+INSERT INTO `banner` VALUES ('3', '预测的热门内容', '100', '2017-04-15 17:24:23', '1', '/upload/imgs/636278738631261244924625.jpg', '/index/bzjp/4');
 
 -- ----------------------------
 -- Table structure for bazijianpi
@@ -74,16 +114,20 @@ DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `category_name` varchar(30) NOT NULL DEFAULT '' COMMENT '分类名称',
+  `sort` int(11) NOT NULL DEFAULT '100' COMMENT '排序,从小到大,0-100',
   `img` varchar(200) NOT NULL DEFAULT '' COMMENT '分类名称旁边的小图存储的路径, 如果为空加载默认图片',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of category
 -- ----------------------------
-INSERT INTO `category` VALUES ('1', '每日一文', '');
-INSERT INTO `category` VALUES ('2', '命学浅析', '');
-INSERT INTO `category` VALUES ('3', '移动版', '');
+INSERT INTO `category` VALUES ('1', '手相分析 ', '66', '/upload/imgs/636273892794775857358992.png');
+INSERT INTO `category` VALUES ('2', '命学浅析', '100', '');
+INSERT INTO `category` VALUES ('3', '面相分析', '100', '');
+INSERT INTO `category` VALUES ('4', '六爻预测', '100', '/upload/imgs/636274197555383991007020.jpg');
+INSERT INTO `category` VALUES ('5', '风水', '100', '/upload/imgs/636274203904547142469036.jpg');
+INSERT INTO `category` VALUES ('6', '流年大运', '100', '/upload/imgs/636274204108768823959715.jpg');
 
 -- ----------------------------
 -- Table structure for getpwdlog
@@ -135,7 +179,7 @@ CREATE TABLE `login_log` (
   `login_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登录时间',
   `login_ip` varchar(30) NOT NULL DEFAULT '' COMMENT '登录的ip地址',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=251 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of login_log
@@ -290,6 +334,106 @@ INSERT INTO `login_log` VALUES ('147', '1', '2017-04-09 01:47:22', '::1');
 INSERT INTO `login_log` VALUES ('148', '1', '2017-04-09 01:48:02', '::1');
 INSERT INTO `login_log` VALUES ('149', '1', '2017-04-09 02:16:34', '::1');
 INSERT INTO `login_log` VALUES ('150', '1', '2017-04-09 02:19:23', '127.0.0.1');
+INSERT INTO `login_log` VALUES ('151', '1', '2017-04-09 17:36:36', '127.0.0.1');
+INSERT INTO `login_log` VALUES ('152', '1', '2017-04-09 17:37:34', '::1');
+INSERT INTO `login_log` VALUES ('153', '1', '2017-04-09 21:43:19', '::1');
+INSERT INTO `login_log` VALUES ('154', '1', '2017-04-10 01:03:08', '::1');
+INSERT INTO `login_log` VALUES ('155', '1', '2017-04-10 02:20:25', '::1');
+INSERT INTO `login_log` VALUES ('156', '1', '2017-04-10 02:41:15', '::1');
+INSERT INTO `login_log` VALUES ('157', '1', '2017-04-10 02:47:36', '::1');
+INSERT INTO `login_log` VALUES ('158', '1', '2017-04-10 10:29:55', '::1');
+INSERT INTO `login_log` VALUES ('159', '1', '2017-04-10 10:57:50', '::1');
+INSERT INTO `login_log` VALUES ('160', '1', '2017-04-10 11:25:43', '::1');
+INSERT INTO `login_log` VALUES ('161', '1', '2017-04-10 12:33:18', '::1');
+INSERT INTO `login_log` VALUES ('162', '1', '2017-04-10 18:41:45', '::1');
+INSERT INTO `login_log` VALUES ('163', '1', '2017-04-10 18:46:38', '::1');
+INSERT INTO `login_log` VALUES ('164', '1', '2017-04-10 18:49:47', '::1');
+INSERT INTO `login_log` VALUES ('165', '1', '2017-04-10 18:52:55', '::1');
+INSERT INTO `login_log` VALUES ('166', '1', '2017-04-10 18:55:09', '::1');
+INSERT INTO `login_log` VALUES ('167', '1', '2017-04-10 20:09:16', '::1');
+INSERT INTO `login_log` VALUES ('168', '1', '2017-04-10 21:54:06', '::1');
+INSERT INTO `login_log` VALUES ('169', '1', '2017-04-10 22:18:56', '::1');
+INSERT INTO `login_log` VALUES ('170', '1', '2017-04-10 23:52:29', '::1');
+INSERT INTO `login_log` VALUES ('171', '1', '2017-04-10 23:55:06', '::1');
+INSERT INTO `login_log` VALUES ('172', '1', '2017-04-10 23:58:15', '::1');
+INSERT INTO `login_log` VALUES ('173', '1', '2017-04-11 00:41:33', '::1');
+INSERT INTO `login_log` VALUES ('174', '1', '2017-04-11 00:53:15', '::1');
+INSERT INTO `login_log` VALUES ('175', '1', '2017-04-11 01:22:35', '::1');
+INSERT INTO `login_log` VALUES ('176', '1', '2017-04-11 01:23:20', '::1');
+INSERT INTO `login_log` VALUES ('177', '1', '2017-04-11 01:38:27', '::1');
+INSERT INTO `login_log` VALUES ('178', '1', '2017-04-11 01:38:28', '::1');
+INSERT INTO `login_log` VALUES ('179', '1', '2017-04-11 01:38:29', '::1');
+INSERT INTO `login_log` VALUES ('180', '1', '2017-04-11 01:38:30', '::1');
+INSERT INTO `login_log` VALUES ('181', '1', '2017-04-11 01:38:31', '::1');
+INSERT INTO `login_log` VALUES ('182', '1', '2017-04-11 01:38:32', '::1');
+INSERT INTO `login_log` VALUES ('183', '1', '2017-04-11 01:38:33', '::1');
+INSERT INTO `login_log` VALUES ('184', '1', '2017-04-11 01:38:33', '::1');
+INSERT INTO `login_log` VALUES ('185', '1', '2017-04-11 01:38:33', '::1');
+INSERT INTO `login_log` VALUES ('186', '1', '2017-04-11 01:38:34', '::1');
+INSERT INTO `login_log` VALUES ('187', '1', '2017-04-11 01:38:34', '::1');
+INSERT INTO `login_log` VALUES ('188', '1', '2017-04-11 01:38:35', '::1');
+INSERT INTO `login_log` VALUES ('189', '1', '2017-04-11 01:38:35', '::1');
+INSERT INTO `login_log` VALUES ('190', '1', '2017-04-11 01:38:35', '::1');
+INSERT INTO `login_log` VALUES ('191', '1', '2017-04-11 01:38:35', '::1');
+INSERT INTO `login_log` VALUES ('192', '1', '2017-04-11 01:38:36', '::1');
+INSERT INTO `login_log` VALUES ('193', '1', '2017-04-11 01:38:36', '::1');
+INSERT INTO `login_log` VALUES ('194', '1', '2017-04-11 01:38:37', '::1');
+INSERT INTO `login_log` VALUES ('195', '1', '2017-04-11 01:38:38', '::1');
+INSERT INTO `login_log` VALUES ('196', '1', '2017-04-11 01:38:41', '::1');
+INSERT INTO `login_log` VALUES ('197', '1', '2017-04-11 01:38:42', '::1');
+INSERT INTO `login_log` VALUES ('198', '1', '2017-04-11 01:38:42', '::1');
+INSERT INTO `login_log` VALUES ('199', '1', '2017-04-11 01:38:42', '::1');
+INSERT INTO `login_log` VALUES ('200', '1', '2017-04-11 01:38:42', '::1');
+INSERT INTO `login_log` VALUES ('201', '1', '2017-04-11 01:38:43', '::1');
+INSERT INTO `login_log` VALUES ('202', '1', '2017-04-11 01:38:43', '::1');
+INSERT INTO `login_log` VALUES ('203', '1', '2017-04-11 01:38:43', '::1');
+INSERT INTO `login_log` VALUES ('204', '1', '2017-04-11 01:39:48', '::1');
+INSERT INTO `login_log` VALUES ('205', '1', '2017-04-11 01:39:49', '::1');
+INSERT INTO `login_log` VALUES ('206', '1', '2017-04-11 01:39:53', '::1');
+INSERT INTO `login_log` VALUES ('207', '1', '2017-04-11 01:43:37', '::1');
+INSERT INTO `login_log` VALUES ('208', '1', '2017-04-11 01:45:09', '::1');
+INSERT INTO `login_log` VALUES ('209', '1', '2017-04-11 01:53:46', '::1');
+INSERT INTO `login_log` VALUES ('210', '1', '2017-04-13 22:57:26', '::1');
+INSERT INTO `login_log` VALUES ('211', '1', '2017-04-13 23:30:07', '::1');
+INSERT INTO `login_log` VALUES ('212', '1', '2017-04-14 00:06:53', '::1');
+INSERT INTO `login_log` VALUES ('213', '1', '2017-04-14 22:24:05', '::1');
+INSERT INTO `login_log` VALUES ('214', '1', '2017-04-14 23:39:22', '::1');
+INSERT INTO `login_log` VALUES ('215', '1', '2017-04-14 23:59:16', '::1');
+INSERT INTO `login_log` VALUES ('216', '1', '2017-04-15 00:34:33', '::1');
+INSERT INTO `login_log` VALUES ('217', '1', '2017-04-15 00:36:35', '::1');
+INSERT INTO `login_log` VALUES ('218', '1', '2017-04-15 00:37:48', '::1');
+INSERT INTO `login_log` VALUES ('219', '1', '2017-04-15 00:39:08', '::1');
+INSERT INTO `login_log` VALUES ('220', '1', '2017-04-15 00:43:09', '::1');
+INSERT INTO `login_log` VALUES ('221', '1', '2017-04-15 00:46:55', '::1');
+INSERT INTO `login_log` VALUES ('222', '1', '2017-04-15 01:00:28', '::1');
+INSERT INTO `login_log` VALUES ('223', '1', '2017-04-15 01:13:15', '::1');
+INSERT INTO `login_log` VALUES ('224', '1', '2017-04-15 01:17:17', '::1');
+INSERT INTO `login_log` VALUES ('225', '1', '2017-04-15 01:21:52', '::1');
+INSERT INTO `login_log` VALUES ('226', '1', '2017-04-15 01:23:06', '::1');
+INSERT INTO `login_log` VALUES ('227', '1', '2017-04-15 01:26:12', '::1');
+INSERT INTO `login_log` VALUES ('228', '1', '2017-04-15 01:30:53', '::1');
+INSERT INTO `login_log` VALUES ('229', '1', '2017-04-15 01:33:37', '::1');
+INSERT INTO `login_log` VALUES ('230', '1', '2017-04-15 01:36:39', '::1');
+INSERT INTO `login_log` VALUES ('231', '1', '2017-04-15 01:53:45', '::1');
+INSERT INTO `login_log` VALUES ('232', '1', '2017-04-15 02:03:00', '::1');
+INSERT INTO `login_log` VALUES ('233', '1', '2017-04-15 02:06:38', '::1');
+INSERT INTO `login_log` VALUES ('234', '1', '2017-04-15 02:07:08', '::1');
+INSERT INTO `login_log` VALUES ('235', '1', '2017-04-15 02:08:06', '127.0.0.1');
+INSERT INTO `login_log` VALUES ('236', '1', '2017-04-15 02:10:12', '::1');
+INSERT INTO `login_log` VALUES ('237', '1', '2017-04-15 02:13:19', '::1');
+INSERT INTO `login_log` VALUES ('238', '1', '2017-04-15 02:18:49', '::1');
+INSERT INTO `login_log` VALUES ('239', '1', '2017-04-15 02:19:47', '::1');
+INSERT INTO `login_log` VALUES ('240', '1', '2017-04-15 02:21:29', '::1');
+INSERT INTO `login_log` VALUES ('241', '1', '2017-04-15 11:09:01', '::1');
+INSERT INTO `login_log` VALUES ('242', '1', '2017-04-15 14:32:26', '::1');
+INSERT INTO `login_log` VALUES ('243', '1', '2017-04-15 15:09:47', '::1');
+INSERT INTO `login_log` VALUES ('244', '1', '2017-04-15 16:35:11', '::1');
+INSERT INTO `login_log` VALUES ('245', '1', '2017-04-15 16:58:39', '::1');
+INSERT INTO `login_log` VALUES ('246', '1', '2017-04-15 17:08:04', '::1');
+INSERT INTO `login_log` VALUES ('247', '1', '2017-04-15 17:21:42', '::1');
+INSERT INTO `login_log` VALUES ('248', '1', '2017-04-15 18:11:53', '::1');
+INSERT INTO `login_log` VALUES ('249', '1', '2017-04-15 18:25:47', '::1');
+INSERT INTO `login_log` VALUES ('250', '1', '2017-04-15 19:12:41', '::1');
 
 -- ----------------------------
 -- Table structure for notice
