@@ -22,7 +22,7 @@
     }
     .main_content1_content{
         width:100%;
-        min-height:275px;
+        min-height:180px;
     }
     .main_content1_content .lt{
         width:50%;
@@ -36,8 +36,7 @@
     }
 
         .main_content1_content ul {
-            min-height: 252px;
-            width:100%;
+            min-height: 168px;
         }
         .main_content1_title .yhat_lt {
             float:left;
@@ -133,9 +132,321 @@
                     }
                 </ul>
             </div>
-
-
         </div>
+
     </div>
+    @*热门和预测结束部分*@
+
+
+
+
+
+
+    @{ var cateDic = (Dictionary<long, EFDao.EntityExt.CategoryAricleExt>)ViewData["cateArtDic"];}
+
+    @*文章分类*@
+    <hr />
+    <div class="main_content2">
+        <div class="main_content1_title">
+            <div class="yhat_lt">
+                <div style="margin-left:20px;float:left;">● @{if (cateDic != null && cateDic.ContainsKey(1)) { <text>@cateDic[1].category_name </text>} }</div>
+                <div style="float:right;color:#551A8B;margin-right:20px;"> <a href="/index/artList?cateid=1" target="_blank">更多>></a></div>
+            </div>
+            <div class="yhat_rt">
+                <div style="margin-left:20px;float:left;">● @{if (cateDic != null && cateDic.ContainsKey(2)) { <text>@cateDic[2 ].category_name </text>} }</div>
+                <div style="float:right;color:#551A8B;margin-right:20px;"> <a href="/index/artList?cateid=2" target="_blank">更多>></a> </div>
+            </div>
+        </div>
+
+        <div class="main_content1_content">
+
+
+            @*文章分类编号1*@
+            <div class="lt">
+                <div style="width:150px;height:168px;float:left;overflow:hidden;">
+                    @if (cateDic != null && cateDic.ContainsKey(1))
+                    {
+                        if (cateDic[1].img != null && cateDic[1].img.Length > 0)
+                        {
+                            <table style="width:100%;height:100%;">
+                                <tr>
+                                    <td valign="middle">
+                                        <img src="@cateDic[1].img" title="图片" style="width:150px;" />
+                                    </td>
+                                </tr>
+                            </table>
+                        }
+                    }
+                </div>
+                <ul style="margin-left:150px;text-indent:1em;">
+                    @{
+                        if (cateDic != null && cateDic.ContainsKey(1))
+                        {
+                            var artList = cateDic[1].artlist;
+                            if (artList != null && artList.Count > 0)
+                            {
+                                foreach (var item in artList)
+                                {
+                                    <li><a style="color:#551A8B;font-size:12px;" href="/index/article/@item.id" target="_blank">@item.title</a> </li>
+                                }
+                            }
+                            else
+                            {
+                                <text><li style="color:#551A8B;">无数据</li> </text>
+                            }
+                        }
+                    }
+                </ul>
+            </div>
+
+            @*预测历史*@
+            <div class="rt">
+                <div style="width:150px;height:168px;float:left;overflow:hidden;">
+                    @if (cateDic != null && cateDic.ContainsKey(2))
+                    {
+                        if (cateDic[2].img != null && cateDic[2].img.Length > 0)
+                        {
+                            <table style="width:100%;height:100%;">
+                                <tr>
+                                    <td valign="middle">
+                                        <img src="@cateDic[2].img" title="图片" style="width:150px;" />
+                                    </td>
+                                </tr>
+                            </table>
+                        }
+                    }
+                </div>
+                <ul style="margin-left:150px;text-indent:1em;">
+                    @{
+                        if (cateDic != null && cateDic.ContainsKey(2))
+                        {
+                            var artList = cateDic[2].artlist;
+                            if (artList != null && artList.Count > 0)
+                            {
+                                foreach (var item in artList)
+                                {
+                                    <text>
+                                        <li><a style="color:#551A8B;font-size:16px;" href="/index/article/@item.id" target="_blank">@item.title</a> </li> </text>
+                                }
+                            }
+                            else
+                            {
+                                <text>
+                                    <li style="color:#551A8B;">无数据</li> </text>
+                            }
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+    <hr />
+    @*文章分类*@
+    <div class="main_content3">
+        <div class="main_content1_title">
+            <div class="yhat_lt">
+                <div style="margin-left:20px;float:left;">● @{if (cateDic != null && cateDic.ContainsKey(3))
+                    { <text>@cateDic[3].category_name </text>} }</div>
+                <div style="float:right;color:#551A8B;margin-right:20px;"> <a href="/index/artList?cateid=3" target="_blank">更多>></a></div>
+            </div>
+            <div class="yhat_rt">
+                <div style="margin-left:20px;float:left;">● @{if (cateDic != null && cateDic.ContainsKey(4))
+                    { <text>@cateDic[4].category_name </text>} }</div>
+                <div style="float:right;color:#551A8B;margin-right:20px;"> <a href="/index/artList?cateid=4" target="_blank">更多>></a> </div>
+            </div>
+        </div>
+
+        <div class="main_content1_content">
+
+
+            @*文章分类编号1*@
+            <div class="lt">
+                <div style="width:150px;height:168px;float:left;overflow:hidden;">
+                    @if (cateDic != null && cateDic.ContainsKey(3))
+                    {
+                        if (cateDic[3].img != null && cateDic[3].img.Length > 0)
+                        {
+                            <table style="width:100%;height:100%;">
+                                <tr>
+                                    <td valign="middle">
+                                        <img src="@cateDic[3].img" title="图片" style="width:150px;" />
+                                    </td>
+                                </tr>
+                            </table>
+                        }
+                    }
+                </div>
+                <ul style="margin-left:150px;text-indent:1em;">
+                    @{
+                        if (cateDic != null && cateDic.ContainsKey(3))
+                        {
+                            var artList = cateDic[3].artlist;
+                            if (artList != null && artList.Count > 0)
+                            {
+                                foreach (var item in artList)
+                                {
+                                    <li><a style="color:#551A8B;font-size:12px;" href="/index/article/@item.id" target="_blank">@item.title</a> </li>
+                                }
+                            }
+                            else
+                            {
+                                <li style="color:#551A8B;">无数据</li>
+                            }
+                        }
+                    }
+                </ul>
+            </div>
+
+            @*预测历史*@
+            <div class="rt">
+                <div style="width:150px;height:168px;float:left;overflow:hidden;">
+                    @if (cateDic != null && cateDic.ContainsKey(4))
+                    {
+                        if (cateDic[4].img != null && cateDic[4].img.Length > 0)
+                        {
+                            <table style="width:100%;height:100%;">
+                                <tr>
+                                    <td valign="middle">
+                                        <img src="@cateDic[4].img" title="图片" style="width:150px;" />
+                                    </td>
+                                </tr>
+                            </table>
+                        }
+                    }
+                </div>
+                <ul style="margin-left:150px;text-indent:1em;">
+                    @{
+                        if (cateDic != null && cateDic.ContainsKey(4))
+                        {
+                            var artList = cateDic[4].artlist;
+                            if (artList != null && artList.Count > 0)
+                            {
+                                foreach (var item in artList)
+                                {
+                                    <li><a style="color:#551A8B;font-size:16px;" href="/index/article/@item.id" target="_blank">@item.title</a> </li>
+                                }
+                            }
+                            else
+                            {
+                                <li style="color:#551A8B;">无数据</li>
+                            }
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+    <hr />
+    @*文章分类*@
+    <div class="main_content4">
+        <div class="main_content1_title">
+            <div class="yhat_lt">
+                <div style="margin-left:20px;float:left;">
+                    ● @{if (cateDic != null && cateDic.ContainsKey(5))
+                        { <text>@cateDic[5].category_name </text>} }
+                </div>
+                <div style="float:right;color:#551A8B;margin-right:20px;"> <a href="/index/artList?cateid=5" target="_blank">更多>></a></div>
+            </div>
+            <div class="yhat_rt">
+                <div style="margin-left:20px;float:left;">
+                    ● @{if (cateDic != null && cateDic.ContainsKey(6))
+                        { <text>@cateDic[6].category_name </text>} }
+                </div>
+                <div style="float:right;color:#551A8B;margin-right:20px;"> <a href="/index/artList?cateid=6" target="_blank">更多>></a> </div>
+            </div>
+        </div>
+
+        <div class="main_content1_content">
+
+
+            @*文章分类编号1*@
+            <div class="lt">
+                <div style="width:150px;height:168px;float:left;overflow:hidden;">
+                    @if (cateDic != null && cateDic.ContainsKey(5))
+                    {
+                        if (cateDic[5].img != null && cateDic[5].img.Length > 0)
+                        {
+                            <table style="width:100%;height:100%;">
+                                <tr>
+                                    <td valign="middle">
+                                        <img src="@cateDic[5].img" title="图片" style="width:150px;" />
+                                    </td>
+                                </tr>
+                            </table>
+                        }
+                    }
+                </div>
+                <ul style="margin-left:150px;text-indent:1em;">
+                    @{
+                        if (cateDic != null && cateDic.ContainsKey(5))
+                        {
+                            var artList = cateDic[5].artlist;
+                            if (artList != null && artList.Count > 0)
+                            {
+                                foreach (var item in artList)
+                                {
+                                    <li><a style="color:#551A8B;font-size:12px;" href="/index/article/@item.id" target="_blank">@item.title</a> </li>
+                                }
+                            }
+                            else
+                            {
+                                <li style="color:#551A8B;">无数据</li>
+                            }
+                        }
+                    }
+                </ul>
+            </div>
+
+            @*预测历史*@
+            <div class="rt">
+                <div style="width:150px;height:168px;float:left;overflow:hidden;">
+                    @if (cateDic != null && cateDic.ContainsKey(6))
+                    {
+                        if (cateDic[6].img != null && cateDic[6].img.Length > 0)
+                        {
+                            <table style="width:100%;height:100%;">
+                                <tr>
+                                    <td valign="middle">
+                                        <img src="@cateDic[6].img" title="图片" style="width:150px;" />
+                                    </td>
+                                </tr>
+                            </table>
+                        }
+                    }
+                </div>
+                <ul style="margin-left:150px;text-indent:1em;">
+                    @{
+                        if (cateDic != null && cateDic.ContainsKey(6))
+                        {
+                            var artList = cateDic[6].artlist;
+                            if (artList != null && artList.Count > 0)
+                            {
+                                foreach (var item in artList)
+                                {
+                                    <li><a style="color:#551A8B;font-size:16px;" href="/index/article/@item.id" target="_blank">@item.title</a> </li>
+                                }
+                            }
+                            else
+                            {
+                                <li style="color:#551A8B;">无数据</li>
+                            }
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
 
 </div>

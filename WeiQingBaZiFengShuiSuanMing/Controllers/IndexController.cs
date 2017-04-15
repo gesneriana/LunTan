@@ -799,16 +799,18 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// <summary>
         /// 分页查看文章列表
         /// </summary>
+        /// <param name="cateid">文章分类</param>
         /// <param name="key"></param>
         /// <param name="page"></param>
         /// <returns></returns>
-        public ActionResult artList(string key = "", int page = 1)
+        public ActionResult artList(int cateid = 1, string key = "", int page = 1)
         {
+            ViewData["cateid"] = cateid;
             using (WeiQingEntities db = new WeiQingEntities())
             {
                 if (key != null && key.Length > 0)
                 {
-                    var q = db.article.Where(x => x.state == 1 && (x.title.Contains(key) || x.keywords.Contains(key))).OrderByDescending(x => x.addtime);
+                    var q = db.article.Where(x => x.state == 1 && x.cateid == cateid && (x.title.Contains(key) || x.keywords.Contains(key))).OrderByDescending(x => x.addtime);
                     var p = new EFPaging<article>();
                     ViewData["list"] = p.getPageList(q, "/index/artList", page, 20);
                     ViewData["url"] = p.pageUrl;
@@ -816,7 +818,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 }
                 else
                 {
-                    var q = db.article.Where(x => x.state == 1).OrderByDescending(x => x.addtime);
+                    var q = db.article.Where(x => x.state == 1 && x.cateid == cateid).OrderByDescending(x => x.addtime);
                     var p = new EFPaging<article>();
                     ViewData["list"] = p.getPageList(q, "/index/artList", page, 20);
                     ViewData["url"] = p.pageUrl;

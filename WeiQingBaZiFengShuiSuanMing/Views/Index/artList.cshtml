@@ -18,9 +18,9 @@
     function searchArticle() {
         var key = $("#key").val();
         if (key == '')
-            location.href = '/index/artList';
+            location.href = '/index/artList?cateid=@ViewData["cateid"]';
         else
-            location.href = "/index/artList?key=" + key;
+            location.href = "/index/artList?cateid=@ViewData["cateid"]&key=" + key;
     }
 </script>
 
@@ -35,6 +35,7 @@
 <div style="text-align:center;height:50px;line-height:50px;font-size:16px;color:#666;">查看文章列表</div>
 
 <div style="text-align:center;">
+    <input type="hidden" id="cateid" value="@ViewData["cateid"]" />
     <input type="text" id="key" placeholder="请输入标题,关键字搜索" /> <div class="blueBtn_s" onclick="searchArticle()">查找</div>
 </div>
 
