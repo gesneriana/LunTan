@@ -1,0 +1,173 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>修改热门内容</title>
+    <style type="text/css">
+        * {
+            list-style-type: none;
+        }
+
+        body {
+            background-color: #FDFDF8;
+        }
+
+        a {
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        hr {
+            height: 1px;
+            background-color: #E0D0A3;
+            border: none;
+        }
+
+        .badoo {
+            text-align: right;
+            float: right;
+            height: 48px;
+            line-height: 38px;
+        }
+
+            .badoo span {
+                display: inline-block;
+                padding: 5px 5px 5px;
+                margin-left: 7px;
+                margin-right: 3px;
+                color: #999;
+            }
+
+            .badoo a {
+                display: inline-block;
+                padding: 5px 5px 5px;
+                margin-left: 7px;
+                margin-right: 3px;
+            }
+
+        .blueBtn {
+            display: inline-block;
+            margin-left: 20px;
+            padding: 5px 10px 5px;
+            font-size: 14px;
+            background-color: #398BFC;
+            cursor: pointer;
+            color: #fff;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            margin-right: 10px;
+        }
+
+        .blueBtn_s {
+            display: inline-block;
+            padding: 5px 10px 5px;
+            font-size: 12px;
+            background-color: #398BFC;
+            cursor: pointer;
+            color: #fff;
+            margin-top: 2px;
+            margin-bottom: 2px;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        .edit_tr {
+            cursor: pointer;
+            width: 100%;
+            color: chocolate;
+        }
+    </style>
+    <script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-form.js"></script>
+    <script type="text/javascript">
+
+        function save() {
+            // 文件上传
+            $("#baForm").ajaxSubmit({
+                type: 'post',
+                url: '/admin/updateBanner',
+                success: function (data) {
+                    if (data >0) {
+                        location.href = '@Request.Url';
+                    } else if(data==0){
+                        alert("没有修改数据");
+                    } else {
+                        alert("修改失败");
+                    }
+                    console.log(data);
+                },
+                error: function (XmlHttpRequest, textStatus, errorThrown) {
+                    alert("请求失败!");
+                }
+            });
+        }
+        // 获取url
+        function getUrl() {
+            var fullurl = $("#fullurl").val();
+            fullurl = fullurl.replace("//", "");
+            if (fullurl.indexOf('/') >= 0) {
+                var url = fullurl.substring(fullurl.indexOf('/'));
+                $("#url").val(url);
+            }
+        }
+    </script>
+</head>
+<body>
+    <div style="text-align:center;">热门内容管理</div>
+
+    @{ var m = (EFDao.Entity.banner)ViewData["model"]; }
+
+    <div style="width:800px;min-height:200px;margin:0px auto 0px;">
+        <form id="baForm" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="@m.id" />
+            <input type="hidden" name="addtime" value="@m.addtime.ToString("yyyy-MM-dd HH:mm:ss")" />
+            <input type="hidden" name="uid" value="@m.uid" />
+            <input type="hidden" name="oldimg" value="@m.img" />
+
+            <table style="width:100%;">
+                <tr>
+                    <td style="width:80px;">标题:</td>
+                    <td><input type="text" name="title" value="@m.title" /> </td>
+                </tr>
+                <tr>
+                    <td>排序:</td>
+                    <td><input type="number" name="sort" value="@m.sort" /> </td>
+                </tr>
+                <tr>
+                    <td>图片:</td>
+                    <td><input type="file" name="img" accept="image/*" /> </td>
+                </tr>
+                <tr>
+                    <td>已上传图片:</td>
+                    <td>
+                        @{ if (m.img != null && m.img.Length > 0)
+                            {<text><a href="@m.img" target="_blank">查看图片</a> </text>}
+                                else {<text>没有上传图片</text> } }
+                    </td>
+                </tr>
+                <tr>
+                    <td>添加时间:</td>
+                    <td>@m.addtime.ToString("yyyy-MM-dd HH:mm") </td>
+                </tr>
+                <tr>
+                    <td>完整链接:</td>
+                    <td><input type="text" id="fullurl" onchange="getUrl()" /> 打开需要展示的文章,从浏览器地址栏复制链接 </td>
+                </tr>
+                <tr>
+                    <td>相对链接:</td>
+                    <td><input type="text" name="url" id="url" readonly="readonly" value="@m.url" /> </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><div class="blueBtn_s" onclick="save()">保存</div> </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>

@@ -764,5 +764,81 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             return Content("参数错误");
         }
 
+        /// <summary>
+        /// 获取热门内容的列表
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public ActionResult bannerList(int page=1)
+        {
+            using(WeiQingEntities db=new WeiQingEntities())
+            {
+                var q = db.banner.OrderBy(x => x.sort);
+                var p = new EFPaging<banner>();
+                var list = p.getPageList(q, "/admin/bannerList", page, 20);
+                ViewData["list"] = list;
+                ViewData["url"] = p.pageUrl;
+            }
+            return View();
+        }
+
+        /// <summary>
+        /// 添加热门的内容
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public ActionResult addBanner(banner model, HttpPostedFileWrapper img)
+        {
+            if (model != null && model.title != null && model.title.Length > 0)
+            {
+                model.addtime = DateTime.Now;
+                var u = (user)Session["user"];
+                model.uid = (int)u.id;
+                model.img = ImagesTools.save(imgs: img);
+                reflectModel.setValues(model);
+                int r = EfExt.insert(model);
+                if (r > 0)
+                {
+                    return Content("添加成功");
+                }
+            }
+            return Content("添加失败");
+        }
+
+        /// <summary>
+        /// 修改banner内容的视图页
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult edit_banner(int id = 0)
+        {
+            ViewData["model"] = EfExt.select<banner>(id);
+            return View();
+        }
+
+        /// <summary>
+        /// 更新热门内容
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public ActionResult updateBanner(banner model, HttpPostedFileWrapper img, string oldimg)
+        {
+            if (model != null)
+            {
+                if (img != null && img.ContentLength > 0)
+                {
+                    if (oldimg != null && oldimg.Length > 0)
+                    {
+                        ImagesTools.delete(oldimg);
+                    }
+                    model.img = ImagesTools.save(imgs: img);
+                }
+                reflectModel.setValues(model);
+                int r = EfExt.update(model);
+                return Content(r.ToString());
+            }
+            return Content("-1");
+        }
+
     }
 }

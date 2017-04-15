@@ -59,22 +59,6 @@
 </style>
 
 <script type="text/javascript">
-    $(function () {
-        $('#ycls').bind('keypress', function (event) {
-            if (event.keyCode == "13") {
-                searchBzjp();
-            }
-        });
-    });
-
-    // 搜索预测历史
-    function searchBzjp() {
-        var key = $("#ycls").val();
-        if (key == '')
-            location.href = '/index/index';
-        else
-            location.href = "/index/index?key=" + key + "&type=ycls";
-    }
 
 </script>
 

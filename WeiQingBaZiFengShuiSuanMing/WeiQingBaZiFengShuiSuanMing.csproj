@@ -638,6 +638,8 @@
     <Content Include="Views\Admin\category.cshtml" />
     <Content Include="Views\Admin\tieziList.cshtml" />
     <Content Include="Views\Admin\AdContent.cshtml" />
+    <Content Include="Views\Admin\bannerList.cshtml" />
+    <Content Include="Views\Admin\edit_banner.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

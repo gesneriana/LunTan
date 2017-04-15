@@ -87,6 +87,9 @@
     <Compile Include="Entity\article.cs">
       <DependentUpon>WeiQing.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\banner.cs">
+      <DependentUpon>WeiQing.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\bazijianpi.cs">
       <DependentUpon>WeiQing.tt</DependentUpon>
     </Compile>

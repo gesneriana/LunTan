@@ -18,7 +18,6 @@ namespace EFDao.Entity
         public WeiQingEntities()
             : base("name=WeiQingEntities")
         {
-            this.Database.Initialize(false);
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -39,5 +38,6 @@ namespace EFDao.Entity
         public virtual DbSet<title> title { get; set; }
         public virtual DbSet<tzreply> tzreply { get; set; }
         public virtual DbSet<user> user { get; set; }
+        public virtual DbSet<banner> banner { get; set; }
     }
 }
