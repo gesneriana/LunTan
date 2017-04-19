@@ -22,7 +22,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             try
             {
-                using (WeiQingEntities db = new WeiQingEntities())
+                using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
                 {
                     var ba = db.banner.OrderBy(x => x.sort).Take(12).ToList();
                     ViewData["bannerList"] = ba;
@@ -102,7 +102,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
 
                     using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, transactionOption))
                     {
-                        using (WeiQingEntities db = new WeiQingEntities())
+                        using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
                         {
                             var count = db.user.Where(p => p.nick_name.Equals(u.nick_name) || p.email.Equals(u.email)).Count();
                             if (count > 0)
@@ -156,7 +156,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
 
                     try
                     {
-                        using (WeiQingEntities db = new WeiQingEntities())
+                        using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
                         {
                             var user = db.user.Where(p => (p.nick_name.Equals(u.nick_name) || p.email.Equals(u.nick_name))
                             && p.pwd.Equals(u.pwd)).FirstOrDefault();
@@ -221,7 +221,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 {
                     try
                     {
-                        using (WeiQingEntities db = new WeiQingEntities())
+                        using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
                         {
                             var user = db.user.Where(p => p.nick_name.Equals(u.nick_name) && p.email.Equals(u.email)).FirstOrDefault();
                             // 检查用户名和邮箱是否匹配
@@ -292,7 +292,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                     try
                     {
                         string old_hash_pwd = HashTools.SHA1_Hash(u.pwd);   // 旧的hash密码
-                        using (WeiQingEntities db = new WeiQingEntities())
+                        using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
                         {
                             var user = db.user.Where(p => p.nick_name.Equals(u.nick_name) && p.pwd.Equals(old_hash_pwd)).FirstOrDefault();
                             if (user != null && u.nick_name.Equals(user.nick_name))
@@ -340,7 +340,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 try
                 {
                     reflectModel.setValues(model, false);
-                    using (WeiQingEntities db = new WeiQingEntities())
+                    using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
                     {
                         model.addtime = DateTime.Now;
                         db.bazijianpi.Add(model);
@@ -394,7 +394,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 if (u.nick_name.Length > 0 && u.pwd.Length > 0)
                 {
                     u.pwd = HashTools.SHA1_Hash(u.pwd);
-                    using (WeiQingEntities db = new WeiQingEntities())
+                    using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
                     {
                         var user = db.user.Where(x => (x.nick_name.Equals(u.nick_name) || x.email.Equals(u.nick_name)) && x.pwd.Equals(u.pwd) && x.state == 1).FirstOrDefault();
                         if (user != null && user.is_admin && user.id > 0)
@@ -423,7 +423,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             var state = System.Configuration.ConfigurationManager.AppSettings["InitPwd"];
             if ("1".Equals(state))
             {
-                using (WeiQingEntities db = new WeiQingEntities())
+                using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
                 {
                     if (id > 0)
                     {
@@ -487,7 +487,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (id > 0)
             {
-                using (WeiQingEntities db = new WeiQingEntities())
+                using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
                 {
                     var m = db.bazijianpi.Where(x => x.id == id).FirstOrDefault();
                     if (m != null && m.id > 0)
@@ -540,7 +540,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
 
                     using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, transOpt))
                     {
-                        using (WeiQingEntities db = new WeiQingEntities())
+                        using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
                         {
                             db.title.Add(t);
                             res = db.SaveChanges(); // 保存帖子标题
@@ -578,7 +578,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (id > 0)
             {
-                using (WeiQingEntities db = new WeiQingEntities())
+                using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
                 {
                     var title = (from t in db.title join us in db.user on t.uid equals us.id where t.id == id && t.state == 1 select new TitleExt() { uname = us.nick_name, id = t.id, addtime = t.addtime, art_title = t.art_title, keywords = t.keywords, state = t.state, uid = t.uid }).FirstOrDefault();
                     ViewData["title"] = title;  // 获取帖子标题
@@ -622,7 +622,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 model.addtime = DateTime.Now;
                 model.state = 1;    // 显示,被举报之后可能会屏蔽
                 model.uname = u.nick_name;
-                using (WeiQingEntities db = new WeiQingEntities())
+                using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
                 {
                     var tzuid = db.tiezi.Where(x => x.id == model.tzid).Select(x => x.uid).FirstOrDefault();    // 回复的帖子的uid
                     if (tzuid == u.id)
@@ -664,7 +664,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 model.addtime = DateTime.Now;
                 model.ip = Tools.GetRealIP();
                 model.state = 0;
-                using (WeiQingEntities db = new WeiQingEntities())
+                using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
                 {
                     var t1 = DateTime.Now.Date;
                     var ipCount = db.tiezi_jubao.Where(x => x.addtime > t1 && x.ip.Equals(model.ip)).Count();
@@ -702,7 +702,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 model.state = 1;
                 model.uname = user.nick_name;
                 // 获取楼层
-                using (WeiQingEntities db = new WeiQingEntities())
+                using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
                 {
                     var floor = db.tiezi.Where(x => x.tid == model.tid).Max(x => x.floor);
                     model.floor = floor + 1;    // 当前楼层加1
@@ -721,7 +721,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// <returns></returns>
         public ActionResult ycList(string key = "", int page = 1)
         {
-            using (WeiQingEntities db = new WeiQingEntities())
+            using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
             {
                 if (key != null && key.Length > 0)
                 {
@@ -749,7 +749,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// <returns></returns>
         public ActionResult titleList(string key = "", int page = 1)
         {
-            using (WeiQingEntities db = new WeiQingEntities())
+            using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
             {
                 if (key != null && key.Length > 0)
                 {
@@ -806,7 +806,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         public ActionResult artList(int cateid = 1, string key = "", int page = 1)
         {
             ViewData["cateid"] = cateid;
-            using (WeiQingEntities db = new WeiQingEntities())
+            using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
             {
                 if (key != null && key.Length > 0)
                 {
@@ -888,7 +888,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// <returns></returns>
         public ActionResult liuyanList(int page = 1)
         {
-            using(WeiQingEntities db=new WeiQingEntities())
+            using(bazifengshuisuanmingEntities db=new bazifengshuisuanmingEntities())
             {
                 var q = db.liuyanban.Where(x => x.state == 1).OrderByDescending(x => x.addtime);
                 var p = new EFPaging<liuyanban>();

@@ -101,41 +101,17 @@ namespace Common.Utility
         }
 
         /// <summary>
-        /// 设置数据缓存,默认值为30分钟自动过期, 如果刷新则重新累计, 如果修改缓存在数据库中的数据, 则应立即清除缓存, 以免加载了旧数据
+        /// 设置指定的分钟之后过期, 如果修改缓存在数据库中的数据, 则应立即清除缓存, 以免加载了旧数据
         /// </summary>
         /// <param name="CacheKey"></param>
-        /// <param name="objObject"></param>
-        /// <param name="expire">默认为30分钟过期,false不过期</param>
-        public static void SetCache(string CacheKey, object objObject, bool expire = true)
+        /// <param name="model"></param>
+        /// <param name="minute"></param>
+        public static void setCache(string CacheKey, object model, int minute = 30)
         {
-            Cache objCache = HttpRuntime.Cache;
-            if (expire)
-            {
-                objCache.Insert(CacheKey, objObject, null, Cache.NoAbsoluteExpiration, new TimeSpan(0, 30, 0));
-            }
-            else
-            {
-                objCache.Insert(CacheKey, objObject);
-            }
+            Cache cache = HttpRuntime.Cache;
+            cache.Insert(CacheKey, model, null, Cache.NoAbsoluteExpiration, new TimeSpan(0, minute, 0));
         }
 
-        /// <summary>  
-        /// 设置数据缓存  
-        /// </summary>  
-        public static void SetCache(string CacheKey, object objObject, TimeSpan Timeout)
-        {
-            Cache objCache = HttpRuntime.Cache;
-            objCache.Insert(CacheKey, objObject, null, DateTime.MaxValue, Timeout, CacheItemPriority.NotRemovable, null);
-        }
-
-        /// <summary>  
-        /// 设置数据缓存  
-        /// </summary>  
-        public static void SetCache(string CacheKey, object objObject, DateTime absoluteExpiration, TimeSpan slidingExpiration)
-        {
-            Cache objCache = HttpRuntime.Cache;
-            objCache.Insert(CacheKey, objObject, null, absoluteExpiration, slidingExpiration);
-        }
 
         /// <summary>  
         /// 移除指定数据缓存  

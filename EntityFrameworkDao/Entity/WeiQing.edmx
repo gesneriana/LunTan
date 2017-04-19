@@ -14,6 +14,7 @@
           <Property Name="last_change" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="content" Type="varchar" MaxLength="2000" Nullable="false" />
           <Property Name="weizhi" Type="int" Nullable="false" />
+          <Property Name="url" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="article">
           <Key>
@@ -201,6 +202,7 @@
           <Property Name="last_change" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="content" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="weizhi" Type="Int32" Nullable="false" />
+          <Property Name="url" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="article">
           <Key>
@@ -384,6 +386,7 @@
           <EntitySetMapping Name="adcontent">
             <EntityTypeMapping TypeName="bazifengshuisuanmingModel.adcontent">
               <MappingFragment StoreEntitySet="adcontent">
+                <ScalarProperty Name="url" ColumnName="url" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="uid" ColumnName="uid" />
                 <ScalarProperty Name="last_change" ColumnName="last_change" />

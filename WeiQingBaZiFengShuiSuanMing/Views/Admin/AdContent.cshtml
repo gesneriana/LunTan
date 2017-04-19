@@ -1,7 +1,16 @@
 ﻿@{
     Layout = null;
 }
-
+@{ 
+    var left = (EFDao.Entity.adcontent)ViewData["left"];
+    var right=(EFDao.Entity.adcontent)ViewData["right"];
+    var title= (EFDao.Entity.adcontent)ViewData["title"];
+    var foot = (EFDao.Entity.adcontent)ViewData["foot"];
+    if (left == null) { left = new EFDao.Entity.adcontent(); }
+    if (right == null) { right = new EFDao.Entity.adcontent(); }
+    if (title == null) { title = new EFDao.Entity.adcontent(); }
+    if (foot == null) { foot = new EFDao.Entity.adcontent(); }
+}
 <!DOCTYPE html>
 
 <html>
@@ -94,23 +103,35 @@
 
         var ul = UE.getEditor('editor_left');
         ul.ready(function () {
-            ul.setContent('@Html.Raw(ViewData["left"])');
+            ul.setContent('@Html.Raw(left.content)');
         });
 
         var ur = UE.getEditor('editor_right');
         ur.ready(function () {
-            ur.setContent('@Html.Raw(ViewData["right"])');
+            ur.setContent('@Html.Raw(right.content)');
+        });
+
+        var ueTitle = UE.getEditor('editor_title');
+        ueTitle.ready(function () {
+            ueTitle.setContent('@Html.Raw(title.content)');
         });
 
         // 保存左侧
         function saveAd(loc) {
             var content = '';
+            var url = '';
             if (loc == 'left') {
                 content = ul.getContent();
+                url = $("#url1").val();
             } else if (loc == 'right') {
+                url = $("#url2").val();
                 content = ur.getContent();
             }
 
+            if (url == '' || url.length == 0) {
+                alert("请输入url");
+                return;
+            }
             if (content == '' || content.length == 0) {
                 alert("请输入内容");
                 return;
@@ -122,13 +143,82 @@
             $.ajax({
                 type: "POST",
                 url: "/admin/updateAd",
-                data: "loc=" + loc + "&content=" + content,
+                data: "loc=" + loc + "&content=" + content + "&url=" + url,
                 error: function (request) {
                     alert('请求错误');
                 },
                 success: function (data) {
-                    alert(data);
                     if (data > 0) {
+                        alert("修改成功,由于使用了缓存技术,等10分钟后才会显示最新的内容,或者重启网站立即生效");
+                        location.href = '@Request.RawUrl';
+                    } else if (data == 0) {
+                        alert("未更改任何内容");
+                    } else {
+                        alert("修改失败:" + data);
+                    }
+                }
+            });
+        }
+
+        // 保存标题栏的内容
+        function saveTitle() {
+            var content = ueTitle.getContent();
+            if (content == '' || content.length == 0) {
+                alert("请输入内容");
+                return;
+            }
+            if (content.indexOf('<p>') >= 0 && content.indexOf('</p>') < 0) {
+                alert("输入的内容数据异常");
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/admin/updateAdTitle",
+                data: "content=" + content,
+                error: function (request) {
+                    alert('请求错误');
+                },
+                success: function (data) {
+                    if (data > 0) {
+                        alert("修改成功,由于使用了缓存技术,等10分钟后才会显示最新的内容,或者重启网站立即生效");
+                        location.href = '@Request.RawUrl';
+                    } else if (data == 0) {
+                        alert("未更改任何内容");
+                    } else {
+                        alert("修改失败:" + data);
+                    }
+                }
+            });
+        }
+
+        // 获取url
+        function getUrl(id) {
+            var fullurl = $("#fullurl" + id).val();
+            fullurl = fullurl.replace("//", "");
+            if (fullurl.indexOf('/') >= 0) {
+                var url = fullurl.substring(fullurl.indexOf('/'));
+                $("#url" + id).val(url);
+            }
+        }
+
+        function saveFoot() {
+            var content = $("#editor_foot").val();
+            if (content == '' || content.length == 0) {
+                alert("请输入内容");
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/admin/updateAdFoot",
+                data: "content=" + content,
+                error: function (request) {
+                    alert('请求错误');
+                },
+                success: function (data) {
+                    if (data > 0) {
+                        alert("修改成功,由于使用了缓存技术,等10分钟后才会显示最新的内容,或者重启网站立即生效");
                         location.href = '@Request.RawUrl';
                     } else if (data == 0) {
                         alert("未更改任何内容");
@@ -142,10 +232,12 @@
 </head>
 <body>
     <div style="text-align:center;">发布的文章列表</div>
-    <div style="width:800px;min-height:100px;margin:0px auto 0px;">
+
+
+    <div style="width:1000px;min-height:100px;margin:0px auto 0px;">
         <table style="width:100%;">
             <tr>
-                <td style="width:60px;">位置:</td>
+                <td style="width:100px;">位置:</td>
                 <td>左侧的广告位(660*40),可以把指定尺寸(660*40)的图片复制进来</td>
             </tr>
             <tr>
@@ -156,16 +248,26 @@
                 </td>
             </tr>
             <tr>
+                <td title="本站文章的url">跳转链接:</td>
+                <td><input type="text" id="fullurl1" onchange="getUrl('1')" /> </td>
+            </tr>
+            <tr>
+                <td>相对路径:</td>
+                <td><input type="text" name="url" readonly="readonly" value="@left.url" id="url1" /> </td>
+            </tr>
+            <tr>
                 <td></td>
                 <td><div class="blueBtn_s" onclick="saveAd('left')">保存</div> </td>
             </tr>
         </table>
     </div>
 
-    <div style="width:800px;min-height:100px;margin:0px auto 0px;">
+    <div style="height:50px;"></div>
+
+    <div style="width:1000px;min-height:100px;margin:0px auto 0px;">
         <table style="width:100%;">
             <tr>
-                <td style="width:60px;">位置:</td>
+                <td style="width:100px;">位置:</td>
                 <td>右侧的广告位(330*40),可以把指定尺寸(330*40)的图片复制进来</td>
             </tr>
             <tr>
@@ -176,8 +278,61 @@
                 </td>
             </tr>
             <tr>
+                <td title="本站文章的url">跳转链接:</td>
+                <td><input type="text" id="fullurl2" onchange="getUrl('2')" /> </td>
+            </tr>
+            <tr>
+                <td>相对路径:</td>
+                <td><input type="text" name="url" readonly="readonly" value="@right.url" id="url2" /> </td>
+            </tr>
+            <tr>
                 <td></td>
                 <td><div class="blueBtn_s" onclick="saveAd('right')">保存</div> </td>
+            </tr>
+        </table>
+    </div>
+
+    <div style="height:50px;"></div>
+
+    <div style="width:1200px;min-height:100px;margin:0px auto 0px;">
+        <table style="width:100%;">
+            <tr>
+                <td style="width:100px;">位置:</td>
+                <td>标题栏(1000*60),可以把指定尺寸(1000*60)的图片复制进来</td>
+            </tr>
+            <tr>
+                <td>内容:</td>
+                <td>
+                    <script id="editor_title" type="text/plain" style="width:1000px;height:60px;">
+                    </script>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><div class="blueBtn_s" onclick="saveTitle()">保存</div> </td>
+            </tr>
+        </table>
+    </div>
+
+    <div style="height:50px;"></div>
+
+    <div style="width:1200px;min-height:100px;margin:0px auto 0px;">
+        <table style="width:100%;">
+            <tr>
+                <td style="width:100px;">位置:</td>
+                <td>底部</td>
+            </tr>
+            <tr>
+                <td>内容:</td>
+                <td>
+                    <textarea id="editor_foot" style="width:1000px;height:32px;">
+                        @foot.content
+                    </textarea>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><div class="blueBtn_s" onclick="saveFoot()">保存</div> </td>
             </tr>
         </table>
     </div>

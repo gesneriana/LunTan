@@ -19,5 +19,6 @@ namespace EFDao.Entity
         public System.DateTime last_change { get; set; }
         public string content { get; set; }
         public int weizhi { get; set; }
+        public string url { get; set; }
     }
 }

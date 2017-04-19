@@ -26,7 +26,7 @@ namespace EFDao.Entity
         public static T select<T>(int id) where T : class, new()
         {
             string tableName = typeof(T).Name;
-            using (WeiQingEntities db = new WeiQingEntities())
+            using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
             {
                 var set = db.Set<T>();
                 var model = set.SqlQuery(string.Format("select * from `{0}` where id={1}", tableName, id)).FirstOrDefault();
@@ -44,7 +44,7 @@ namespace EFDao.Entity
         /// <returns></returns>
         public static List<T> selectList<T>(string sql, params object[] param) where T : class, new()
         {
-            using (WeiQingEntities db = new WeiQingEntities())
+            using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
             {
                 var set = db.Set<T>();
                 var list = set.SqlQuery(sql, param).ToList();
@@ -60,7 +60,7 @@ namespace EFDao.Entity
         public static List<T> selectAll<T>() where T : class, new()
         {
             string tableName = typeof(T).Name;
-            using (WeiQingEntities db = new WeiQingEntities())
+            using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
             {
                 var set = db.Set<T>();
                 var list = set.SqlQuery(string.Format("select * from `{0}`", tableName)).ToList();
@@ -77,7 +77,7 @@ namespace EFDao.Entity
         {
             Type t = obj.GetType();
             int effect = -1;
-            using (WeiQingEntities con = new WeiQingEntities())
+            using (bazifengshuisuanmingEntities con = new bazifengshuisuanmingEntities())
             {
                 con.Database.Log = new Action<string>(q => Debug.WriteLine(q));
                 DbSet set = con.Set(t);
@@ -95,7 +95,7 @@ namespace EFDao.Entity
         /// <returns></returns>
         public static int insert<T>(T model) where T : class
         {
-            using (WeiQingEntities db = new WeiQingEntities())
+            using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
             {
                 DbSet<T> set = db.Set<T>();
                 set.Add(model);
@@ -116,7 +116,7 @@ namespace EFDao.Entity
             if (et.MoveNext())
             {
                 Type t = et.Current.GetType();
-                using (WeiQingEntities con = new WeiQingEntities())
+                using (bazifengshuisuanmingEntities con = new bazifengshuisuanmingEntities())
                 {
                     con.Database.Log = new Action<string>(q => Debug.WriteLine(q));
                     DbSet set = con.Set(t);
@@ -138,7 +138,7 @@ namespace EFDao.Entity
         public static int Update(object obj)
         {
             int effect = -1;
-            using (WeiQingEntities con = new WeiQingEntities())
+            using (bazifengshuisuanmingEntities con = new bazifengshuisuanmingEntities())
             {
                 con.Database.Log = new Action<string>(q => Debug.WriteLine(q));
                 DbEntityEntry entry = con.Entry(obj);
@@ -156,7 +156,7 @@ namespace EFDao.Entity
         /// <returns></returns>
         public static int update<T>(T model) where T : class
         {
-            using (WeiQingEntities db = new WeiQingEntities())
+            using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
             {
                 var ent = db.Entry(model);
                 ent.State = EntityState.Modified;
@@ -176,7 +176,7 @@ namespace EFDao.Entity
             if (et.MoveNext())
             {
                 Type t = et.Current.GetType();
-                using (WeiQingEntities con = new WeiQingEntities())
+                using (bazifengshuisuanmingEntities con = new bazifengshuisuanmingEntities())
                 {
                     con.Database.Log = new Action<string>(q => Debug.WriteLine(q));
                     foreach (var o in objs)
@@ -199,7 +199,7 @@ namespace EFDao.Entity
         public static int Delete(object obj)
         {
             int effect = -1;
-            using (WeiQingEntities con = new WeiQingEntities())
+            using (bazifengshuisuanmingEntities con = new bazifengshuisuanmingEntities())
             {
                 con.Database.Log = new Action<string>(q => Debug.WriteLine(q));
                 DbEntityEntry entry = con.Entry(obj);
@@ -217,7 +217,7 @@ namespace EFDao.Entity
         /// <returns></returns>
         public static int delete<T>(T model) where T : class
         {
-            using(WeiQingEntities db=new WeiQingEntities())
+            using(bazifengshuisuanmingEntities db=new bazifengshuisuanmingEntities())
             {
                 var ent = db.Entry(model);
                 ent.State = EntityState.Deleted;
@@ -238,7 +238,7 @@ namespace EFDao.Entity
             if (et.MoveNext())
             {
                 Type t = et.Current.GetType();
-                using (WeiQingEntities con = new WeiQingEntities())
+                using (bazifengshuisuanmingEntities con = new bazifengshuisuanmingEntities())
                 {
                     con.Database.Log = new Action<string>(q => Debug.WriteLine(q));
                     foreach (var o in objs)

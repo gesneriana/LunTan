@@ -240,17 +240,6 @@
                 }
             });
 
-            @{
-                if (!ViewContext.RouteData.Values["action"].ToString().ToLower().Equals("baziyuceexplain"))
-                {
-                    <text>
-                        $("#yuce .yuce_lt").click(function () {
-                            window.open("/index/BaziyuceExplain", "_blank");
-                        });
-                    </text>
-                }
-            }
-
         });
 
         // 登录
@@ -443,28 +432,40 @@
     @*主体*@
     <div id="main" style="width:1000px;margin:0px auto 0px;height:auto;">
 
-        @*简介*@
-        <div style="width:100%;height:60px;">
-            <div style="height:60px;width:440px;float:left;background-color:#EAE2D5;">
-                <img src="~/imgs/title.png" title="魏清八字风水算命论坛" height="60" />
-            </div>
-            <div id="top_rt">
-                欢迎加入算命风水相术中医交流群: 372417319
-                <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=102983be9cfa6dc4b4e22a6fcfa8f67dda93e3bdeffdae8aaead089c1295c240">
-                    <img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="算命风水相术中医" title="算命风水相术中医">
-                </a>,八字、算命、风水堪舆、手面相、择日取名、六爻八卦、壬遁太乙、相法星象专业预测群，
-                由群主清清流水——魏清每天坐堂免费预测，欢迎问测者加入！
-            </div>
-        </div>
+        @{ var dic = EFDao.BLL.getData.getAdContent();}
 
+        @*简介*@
+        @{
+            if (!dic.ContainsKey("title"))
+            {
+                <div style="width:100%;height:60px;">
+                    <div style="height:60px;width:440px;float:left;background-color:#EAE2D5;">
+                        <img src="~/imgs/title.png" title="魏清八字风水算命论坛" height="60" />
+                    </div>
+                    <div id="top_rt">
+                        欢迎加入算命风水相术中医交流群: 372417319
+                        <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=102983be9cfa6dc4b4e22a6fcfa8f67dda93e3bdeffdae8aaead089c1295c240">
+                            <img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="算命风水相术中医" title="算命风水相术中医">
+                        </a>,八字、算命、风水堪舆、手面相、择日取名、六爻八卦、壬遁太乙、相法星象专业预测群，
+                        由群主清清流水——魏清每天坐堂免费预测，欢迎问测者加入！
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div style="width:100%;height:60px;">
+                    @Html.Raw(dic["title"].content)
+                </div>
+            }
+        }
 
         @*预测*@
         <div id="yuce">
-            @{ var dic = EFDao.BLL.getData.getAdContent();}
+
             @*左边的八字预测*@
-            <div class="yuce_lt">
-                @if (dic["left"] == null)
-                {
+            @if (!dic.ContainsKey("left"))
+            {
+                <div class="yuce_lt">
                     <div style="height:40px;width:80px;float:left;">
                         <img src="~/imgs/weixin.jpg" height="40" />
                     </div>
@@ -478,18 +479,19 @@
                         </div>
                         <div class="mfycgq"><img src="~/imgs/mfycgq.png" height="40" /></div>
                     </div>
-                }
-                else
-                {
-                    <div>
-                        @Html.Raw(dic["left"])
-                    </div>
-                }
-            </div>
+                </div>
+            }
+            else
+            {
+                <div class="yuce_lt" @{if (dic["left"].url != null && dic["left"].url.Length > 0) { <text> onclick="javascript:window.open('@dic["left"].url','_blank')" </text>    }}>
+                    @Html.Raw(dic["left"].content)
+                </div>
+            }
+
 
             @*右边的八卦六爻预测*@
             <div class="yuce_rt">
-                @if (dic["right"] == null)
+                @if (!dic.ContainsKey("right"))
                 {
                     <div style="height:40px;width:80px;float:left;">
                         <img src="~/imgs/weixin.jpg" height="40" />
@@ -500,11 +502,12 @@
                 }
                 else
                 {
-                    <div>
-                        @Html.Raw(dic["right"])
+                    <div @{if (dic["right"].url != null && dic["right"].url.Length > 0) { <text> onclick="javascript:window.open('@dic["right"].url','_blank')" </text> }}>
+                        @Html.Raw(dic["right"].content)
                     </div>
                 }
             </div>
+
         </div>
 
 
@@ -514,14 +517,14 @@
 
 
             @*内容视图页部分*@
-            <div class="rb_lt" style="width:660px;min-height:910px;margin-top:5px;background-color:#FDFDF8;display:inline-block;">
+            <div class="rb_lt" style="width:660px;min-height:950px;margin-top:5px;background-color:#FDFDF8;display:inline-block;">
                 @RenderBody()
             </div>
 
 
 
             @*右侧公用部分*@
-            <div class="rb_rt" style="width:330px;min-height:910px;margin-top:5px;background-color:#FDFDF8;float:right;">
+            <div class="rb_rt" style="width:330px;min-height:950px;margin-top:5px;background-color:#FDFDF8;float:right;">
 
                 @*公告板*@
                 <div style="width:100%;min-height:200px;">
@@ -648,7 +651,13 @@
                         </table>
                     </div>
                     <div style="text-align:center;">
-                        <input type="text" id="liuyanban" placeholder="请输入留言内容" style="height:22px;width:200px;" /><div class="blueBtn_s" onclick="liuyan()">我要留言</div>
+                        <table style="width:100%;">
+                            <tr>
+                                <td><textarea type="text" id="liuyanban" placeholder="请输入留言内容" style="height:60px;width:200px;"></textarea></td>
+                                <td valign="middle"><div class="blueBtn_s" onclick="liuyan()">我要留言</div></td>
+                            </tr>
+                        </table>
+                        
                     </div>
                 </div>
 
@@ -661,7 +670,14 @@
     </div>
 
     <div id="foot" style="height:32px;background-color:#643420;width:100%;text-align:center;line-height:32px;color:#ccc;font-size:10px;">
-        power by QQ 694060865 &emsp;&emsp;魏清八字风水算命论坛预祝所有求测者一帆风顺,生活愉快
+        @if (!dic.ContainsKey("foot"))
+        {
+            <text>power by QQ 694060865 &emsp; &emsp; 魏清八字风水算命论坛预祝所有求测者一帆风顺,生活愉快</text>
+        }
+        else
+        {
+            <text>@dic["foot"].content</text>
+        }
     </div>
 
     <div id="hide_div" style="display:none;border:1px solid #aaa;width:500px;height:320px;position:fixed;z-index:2;left:50%;margin-left:-250px;top:50%;margin-top:-160px;">

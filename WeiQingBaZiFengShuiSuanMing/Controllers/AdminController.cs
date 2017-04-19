@@ -18,7 +18,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// <returns></returns>
         public ActionResult index(string key = "", int page = 1)
         {
-            using (WeiQingEntities db = new WeiQingEntities())
+            using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
             {
                 var efp = new EFPaging<bazijianpi>();
                 if (key != null && key.Length > 0)
@@ -48,7 +48,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 if (cateDic.Count == 0)
                 {
                     cateDic = EfExt.selectAll<category>().ToDictionary(x => x.id);
-                    httpCacheHelper.SetCache("cateDic", cateDic);   // 从数据库查询,设置到缓存中
+                    httpCacheHelper.setCache("cateDic", cateDic);   // 从数据库查询,设置到缓存中
                 }
 
                 ViewData["cateList"] = cateDic.Values.ToList();
@@ -66,7 +66,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             {
                 return Redirect("/admin/index");
             }
-            using (WeiQingEntities db = new WeiQingEntities())
+            using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
             {
                 var m = db.bazijianpi.Where(x => x.id == id).FirstOrDefault();
                 if (m != null && m.id > 0)
@@ -89,7 +89,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             if (model != null && model.id > 0)
             {
                 reflectModel.setValues(model);
-                using (WeiQingEntities db = new WeiQingEntities())
+                using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
                 {
                     var jp = db.bazijianpi.Where(x => x.id == model.id).FirstOrDefault();
                     if (jp != null && jp.id > 0)
@@ -115,7 +115,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             if (model != null && model.content != null && model.content.Length > 0)
             {
                 var user = (user)Session["user"];
-                using (WeiQingEntities db = new WeiQingEntities())
+                using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
                 {
                     var count = db.notice.Count();
                     if (count == 0)
@@ -155,7 +155,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// <returns></returns>
         public ActionResult userList(string key = "", int page = 1)
         {
-            using (WeiQingEntities db = new WeiQingEntities())
+            using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
             {
                 if (key != null && key.Length > 0)
                 {
@@ -186,7 +186,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (id > 0)
             {
-                using (WeiQingEntities db = new WeiQingEntities())
+                using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
                 {
                     var u = db.user.Where(x => x.id == id).FirstOrDefault();
                     if (u != null && u.id > 0)
@@ -265,7 +265,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// <returns></returns>
         public ActionResult jubaoshenpi(int page = 1)
         {
-            using (WeiQingEntities db = new WeiQingEntities())
+            using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
             {
                 var q = from t in db.tiezi_jubao orderby t.state, t.addtime select t;
                 var p = new EFPaging<tiezi_jubao>();
@@ -285,7 +285,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (id > 0)
             {
-                using (WeiQingEntities db = new WeiQingEntities())
+                using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
                 {
                     var t = (from te in db.tiezi where te.id == id select te).FirstOrDefault();
                     var model = reflectModel.AutoCopyToChild<tiezi, TieZiExt>(t);   // 获取当前id的帖子对象
@@ -315,7 +315,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (model != null && model.id > 0 && jbid > 0)
             {
-                using (WeiQingEntities db = new WeiQingEntities())
+                using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
                 {
                     int res = 0;
                     var t = db.tiezi.Where(x => x.id == model.id).FirstOrDefault();
@@ -394,7 +394,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// <returns></returns>
         public ActionResult artList(string key = "", int page = 1)
         {
-            using (WeiQingEntities db = new WeiQingEntities())
+            using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
             {
                 if (key != null && key.Length > 0)
                 {
@@ -419,7 +419,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 if (cateDic.Count == 0)
                 {
                     cateDic = EfExt.selectAll<category>().ToDictionary(x => x.id);
-                    httpCacheHelper.SetCache("cateDic", cateDic);   // 从数据库查询,设置到缓存中
+                    httpCacheHelper.setCache("cateDic", cateDic);   // 从数据库查询,设置到缓存中
                 }
                 ViewData["cateDic"] = cateDic;
 
@@ -446,7 +446,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                     if (cateDic.Count == 0)
                     {
                         cateDic = EfExt.selectAll<category>().ToDictionary(x => x.id);
-                        httpCacheHelper.SetCache("cateDic", cateDic);   // 从数据库查询,设置到缓存中
+                        httpCacheHelper.setCache("cateDic", cateDic);   // 从数据库查询,设置到缓存中
                     }
                     ViewData["cateDic"] = cateDic;
 
@@ -482,7 +482,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// <returns></returns>
         public ActionResult liuyanList(int page = 1)
         {
-            using (WeiQingEntities db = new WeiQingEntities())
+            using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
             {
                 var q = db.liuyanban.OrderByDescending(x => x.state).ThenByDescending(x => x.addtime);
                 var p = new EFPaging<liuyanban>();
@@ -503,7 +503,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (id > 0 && state >= 0)
             {
-                using (WeiQingEntities db = new WeiQingEntities())
+                using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
                 {
                     var m = db.liuyanban.Where(x => x.id == id).FirstOrDefault();
                     if (m != null && m.id > 0)
@@ -527,7 +527,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             if (cateDic.Count == 0)
             {
                 cateDic = EfExt.selectAll<category>().ToDictionary(x => x.id);
-                httpCacheHelper.SetCache("cateDic", cateDic);   // 从数据库查询,设置到缓存中
+                httpCacheHelper.setCache("cateDic", cateDic);   // 从数据库查询,设置到缓存中
             }
             ViewData["flList"] = cateDic.Values.ToList();
             return View();
@@ -543,7 +543,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (model.category_name != null && model.category_name.Length > 0 && model.sort >= 0 && model.sort <= 100 && img != null && img.ContentLength > 0)
             {
-                using (WeiQingEntities db = new WeiQingEntities())
+                using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
                 {
                     var count = db.category.Count();
                     if (count >= 7)
@@ -570,7 +570,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
             if (model.id > 0 && model.category_name != null && model.category_name.Length > 0 && model.sort >= 0 && model.sort <= 100)
             {
                 reflectModel.setValues(model);  // 图片为空,清除null值
-                using (WeiQingEntities db = new WeiQingEntities())
+                using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
                 {
                     var m = db.category.Where(x => x.id == model.id).FirstOrDefault();
                     if (m != null && m.id > 0)
@@ -606,7 +606,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// <returns></returns>
         public ActionResult tieziList(string key = "", int page = 1)
         {
-            using(WeiQingEntities db=new WeiQingEntities())
+            using(bazifengshuisuanmingEntities db=new bazifengshuisuanmingEntities())
             {
                 if (key != null && key.Length > 0)
                 {
@@ -669,7 +669,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         {
             if (model != null && model.id > 0 && model.sort <= 100 && model.sort >= 0)
             {
-                using(WeiQingEntities db=new WeiQingEntities())
+                using(bazifengshuisuanmingEntities db=new bazifengshuisuanmingEntities())
                 {
                     var m = db.title.Where(x => x.id == model.id).FirstOrDefault();
                     if (m != null && m.id > 0)
@@ -705,12 +705,16 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// <returns></returns>
         public ActionResult AdContent()
         {
-            using (WeiQingEntities db = new WeiQingEntities())
+            using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
             {
                 var left = db.adcontent.Where(x => x.weizhi == 1).FirstOrDefault();
-                ViewData["left"] = left == null || left.id <= 0 ? "" : left.content;
+                ViewData["left"] = left;
                 var right = db.adcontent.Where(x => x.weizhi == 2).FirstOrDefault();
-                ViewData["right"] = right == null || right.id <= 0 ? "" : right.content;
+                ViewData["right"] = right;
+                var title = db.adcontent.Where(x => x.weizhi == 3).FirstOrDefault();
+                ViewData["title"] = title;
+                var foot = db.adcontent.Where(x => x.weizhi == 4).FirstOrDefault();
+                ViewData["foot"] = foot;
             }
             return View();
         }
@@ -722,7 +726,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         /// <param name="loc"></param>
         /// <returns></returns>
         [ValidateInput(false)]
-        public ActionResult updateAd(string content = "", WeiZhi loc = WeiZhi.left)
+        public ActionResult updateAd(string content = "", WeiZhi loc = WeiZhi.left, string url = "")
         {
             if (content != null && content.Length > 0)
             {
@@ -731,7 +735,7 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                 var wz = (int)loc;
                 try
                 {
-                    using (WeiQingEntities db = new WeiQingEntities())
+                    using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
                     {
                         adcontent adc = new adcontent();
                         var list = EfExt.selectList<adcontent>("select * from adcontent where weizhi=" + wz);
@@ -744,12 +748,13 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
                         {
                             adc.last_change = dt;
                             adc.content = content;
+                            adc.url = url;
                             var ent = db.Entry(adc);
                             ent.State = System.Data.Entity.EntityState.Modified;
                         }
                         else
                         {
-                            var ad = new adcontent() { last_change = dt, content = content, weizhi = wz, uid = (int)u.id };
+                            var ad = new adcontent() { last_change = dt, content = content, weizhi = wz, uid = (int)u.id, url = url };
                             db.adcontent.Add(ad);
                         }
                         return Content(db.SaveChanges().ToString());
@@ -765,13 +770,88 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers
         }
 
         /// <summary>
+        /// 更新标题栏的内容
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        [ValidateInput(false)]
+        public ActionResult updateAdTitle(string content = "")
+        {
+            if (content != null && content.Length > 0)
+            {
+                using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
+                {
+                    adcontent adc = null;
+                    var list = EfExt.selectList<adcontent>("select * from adcontent where weizhi=" + 3);
+                    if (list != null && list.Count > 0)
+                    {
+                        adc = list[0];
+                    }
+
+                    if (adc != null && adc.id > 0)
+                    {
+                        adc.last_change = DateTime.Now;
+                        adc.content = content;
+                        var ent = db.Entry(adc);
+                        ent.State = System.Data.Entity.EntityState.Modified;
+                    }
+                    else
+                    {
+                        var u = (user)Session["user"];
+                        var ad = new adcontent() { last_change = DateTime.Now, content = content, weizhi = 3, uid = (int)u.id, url = "" };
+                        db.adcontent.Add(ad);
+                    }
+                    return Content(db.SaveChanges().ToString());
+                }
+            }
+            return Content("-1");
+        }
+
+        /// <summary>
+        /// 更新底部的文字内容
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public ActionResult updateAdFoot(string content = "")
+        {
+            if (content != null && content.Length > 0)
+            {
+                using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
+                {
+                    adcontent adc = null;
+                    var list = EfExt.selectList<adcontent>("select * from adcontent where weizhi=" + 4);
+                    if (list != null && list.Count > 0)
+                    {
+                        adc = list[0];
+                    }
+
+                    if (adc != null && adc.id > 0)
+                    {
+                        adc.last_change = DateTime.Now;
+                        adc.content = content;
+                        var ent = db.Entry(adc);
+                        ent.State = System.Data.Entity.EntityState.Modified;
+                    }
+                    else
+                    {
+                        var u = (user)Session["user"];
+                        var ad = new adcontent() { last_change = DateTime.Now, content = content, weizhi = 4, uid = (int)u.id, url = "" };
+                        db.adcontent.Add(ad);
+                    }
+                    return Content(db.SaveChanges().ToString());
+                }
+            }
+            return Content("-1");
+        }
+
+        /// <summary>
         /// 获取热门内容的列表
         /// </summary>
         /// <param name="page"></param>
         /// <returns></returns>
         public ActionResult bannerList(int page=1)
         {
-            using(WeiQingEntities db=new WeiQingEntities())
+            using(bazifengshuisuanmingEntities db=new bazifengshuisuanmingEntities())
             {
                 var q = db.banner.OrderBy(x => x.sort);
                 var p = new EFPaging<banner>();

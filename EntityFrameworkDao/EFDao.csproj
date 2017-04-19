@@ -167,6 +167,12 @@
       <LastGenOutput>WeiQing.cs</LastGenOutput>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{20bd0f3f-9ca7-4a8c-8a10-01166bf781ae}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

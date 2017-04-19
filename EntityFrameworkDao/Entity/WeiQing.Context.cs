@@ -13,10 +13,10 @@ namespace EFDao.Entity
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class WeiQingEntities : DbContext
+    public partial class bazifengshuisuanmingEntities : DbContext
     {
-        public WeiQingEntities()
-            : base("name=WeiQingEntities")
+        public bazifengshuisuanmingEntities()
+            : base("name=bazifengshuisuanmingEntities")
         {
         }
     
