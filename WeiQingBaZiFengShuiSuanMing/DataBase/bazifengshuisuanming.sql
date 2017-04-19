@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-04-15 19:18:56
+Date: 2017-04-19 23:51:45
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -25,14 +25,17 @@ CREATE TABLE `adcontent` (
   `last_change` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
   `content` varchar(2000) NOT NULL DEFAULT '' COMMENT '广告内容',
   `weizhi` int(11) NOT NULL DEFAULT '0' COMMENT '位置',
+  `url` varchar(50) NOT NULL DEFAULT '' COMMENT '设置点击广告栏之后跳转的链接',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of adcontent
 -- ----------------------------
-INSERT INTO `adcontent` VALUES ('1', '1', '2017-04-15 00:47:57', '<p>八字详批200.</p>', '1');
-INSERT INTO `adcontent` VALUES ('2', '1', '2017-04-15 01:01:38', '<p>八卦六爻预测</p>', '2');
+INSERT INTO `adcontent` VALUES ('1', '1', '2017-04-15 00:47:57', '<p>八字详批200.</p>', '1', '/index/bzjp/1');
+INSERT INTO `adcontent` VALUES ('2', '1', '2017-04-15 01:01:38', '<p>八卦六爻预测</p>', '2', '/index/article/1');
+INSERT INTO `adcontent` VALUES ('3', '1', '2017-04-19 22:56:39', '<p><img src=\"/ueditor/net/upload/image/20170419/6362823934656909017948436.png\" title=\"blob.png\" alt=\"blob.png\"/></p>', '3', '');
+INSERT INTO `adcontent` VALUES ('4', '1', '2017-04-19 23:32:28', '底部的内容可以修改了,论坛快要上线了', '4', '');
 
 -- ----------------------------
 -- Table structure for article
@@ -73,7 +76,7 @@ CREATE TABLE `banner` (
   `img` varchar(255) NOT NULL DEFAULT '' COMMENT '图片路径',
   `url` varchar(255) NOT NULL DEFAULT '' COMMENT '指向的链接',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of banner
@@ -122,7 +125,7 @@ CREATE TABLE `category` (
 -- ----------------------------
 -- Records of category
 -- ----------------------------
-INSERT INTO `category` VALUES ('1', '手相分析 ', '66', '/upload/imgs/636273892794775857358992.png');
+INSERT INTO `category` VALUES ('1', '手相分析1', '66', '/upload/imgs/636273892794775857358992.png');
 INSERT INTO `category` VALUES ('2', '命学浅析', '100', '');
 INSERT INTO `category` VALUES ('3', '面相分析', '100', '');
 INSERT INTO `category` VALUES ('4', '六爻预测', '100', '/upload/imgs/636274197555383991007020.jpg');
@@ -179,7 +182,7 @@ CREATE TABLE `login_log` (
   `login_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登录时间',
   `login_ip` varchar(30) NOT NULL DEFAULT '' COMMENT '登录的ip地址',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=251 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=268 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of login_log
@@ -434,6 +437,23 @@ INSERT INTO `login_log` VALUES ('247', '1', '2017-04-15 17:21:42', '::1');
 INSERT INTO `login_log` VALUES ('248', '1', '2017-04-15 18:11:53', '::1');
 INSERT INTO `login_log` VALUES ('249', '1', '2017-04-15 18:25:47', '::1');
 INSERT INTO `login_log` VALUES ('250', '1', '2017-04-15 19:12:41', '::1');
+INSERT INTO `login_log` VALUES ('251', '1', '2017-04-15 19:20:11', '::1');
+INSERT INTO `login_log` VALUES ('252', '1', '2017-04-18 21:10:37', '::1');
+INSERT INTO `login_log` VALUES ('253', '1', '2017-04-18 21:35:56', '::1');
+INSERT INTO `login_log` VALUES ('254', '1', '2017-04-18 21:55:09', '::1');
+INSERT INTO `login_log` VALUES ('255', '1', '2017-04-19 20:08:00', '::1');
+INSERT INTO `login_log` VALUES ('256', '1', '2017-04-19 20:30:34', '::1');
+INSERT INTO `login_log` VALUES ('257', '1', '2017-04-19 21:24:58', '::1');
+INSERT INTO `login_log` VALUES ('258', '1', '2017-04-19 22:35:36', '::1');
+INSERT INTO `login_log` VALUES ('259', '1', '2017-04-19 22:46:52', '::1');
+INSERT INTO `login_log` VALUES ('260', '1', '2017-04-19 22:50:16', '::1');
+INSERT INTO `login_log` VALUES ('261', '1', '2017-04-19 22:56:36', '::1');
+INSERT INTO `login_log` VALUES ('262', '1', '2017-04-19 22:57:22', '::1');
+INSERT INTO `login_log` VALUES ('263', '1', '2017-04-19 23:22:39', '::1');
+INSERT INTO `login_log` VALUES ('264', '1', '2017-04-19 23:26:04', '::1');
+INSERT INTO `login_log` VALUES ('265', '1', '2017-04-19 23:32:16', '::1');
+INSERT INTO `login_log` VALUES ('266', '1', '2017-04-19 23:34:45', '::1');
+INSERT INTO `login_log` VALUES ('267', '1', '2017-04-19 23:36:51', '::1');
 
 -- ----------------------------
 -- Table structure for notice
