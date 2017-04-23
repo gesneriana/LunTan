@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using EFDao.Entity;
 
 namespace WeiQingBaZiFengShuiSuanMing.Controllers.m
 {
@@ -12,10 +13,21 @@ namespace WeiQingBaZiFengShuiSuanMing.Controllers.m
     [Filters.IsDesktop]
     public class Index_mController : Controller
     {
-        public ActionResult index()
+        public ActionResult index(string key = "")
         {
-            var list = EFDao.BLL.getData.getArtList();
-            ViewData["artList"] = list;
+            using (bazifengshuisuanmingEntities db = new bazifengshuisuanmingEntities())
+            {
+                if (!string.IsNullOrEmpty(key))
+                {
+                    var ycList = db.bazijianpi.Where(x => x.state == 1 && (x.name.Contains(key) || x.born_place.Contains(key) || x.bazi.Contains(key))).OrderByDescending(x => x.addtime).Take(10).ToList();
+                    ViewData["ycList"] = ycList;
+                }
+                else
+                {
+                    var ycList = db.bazijianpi.Where(x => x.state == 1).OrderByDescending(x => x.addtime).Take(10).ToList();
+                    ViewData["ycList"] = ycList;
+                }
+            }
             return View();
         }
     }

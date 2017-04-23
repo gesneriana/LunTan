@@ -28,24 +28,6 @@ namespace EFDao.BLL
         }
 
         /// <summary>
-        /// 模板页获取可以显示的文章列表,按时间倒序,只取前10条
-        /// </summary>
-        /// <returns></returns>
-        [Obsolete("文章实体类已更新,排序规则需要更改")]
-        public static List<article> getArtList()
-        {
-            using(bazifengshuisuanmingEntities db=new bazifengshuisuanmingEntities())
-            {
-                var list = db.article.Where(x => x.state == 1).OrderByDescending(x => x.addtime).Take(10).ToList();
-                if (list == null)
-                {
-                    return new List<article>();
-                }
-                return list;
-            }
-        }
-
-        /// <summary>
         /// PC版模板页获取最新的10条留言板内容
         /// </summary>
         /// <returns></returns>
