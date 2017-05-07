@@ -640,6 +640,8 @@
     <Content Include="Views\Admin\AdContent.cshtml" />
     <Content Include="Views\Admin\bannerList.cshtml" />
     <Content Include="Views\Admin\edit_banner.cshtml" />
+    <Content Include="Views\Shared\_LayoutMobile.cshtml" />
+    <Content Include="Views\m\Index_m\yclist.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

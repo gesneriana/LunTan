@@ -15,9 +15,9 @@
     // 搜索八字
     function searchBazi() {
         if ($("#key").val() == '' || $("#key").val().length == 0) {
-            location.href = "/m/index_m/index";
+            location.href = "/m/index_m/yclist";
         } else {
-            location.href = "/m/index_m/index?key=" + $("#key").val();
+            location.href = "/m/index_m/yclist?key=" + $("#key").val();
         }
     }
 </script>
@@ -49,5 +49,5 @@
             }
         }
     </table>
-    <a href="/index_m/yclist">查看更多</a>
+    @Html.Raw(ViewData["url"])
 </div>
